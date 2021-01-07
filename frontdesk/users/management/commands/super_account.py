@@ -1,0 +1,59 @@
+import time
+import webbrowser
+
+import crayons
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
+from django.db.utils import IntegrityError
+from halo import Halo
+
+from frontdesk.users.models import User
+
+
+class Command(BaseCommand):
+    """Creating a superuser for the admin panel with prepopulated datas"""
+
+    help = "Creating a superuser for the admin panel with prepopulated datas"
+
+    def handle(self, *args, **options):
+        spinner = Halo(
+            text="Creating super user..", text_color="yellow", spinner="dots"
+        )
+        spinner.start()
+        time.sleep(3)
+        admin_url = "http://127.0.0.1:8000/admins/"
+        default_password = "password"
+        default_username = "admin"
+        try:
+            user = User.objects.create_user(
+                username=default_username,
+                password=default_password,
+                first_name="John",
+                last_name="Doe",
+                is_superuser=True,
+                is_staff=True,
+                email="admin@admin.com",
+            )
+            spinner.succeed(crayons.green("Success!"))
+            print(
+                crayons.normal(
+                    f"ℹ Username: {crayons.yellow(default_username)} - Password: {crayons.yellow(default_password)} - Connect to: {crayons.yellow(admin_url)} \n"
+                )
+            )
+
+            answer = input(
+                crayons.yellow(
+                    "Would You like to be redirect to the admin panel ? [y]/[n]"
+                )
+            )
+            if answer == "y" or "yes":
+                webbrowser.open(admin_url)
+            else:
+                print(crayons.normal("Bye ! 👋"))
+
+        except IntegrityError:
+            spinner.fail(
+                crayons.red(
+                    "The superuser has already been created! use command: 'python manage.py createsuperuser'"
+                )
+            )

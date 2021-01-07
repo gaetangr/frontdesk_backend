@@ -1,0 +1,14 @@
+# Django converage setting - GG
+[report][run]
+omit =
+    # omit anything in a venv
+    venv*
+    # omit config folder
+    config/*
+    # omit migration file
+    */migrations/*
+    # omit init file
+    *__init__.py*
+    # omit tests files and folder
+    *tests*
+    *.local*
