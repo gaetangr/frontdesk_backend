@@ -61,3 +61,5 @@ CACHES = {
         "LOCATION": "",
     },
 }
+
+INSTALLED_APPS += ["django_extensions"]

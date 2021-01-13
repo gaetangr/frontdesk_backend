@@ -85,6 +85,10 @@ crayons = "*"
 halo = "*"
 django-autoslug = "*"
 django-cors-headers = "*"
+dj-rest-auth = "*"
+pyyaml = "*"
+uritemplate = "*"
+drf-yasg = "*"
 
 [dev-packages]
 
