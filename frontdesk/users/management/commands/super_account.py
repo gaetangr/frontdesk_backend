@@ -2,8 +2,7 @@ import time
 import webbrowser
 
 import crayons
-from django.conf import settings
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 from halo import Halo
 
@@ -25,7 +24,7 @@ class Command(BaseCommand):
         default_password = "password"
         default_username = "admin"
         try:
-            user = User.objects.create_user(
+            User.objects.create_user(
                 username=default_username,
                 password=default_password,
                 first_name="John",

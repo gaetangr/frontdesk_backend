@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
-from django.urls import reverse
 from model_utils.models import TimeStampedModel
+
 from frontdesk.property.models import Property
 
 
@@ -10,15 +10,16 @@ class Workspace(TimeStampedModel):
     Stores a workspace, a workspace is a page where members can exchange each other
     messages and many uselful information relating to their shift.
     """
+
     property = models.ForeignKey(
         Property, on_delete=models.CASCADE, related_name="workspace"
     )
     name = models.CharField(max_length=50, verbose_name="Nom de l'espace de travail")
 
-    
     def __str__(self):
         """ Return instance with a human readable fashion """
         return self.name
+
 
 class Notebook(models.Model):
     """
@@ -39,6 +40,7 @@ class Notebook(models.Model):
     def __str__(self):
         """ Return instance with a human readable fashion """
         return self.content
+
 
 class Comment(TimeStampedModel):
     """

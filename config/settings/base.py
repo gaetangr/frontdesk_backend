@@ -72,11 +72,11 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     "django_cleanup.apps.CleanupConfig",
-    # Authentification 
+    # Authentification
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    # API / DRF 
+    # API / DRF
     "rest_framework",
     "dj_rest_auth",
     "rest_framework.authtoken",
@@ -139,7 +139,6 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                # "purbeurre.utils.context_processors.settings_context",
             ],
         },
     },
@@ -263,9 +262,9 @@ ACCOUNT_USERNAME_BLACKLIST = [
     "front-desk",
     "frontdesk",
 ]
-# Lien de connexion
-LOGIN_URL = "account_login"
 
+# DJANGO-REST
+# ------------------------------------------------------------------------------
 
 CORS_ORIGIN_ALLOW_ALL = (
     True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
@@ -280,11 +279,11 @@ CORS_ORIGIN_REGEX_WHITELIST = [
 
 
 REST_FRAMEWORK = {
-'DEFAULT_PERMISSION_CLASSES': [
-'rest_framework.permissions.IsAuthenticated',
-],
-'DEFAULT_AUTHENTICATION_CLASSES': [
-'rest_framework.authentication.SessionAuthentication',
-'rest_framework.authentication.TokenAuthentication', # new
-],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",  # new
+    ],
 }
