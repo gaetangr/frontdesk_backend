@@ -14,7 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
 class NotebookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Notebook
-        fields = ["workspace", "message", "author", "date"]
+        fields = ["workspace", "content", "author"]
 
 
 class PropertySerializer(serializers.ModelSerializer):

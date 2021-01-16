@@ -67,24 +67,29 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "django.contrib.admindocs",
+    "django.contrib.sites",
 ]
 
 THIRD_PARTY_APPS = [
     "django_cleanup.apps.CleanupConfig",
-    "django.contrib.sites",
+    # Authentification
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
+    # API / DRF
     "rest_framework",
+    "dj_rest_auth",
+    "rest_framework.authtoken",
+    "drf_yasg",
     "corsheaders",
 ]
 
 LOCAL_APPS = [
     "frontdesk.users.apps.UsersConfig",
     "frontdesk.workspace.apps.WorkspaceConfig",
-    "frontdesk.log.apps.LogConfig",
     "frontdesk.api.apps.ApiConfig",
-    "frontdesk.property.apps.PropertyConfig",  # React App handle the front end
+    "frontdesk.property.apps.PropertyConfig",
+    "frontdesk.notification.apps.NotificationConfig",  # React App handle the front end
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -134,7 +139,6 @@ TEMPLATES = [
                 "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                # "purbeurre.utils.context_processors.settings_context",
             ],
         },
     },
@@ -258,9 +262,9 @@ ACCOUNT_USERNAME_BLACKLIST = [
     "front-desk",
     "frontdesk",
 ]
-# Lien de connexion
-LOGIN_URL = "account_login"
 
+# DJANGO-REST
+# ------------------------------------------------------------------------------
 
 CORS_ORIGIN_ALLOW_ALL = (
     True  # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
@@ -272,3 +276,14 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:3000",
 ]
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.TokenAuthentication",  # new
+    ],
+}

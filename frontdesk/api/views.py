@@ -1,8 +1,10 @@
-from rest_framework import generics, permissions, viewsets
+from uuid import uuid4
+
+from rest_framework import generics
 
 from frontdesk.property.models import Property
 from frontdesk.users.models import User
-from frontdesk.workspace.models import Notebook, Workspace
+from frontdesk.workspace.models import Notebook
 
 from .serializers import NotebookSerializer, PropertySerializer, UserSerializer
 
@@ -20,6 +22,10 @@ class NotebookListCreate(generics.ListCreateAPIView):
 class PropertyListCreate(generics.ListCreateAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
+
+    def save(self, *args, **kwargs):
+        self.token = uuid4()
+        super(self).save(*args, **kwargs)
 
 
 """
