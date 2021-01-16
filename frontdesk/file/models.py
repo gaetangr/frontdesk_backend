@@ -14,8 +14,7 @@ class File(TimeStampedModel):
     title = models.CharField(
         max_length=230, null=True, blank=True, verbose_name="Titre du fichier"
     )
-    slug = AutoSlugField(
-        "Nom de l'établissement", unique=True, always_update=False, populate_from="title"
+    slug = AutoSlugField( unique=True, always_update=False, populate_from="title"
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     is_planning = models.BooleanField(default=False)

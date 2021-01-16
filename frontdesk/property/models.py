@@ -1,4 +1,5 @@
 from autoslug import AutoSlugField
+from uuid import uuid4
 from django.contrib.auth.models import User
 from django.db import models
 from model_utils.models import TimeStampedModel
@@ -6,7 +7,8 @@ from model_utils.models import TimeStampedModel
 
 class Property(TimeStampedModel):
     """
-    Stores a property
+    Stores a property, using TimeStampedModel to provide a self updating
+    and creating field.
     """
 
     name = models.CharField(max_length=50, verbose_name="établissemment")
@@ -28,3 +30,9 @@ class Property(TimeStampedModel):
     def __str__(self):
         """ Return instance with a human readable fashion """
         return self.name
+
+    def save(self, *args, **kwargs):
+        """ Auto generate a token when object is created and saved"""
+        self.token = uuid4()
+
+        super(TimeStampedModel, self).save(*args, **kwargs)
