@@ -16,6 +16,11 @@ class Property(TimeStampedModel):
     collaborator = models.ManyToManyField(
         User, verbose_name="Collaborateurs", related_name="collaborators"
     )
+    token = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="Token to secure the workspace, each token are unique and should use an universally unique identifier ",
+    )
 
     class Meta:
         verbose_name_plural = "Properties"

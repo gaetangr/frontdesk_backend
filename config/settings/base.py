@@ -89,7 +89,8 @@ LOCAL_APPS = [
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.property.apps.PropertyConfig",
-    "frontdesk.notification.apps.NotificationConfig",  # React App handle the front end
+    "frontdesk.notification.apps.NotificationConfig",
+    "frontdesk.file.apps.FileConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

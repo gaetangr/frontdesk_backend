@@ -5,16 +5,16 @@ from django.urls import include, path
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
-from rest_framework import permissions  # new
-from drf_yasg.views import get_schema_view  # new
-from drf_yasg import openapi  # new
+from rest_framework import permissions  
+from drf_yasg.views import get_schema_view  
+from drf_yasg import openapi  # 
 
-schema_view = get_schema_view(  # new
+# Schema view for the api documentation 
+schema_view = get_schema_view(  
     openapi.Info(
         title="Front Desk - API",
         default_version="v2.0.0",
         description="API Documentation - Front Desk",
-        terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(
             name="API developer",
             email="hello@gaetangr.me",
@@ -26,9 +26,6 @@ schema_view = get_schema_view(  # new
 
 
 urlpatterns = [
-    # Homepage ----------------------------------
-    # Template view ----------------------------------
-    path("base", TemplateView.as_view(template_name="base.html"), name="base"),
     # Admin routes ----------------------------------
     path("admin/", admin.site.urls, name="admin_panel"),
     path("admin/doc/", include("django.contrib.admindocs.urls")),
@@ -39,6 +36,7 @@ urlpatterns = [
     path(
         "api/v1/dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")
     ),
+    # Misc ----------------------------------
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
@@ -48,9 +46,9 @@ urlpatterns = [
 ]
 
 
-# Define a custome header
+
 admin.site.site_title = _("Front Desk - Web plateform")
-# Pour que les liens des images soit fonctionel en developpement
+
 if settings.DEBUG:
     urlpatterns = [] + urlpatterns
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

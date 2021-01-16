@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 
 import { Helmet } from "react-helmet";
@@ -29,9 +29,30 @@ const Divider = styled(MuiDivider)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 
 function Default() {
+  // Similaire à componentDidMount et componentDidUpdate :
+
+
+  // Similaire à componentDidMount et componentDidUpdate :
+  useEffect(() => {
+  axios({
+    method: "post",
+    url: "http://127.0.0.1:8000/api/v1/property/",
+    data: { username: "REACT", email: "react@gmail.com", password1: "", password2: "" },
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (response) {
+      //handle success
+      console.log(response);
+    })
+    .catch(function (response) {
+      //handle error
+      console.log(response);
+    });},);
   return (
     <React.Fragment>
-      <Helmet title="Tableau de bord" />
+      <Helmet title="Tableau de bord" /> 
 
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
