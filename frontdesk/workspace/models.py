@@ -15,10 +15,15 @@ class Workspace(TimeStampedModel):
         Property, on_delete=models.CASCADE, related_name="workspace"
     )
     name = models.CharField(max_length=50, verbose_name="Nom de l'espace de travail")
+    
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.name
+        nbr_note = self.notes.all().count()
+        return f"{self.name} -> nombre de messages {nbr_note}"
+    
+    
+        
 
 
 class Notebook(models.Model):
@@ -36,10 +41,15 @@ class Notebook(models.Model):
     content = models.CharField(
         max_length=3000, null=True, blank=True, verbose_name="Publier une note"
     )
+    is_done = models.BooleanField(default=False)
 
     def __str__(self):
         """ Return instance with a human readable fashion """
         return self.content
+
+    
+    
+        
 
 
 class Comment(TimeStampedModel):

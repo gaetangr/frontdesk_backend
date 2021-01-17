@@ -1,7 +1,10 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth.models import User
+from frontdesk.property.models import Property
 from django.urls import include, path
+from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
 from rest_framework.schemas import get_schema_view
@@ -46,9 +49,12 @@ urlpatterns = [
 ]
 
 
-
-admin.site.site_title = _("Front Desk - Web plateform")
-
 if settings.DEBUG:
     urlpatterns = [] + urlpatterns
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+# Custom header and information to keep us updated on the plateform
+admin.site.site_title = _("Front Desk - Web plateform")
+admin.site.site_header = "Front Desk - Web Plateform 🛎"
+admin.site.index_title = format_html(f"Hello, we have <strong style='color: green;'>{User.objects.all().count()}</strong> users and <strong style='color: green;'>{Property.objects.all().count()}</strong> properties │ ")
