@@ -1,16 +1,18 @@
-from .models import Profile
-from django.contrib.auth.models import User
 from allauth.socialaccount.models import SocialAccount, SocialApp, SocialToken
 from django.contrib import admin
+from django.contrib.auth.models import User
 
-# Cleaning admin panel 
+from .models import Profile
+
+# Cleaning admin panel
 admin.site.unregister(SocialApp)
 admin.site.unregister(SocialAccount)
 admin.site.unregister(SocialToken)
 
+
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', "is_manager")
+    list_display = ("user", "is_manager")
 
 
 @admin.register(User)

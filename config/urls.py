@@ -2,18 +2,19 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.models import User
-from frontdesk.property.models import Property
 from django.urls import include, path
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 from rest_framework.schemas import get_schema_view
-from rest_framework import permissions  
-from drf_yasg.views import get_schema_view  
-from drf_yasg import openapi  # 
 
-# Schema view for the api documentation 
-schema_view = get_schema_view(  
+from frontdesk.property.models import Property
+
+# Schema view for the api documentation
+schema_view = get_schema_view(
     openapi.Info(
         title="Front Desk - API",
         default_version="v2.0.0",

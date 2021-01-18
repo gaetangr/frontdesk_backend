@@ -1,4 +1,4 @@
-""" Serializer for the front desk application""" 
+""" Serializer for the front desk application"""
 
 from rest_framework import serializers
 
@@ -9,12 +9,15 @@ from frontdesk.workspace.models import Notebook
 
 class UserSerializer(serializers.ModelSerializer):
     """ UserSerialize that return JSON content  """
+
     class Meta:
         model = User
         fields = ("id", "username", "email")
 
+
 class NotebookSerializer(serializers.ModelSerializer):
     """ NotebookSerialize that return JSON content  """
+
     class Meta:
         model = Notebook
         fields = ["workspace", "content", "author"]
@@ -22,7 +25,7 @@ class NotebookSerializer(serializers.ModelSerializer):
 
 class PropertySerializer(serializers.ModelSerializer):
     """ PropertySerialize that return JSON content  """
+
     class Meta:
         model = Property
         fields = ["name"]
-        

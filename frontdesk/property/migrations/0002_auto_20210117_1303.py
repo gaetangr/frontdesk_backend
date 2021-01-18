@@ -8,13 +8,17 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('property', '0001_initial'),
+        ("property", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='property',
-            name='collaborator',
-            field=models.ManyToManyField(related_name='property', to=settings.AUTH_USER_MODEL, verbose_name='Collaborateurs'),
+            model_name="property",
+            name="collaborator",
+            field=models.ManyToManyField(
+                related_name="property",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Collaborateurs",
+            ),
         ),
     ]

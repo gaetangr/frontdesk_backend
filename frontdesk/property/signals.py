@@ -1,9 +1,10 @@
+import logging
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from frontdesk.property.models import Property
 from frontdesk.workspace.models import Notebook, Workspace
-import logging
 
 logger = logging.getLogger(__name__)
 

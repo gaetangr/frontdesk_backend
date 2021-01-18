@@ -7,13 +7,15 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('file', '0001_initial'),
+        ("file", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='file',
-            name='slug',
-            field=autoslug.fields.AutoSlugField(editable=False, populate_from='title', unique=True),
+            model_name="file",
+            name="slug",
+            field=autoslug.fields.AutoSlugField(
+                editable=False, populate_from="title", unique=True
+            ),
         ),
     ]
