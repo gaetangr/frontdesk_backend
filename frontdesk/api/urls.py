@@ -11,4 +11,5 @@ urlpatterns = [
     path("notebook/<int:pk>/", view=views.NotebookDetail.as_view()),
     # PROPERTY ROUTES
     path("property/", view=views.PropertyListCreate.as_view()),
+    path("property/<int:pk>/", view=views.PropertyDetail.as_view()),
 ]

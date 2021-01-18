@@ -23,9 +23,8 @@ class NotebookSerializer(serializers.ModelSerializer):
         fields = ["workspace", "content", "author"]
 
 
-class PropertySerializer(serializers.ModelSerializer):
-    """ PropertySerialize that return JSON content  """
-
+class Prmodel = Property(serializers.ModelSerializer):
+    """ PropertySerialize that return JSON content"""
     class Meta:
         model = Property
-        fields = ["name"]
+        fields = ["name", "collaborator"]
