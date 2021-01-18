@@ -6,8 +6,8 @@ from model_utils.models import TimeStampedModel
 
 class MembersManager(models.Manager):
     """Set custom methods for a product."""
-    def get_queryset(self):
-        return self.objects.name
+    def get_all(self, pk):
+        return self.get(pk=pk).collaborator.all()
 
 class Property(TimeStampedModel):
     """

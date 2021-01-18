@@ -288,3 +288,22 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",  # new
     ],
 }
+
+
+# LOGGING
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#caches
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+}

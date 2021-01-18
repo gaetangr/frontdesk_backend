@@ -57,4 +57,4 @@ if settings.DEBUG:
 # Custom header and information to keep us updated on the plateform
 admin.site.site_title = _("Front Desk - Web plateform")
 admin.site.site_header = "Front Desk - Web Plateform 🛎"
-admin.site.index_title = format_html(f"Hello, we have <strong style='color: green;'>{User.objects.all().count()}</strong> users and <strong style='color: green;'>{Property.objects.all().count()}</strong> properties │ ")
+admin.site.index_title = f"Hello, we have {User.objects.all().count()} users and {Property.objects.all().count()} properties"
