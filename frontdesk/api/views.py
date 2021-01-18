@@ -11,8 +11,8 @@ from frontdesk.property.models import Property
 from frontdesk.property.permissions import IsMember
 from frontdesk.users.models import User
 from frontdesk.users.permissions import IsRequestUser
-from frontdesk.workspace.permissions import IsAuthor
 from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.permissions import IsAuthor
 
 from .serializers import NotebookSerializer, PropertySerializer, UserSerializer
 

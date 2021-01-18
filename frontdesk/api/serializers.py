@@ -23,8 +23,15 @@ class NotebookSerializer(serializers.ModelSerializer):
         fields = ["workspace", "content", "author"]
 
 
-class Prmodel = Property(serializers.ModelSerializer):
-    """ PropertySerialize that return JSON content"""
+class PropertySerializer(serializers.ModelSerializer):
+    """ PropertySerialize that return JSON content """
+
+    nbr_members = serializers.SerializerMethodField("nbr_member")
+
+    def nbr_member(self, obj):
+        return obj.collaborator.all().count()
+
     class Meta:
+
         model = Property
-        fields = ["name", "collaborator"]
+        fields = ["name", "collaborator", "is_premium", "nbr_members"]
