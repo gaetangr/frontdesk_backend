@@ -30,8 +30,8 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsRequestUser,)
 
 
-class NotebookListCreate(generics.ListCreateAPIView):
-    queryset = Notebook.objects.all()
+class NotebookListCreate(generics.CreateAPIView):
+    queryset = Notebook.objects.filter(workspace=1)
     serializer_class = NotebookSerializer
 
 
