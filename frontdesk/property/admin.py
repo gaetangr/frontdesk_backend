@@ -10,7 +10,9 @@ def nbr_message(obj):
     """ custom function to count members of given property """
     return obj.collaborator.all().count()
 
+
 nbr_message.short_description = "Nombre de membres"
+
 
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
@@ -35,4 +37,5 @@ class PropertyAdmin(admin.ModelAdmin):
                 % updated,
                 messages.SUCCESS,
             )
+
     make_premium.short_description = "Activate premium"

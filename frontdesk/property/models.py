@@ -65,7 +65,9 @@ class PropertyPermission(models.Model):
     def __str__(self):
         """ Return instance with a human readable fashion """
         is_admin = (
-            "est administateur" if self.is_admin == True else "n'est pas administrateur"
+            "est administateur"
+            if self.is_admin == True
+            else "n'est pas administrateur"  # noqa
         )
-        is_staff = "est staff" if self.is_staff == True else "n'est pas staff"
+        is_staff = "est staff" if self.is_staff == True else "n'est pas staff"  # noqa
         return f"{self.user} {is_admin} et {is_staff} "

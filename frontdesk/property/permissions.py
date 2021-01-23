@@ -19,7 +19,6 @@ class IsMemberAndStaff(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         user = request.user
-        profile = Profile.objects.get(user=user)
 
         if user in obj.collaborator.all():
             return True

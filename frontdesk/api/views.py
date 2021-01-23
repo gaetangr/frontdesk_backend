@@ -1,11 +1,6 @@
 """ Api views and logic for the front desk application """
-from uuid import uuid4
 
 from django.contrib.auth import get_user_model
-from rest_framework import generics, serializers, status
-from rest_framework.exceptions import APIException, PermissionDenied
-from rest_framework.permissions import IsAdminUser
-from rest_framework.response import Response
 
 from frontdesk.property.models import Property
 from frontdesk.property.permissions import IsMember
