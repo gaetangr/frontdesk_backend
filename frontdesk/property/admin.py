@@ -1,19 +1,21 @@
 from django.contrib import admin, messages
 from django.utils.translation import ngettext
 
-from .models import Property
+from .models import Property, PropertyPermission
+
+admin.site.register(PropertyPermission)
 
 
 def nbr_message(obj):
     """ custom function to count members of given property """
     return obj.collaborator.all().count()
 
-
 nbr_message.short_description = "Nombre de membres"
 
-
 @admin.register(Property)
-class WorkspaceAdmin(admin.ModelAdmin):
+class PropertyAdmin(admin.ModelAdmin):
+    """ Custom property admin to display custom fields and methods """
+
     list_display = ("name", "created", nbr_message)
     actions = ["make_premium"]
 
@@ -33,5 +35,4 @@ class WorkspaceAdmin(admin.ModelAdmin):
                 % updated,
                 messages.SUCCESS,
             )
-
     make_premium.short_description = "Activate premium"

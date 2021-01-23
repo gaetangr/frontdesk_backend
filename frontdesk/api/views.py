@@ -16,8 +16,13 @@ from frontdesk.workspace.permissions import IsAuthor
 
 from .serializers import NotebookSerializer, PropertySerializer, UserSerializer
 
+# USER API VIEWS
+# ------------------------------------------------------------------------------
+
 
 class UserListCreate(generics.ListCreateAPIView):
+    """ Api view that display users and allow to create one """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -30,7 +35,32 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsRequestUser,)
 
 
+# COLLABORATOR API VIEWS
+# ------------------------------------------------------------------------------
+
+
+class CollaboratorListCreate(generics.ListCreateAPIView):
+    """ Api view that display users and allow to create one """
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class CollaboratorDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Api View that allow user to update, delete or retrieve a user object"""
+
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+    permission_classes = (IsRequestUser,)
+
+
+# NOTEBOOK API VIEWS
+# ------------------------------------------------------------------------------
+
+
 class NotebookListCreate(generics.CreateAPIView):
+    """ Api view allow user to create a notebook for a workspace """
+
     queryset = Notebook.objects.filter(workspace=1)
     serializer_class = NotebookSerializer
 
@@ -43,16 +73,15 @@ class NotebookDetail(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthor,)
 
 
+# PROPERTY API VIEWS
+# ------------------------------------------------------------------------------
+
+
 class PropertyListCreate(generics.ListCreateAPIView):
     """Api view that handle the creation of a property object"""
 
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-
-    def save(self, *args, **kwargs):
-        """ Overide save method to allow the token field to be set with an uuid """
-        self.token = uuid4()
-        super(self).save(*args, **kwargs)
 
 
 class PropertyDetail(generics.RetrieveUpdateDestroyAPIView):

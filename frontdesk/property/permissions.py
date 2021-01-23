@@ -21,7 +21,7 @@ class IsMemberAndStaff(permissions.BasePermission):
         user = request.user
         profile = Profile.objects.get(user=user)
 
-        if user in obj.collaborator.all() and profile.is_manager == True:
+        if user in obj.collaborator.all():
             return True
         else:
             return False

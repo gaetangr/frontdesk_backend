@@ -12,7 +12,7 @@ admin.site.unregister(SocialToken)
 
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user", "is_manager")
+    list_display = ("user",)
 
 
 @admin.register(User)

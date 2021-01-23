@@ -51,4 +51,3 @@ if settings.DEBUG:
 # Custom header and information to keep us updated on the plateform
 admin.site.site_title = _("Front Desk - Web plateform")
 admin.site.site_header = "Front Desk - Web Plateform 🛎"
-admin.site.index_title = f"Hello, we have {User.objects.all().count()} users and {Property.objects.all().count()} properties"

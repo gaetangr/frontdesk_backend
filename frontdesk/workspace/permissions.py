@@ -11,6 +11,7 @@ class IsAuthor(permissions.BasePermission):
         else:
             return False
 
+
 class IsAuthor(permissions.BasePermission):
     """ If user does not match request object author, return 403 """
 
