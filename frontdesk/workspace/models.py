@@ -18,7 +18,8 @@ class Workspace(TimeStampedModel):
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.name
+        nbr_note = self.notes.all().count()
+        return f"{self.name} -> nombre de messages {nbr_note}"
 
 
 class Notebook(models.Model):
@@ -34,7 +35,11 @@ class Notebook(models.Model):
         User, null=True, on_delete=models.SET_NULL, related_name="author"
     )
     content = models.CharField(
-        max_length=3000, null=True, blank=True, verbose_name="Publier une note"
+        max_length=3000, null=True, blank=True, verbose_name="Contenu du message"
+    )
+    is_done = models.BooleanField(
+        default=False,
+        help_text="If set to true the note is mark as done and display a different design",
     )
 
     def __str__(self):
@@ -66,4 +71,4 @@ class Comment(TimeStampedModel):
 
         if not self.author:
             self.user = "Utilisateur supprimé"
-        return f"{self.pk}"
+        return self.pk

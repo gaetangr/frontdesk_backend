@@ -62,4 +62,8 @@ CACHES = {
     },
 }
 
+# APPS
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#caches
+
 INSTALLED_APPS += ["django_extensions"]

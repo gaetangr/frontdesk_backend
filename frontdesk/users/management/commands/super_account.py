@@ -20,18 +20,18 @@ class Command(BaseCommand):
         )
         spinner.start()
         time.sleep(3)
-        admin_url = "http://127.0.0.1:8000/admins/"
+        admin_url = "http://127.0.0.1:8000/admin/"
         default_password = "password"
         default_username = "admin"
         try:
             User.objects.create_user(
                 username=default_username,
                 password=default_password,
-                first_name="John",
-                last_name="Doe",
+                first_name="Gaëtan",
+                last_name="GR",
                 is_superuser=True,
                 is_staff=True,
-                email="admin@admin.com",
+                email="hello@gaetangr.me",
             )
             spinner.succeed(crayons.green("Success!"))
             print(

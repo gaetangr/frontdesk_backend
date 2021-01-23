@@ -89,7 +89,8 @@ LOCAL_APPS = [
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.property.apps.PropertyConfig",
-    "frontdesk.notification.apps.NotificationConfig",  # React App handle the front end
+    "frontdesk.notification.apps.NotificationConfig",
+    "frontdesk.file.apps.FileConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -286,4 +287,22 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.TokenAuthentication",  # new
     ],
+}
+
+
+# LOGGING
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/dev/ref/settings/#caches
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "INFO",
+    },
 }

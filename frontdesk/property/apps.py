@@ -6,5 +6,5 @@ class PropertyConfig(AppConfig):
     verbose_name = "Etablissement"
 
     def ready(self):
-        """ Set the app to receive a given signal when a instanc is created """
-        # import frontdesk.property.signals
+        """ Set the app to receive a given signal when a instance is created """
+        import frontdesk.property.signals  # noqa
