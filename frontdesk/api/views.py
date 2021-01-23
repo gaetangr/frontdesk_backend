@@ -1,9 +1,10 @@
 """ Api views and logic for the front desk application """
 
 from django.contrib.auth import get_user_model
+from rest_framework import generics, serializers, status
 
 from frontdesk.property.models import Property
-from frontdesk.property.permissions import IsMember
+from frontdesk.property.permissions import IsMember, IsMemberAndAdmin, IsMemberAndStaff
 from frontdesk.users.models import User
 from frontdesk.users.permissions import IsRequestUser
 from frontdesk.workspace.models import Notebook
@@ -13,7 +14,6 @@ from .serializers import NotebookSerializer, PropertySerializer, UserSerializer
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------
-
 
 class UserListCreate(generics.ListCreateAPIView):
     """ Api view that display users and allow to create one """
@@ -33,12 +33,12 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 # COLLABORATOR API VIEWS
 # ------------------------------------------------------------------------------
 
-
 class CollaboratorListCreate(generics.ListCreateAPIView):
     """ Api view that display users and allow to create one """
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 
 class CollaboratorDetail(generics.RetrieveUpdateDestroyAPIView):
@@ -51,7 +51,6 @@ class CollaboratorDetail(generics.RetrieveUpdateDestroyAPIView):
 
 # NOTEBOOK API VIEWS
 # ------------------------------------------------------------------------------
-
 
 class NotebookListCreate(generics.CreateAPIView):
     """ Api view allow user to create a notebook for a workspace """
@@ -71,7 +70,6 @@ class NotebookDetail(generics.RetrieveUpdateDestroyAPIView):
 # PROPERTY API VIEWS
 # ------------------------------------------------------------------------------
 
-
 class PropertyListCreate(generics.ListCreateAPIView):
     """Api view that handle the creation of a property object"""
 
@@ -84,4 +82,4 @@ class PropertyDetail(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Property.objects.all()
     serializer_class = PropertySerializer
-    permission_classes = (IsMember,)
+    permission_classes = (IsMemberAndAdmin)

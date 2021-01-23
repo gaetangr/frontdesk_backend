@@ -37,5 +37,4 @@ class PropertyAdmin(admin.ModelAdmin):
                 % updated,
                 messages.SUCCESS,
             )
-
     make_premium.short_description = "Activate premium"
