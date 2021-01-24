@@ -71,7 +71,6 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY_APPS = [
-    "django_cleanup.apps.CleanupConfig",
     # Authentification
     "allauth",
     "allauth.account",
