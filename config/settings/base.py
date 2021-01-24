@@ -89,7 +89,6 @@ LOCAL_APPS = [
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.property.apps.PropertyConfig",
-    "frontdesk.notification.apps.NotificationConfig",
     "frontdesk.file.apps.FileConfig",
 ]
 
@@ -207,7 +206,7 @@ EMAIL_HOST_PASSWORD = ""
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("Gaëtan", "gaetan.grond@gmail.com")]
+ADMINS = [("Gaëtan", "hello@gaetangr.me")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
@@ -295,14 +294,33 @@ REST_FRAMEWORK = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": False,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s "
+            "%(process)d %(thread)d %(message)s"
+        }
+    },
     "handlers": {
         "console": {
+            "level": "DEBUG",
             "class": "logging.StreamHandler",
-        },
+            "formatter": "verbose",
+        }
     },
-    "root": {
-        "handlers": ["console"],
-        "level": "INFO",
+    "root": {"level": "INFO", "handlers": ["console"]},
+    "loggers": {
+        "django.db.backends": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        # Errors logged by the SDK itself
+        "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
+        "django.security.DisallowedHost": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": False,
+        },
     },
 }

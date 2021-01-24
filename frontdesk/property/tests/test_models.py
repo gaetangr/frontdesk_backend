@@ -1,26 +1,12 @@
 import pytest
 
-from ..models import Property
+from frontdesk.property.models import Property
 
 
-@pytest.fixture
-def property():
-    """Create a new property
-    Returns:
-        class: Return property object
-    """
+@pytest.mark.django_db
+def test__str__():
+    """If a property object is created, it should return the object with name"""
     property = Property.objects.create(name="Overlook")
-    return property
 
-
-@pytest.mark.django_db
-def test_property_is_created_and_return_name(property):
-    """ When a property is created, it should return the title """
+    assert property.__str__() == property.name
     assert str(property) == property.name
-
-
-@pytest.mark.django_db
-def test_if_slug_is_matching_property_name_and_is_created(property):
-    """ When a property is created, slug is auto created and should match property name """
-    assert len(property.slug) != 0
-    assert property.slug == str(property.name).lower()
