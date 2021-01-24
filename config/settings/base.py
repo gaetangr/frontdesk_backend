@@ -19,7 +19,6 @@ if Path(ENV_FILE).exists():
 
 # GENERAL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#debug
 
 
 DEBUG = env.bool("DJANGO_DEBUG", False)
@@ -96,7 +95,6 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # MIDDLEWARE
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -114,21 +112,15 @@ MIDDLEWARE = [
 
 # TEMPLATES
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#templates
 TEMPLATES = [
     {
-        # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
         "DIRS": [str(APPS_DIR / "templates")],
         "OPTIONS": {
-            # https://docs.djangoproject.com/en/dev/ref/settings/#template-loaders
-            # https://docs.djangoproject.com/en/dev/ref/templates/api/#loader-types
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
                 "django.template.loaders.app_directories.Loader",
             ],
-            # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
@@ -145,7 +137,6 @@ TEMPLATES = [
 
 # DATABASES
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     # DATABASE_URL=postgres://user:password@hostname_or_ip:port/database_name, file is .env
     "default": env.db(
@@ -161,14 +152,12 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 # URLS
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#root-urlconf
 ROOT_URLCONF = "config.urls"
 # https://docs.djangoproject.com/en/dev/ref/settings/#wsgi-application
 WSGI_APPLICATION = "config.wsgi.application"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#password-hashers
 # Argon2 is not the default for Django because it requires a third-party library. The Password Hashing Competition panel,
 # however, recommends immediate use of Argon2 rather than the other algorithms supported by Django.
 
@@ -179,7 +168,7 @@ PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",
 ]
-# https://docs.djangoproject.com/en/dev/ref/settings/#auth-password-validators
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -191,7 +180,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # EMAIL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
 # print emails to the console for local use
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = ""

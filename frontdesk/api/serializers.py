@@ -15,6 +15,7 @@ class FrontDeskSerializer(serializers.Serializer):
     notebook_count = serializers.SerializerMethodField("count_notebook")
 
     def count_users(self, obj):
+        # exclude demo account in the count of all user created
         return User.objects.all().exclude(username="Demo").count()
 
     def count_properties(self, obj):
