@@ -13,6 +13,7 @@ class IsMember(permissions.BasePermission):
         else:
             return False
 
+
 class IsMemberAndAdmin(permissions.BasePermission):
     """ If user is member of the property and admin allow CRUD, else return 403 """
 
@@ -23,6 +24,7 @@ class IsMemberAndAdmin(permissions.BasePermission):
             return True
         else:
             return False
+
 
 class IsMemberAndStaff(permissions.BasePermission):
     """ If user is member of the property and staff allow CRUD, else return 403 """

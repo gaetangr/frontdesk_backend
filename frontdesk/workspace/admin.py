@@ -17,7 +17,6 @@ class WorkspaceAdmin(admin.ModelAdmin):
 
     actions_on_bottom = True
     list_display = ("name", "created", nbr_message)
-    readonly_fields = ["name"]
 
 
 admin.site.register(Notebook)

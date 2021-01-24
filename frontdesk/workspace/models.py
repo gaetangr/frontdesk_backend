@@ -1,3 +1,4 @@
+from autoslug import AutoSlugField
 from django.contrib.auth.models import User
 from django.db import models
 from model_utils.models import TimeStampedModel
@@ -15,6 +16,12 @@ class Workspace(TimeStampedModel):
         Property, on_delete=models.CASCADE, related_name="workspace"
     )
     name = models.CharField(max_length=50, verbose_name="Nom de l'espace de travail")
+    slug = AutoSlugField(
+        "Nom de l'espace de travail'",
+        unique=True,
+        always_update=False,
+        populate_from="name",
+    )
 
     def __str__(self):
         """ Return instance with a human readable fashion """
@@ -53,7 +60,7 @@ class Comment(TimeStampedModel):
     :model:`workspace.Notebook`
     """
 
-    note = models.ForeignKey(
+    notebook = models.ForeignKey(
         Notebook, on_delete=models.CASCADE, related_name="comments"
     )
     workspace = models.ForeignKey(
@@ -66,9 +73,3 @@ class Comment(TimeStampedModel):
         blank=True,
         verbose_name="Commenter la note",
     )
-
-    def __str__(self):
-
-        if not self.author:
-            self.user = "Utilisateur supprimé"
-        return self.pk

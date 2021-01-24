@@ -89,6 +89,7 @@ dj-rest-auth = "*"
 pyyaml = "*"
 uritemplate = "*"
 drf-yasg = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 
