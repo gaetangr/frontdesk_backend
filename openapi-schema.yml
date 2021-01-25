@@ -3,10 +3,125 @@ info:
   title: ''
   version: ''
 paths:
+  /api/v1/:
+    get:
+      operationId: listUsers
+      description: Api View that return stats related to Front Desk
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FrontDesk'
+          description: ''
+      tags:
+      - api
+  /api/v1/workspace/{id}/:
+    get:
+      operationId: retrieveWorkspace
+      description: Api View that allow user to update, delete or retrieve a workspace
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this workspace.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateWorkspace
+      description: Api View that allow user to update, delete or retrieve a workspace
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this workspace.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateWorkspace
+      description: Api View that allow user to update, delete or retrieve a workspace
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this workspace.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Workspace'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Workspace'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyWorkspace
+      description: Api View that allow user to update, delete or retrieve a workspace
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this workspace.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
   /api/v1/users/:
     get:
       operationId: listUsers
-      description: ''
+      description: Api view that display users and allow to create one
       parameters: []
       responses:
         '200':
@@ -21,7 +136,7 @@ paths:
       - api
     post:
       operationId: createUser
-      description: ''
+      description: Api view that display users and allow to create one
       parameters: []
       requestBody:
         content:
@@ -43,10 +158,106 @@ paths:
           description: ''
       tags:
       - api
-  /api/v1/notebook/:
+  /api/v1/users/{id}/:
+    get:
+      operationId: retrieveUser
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateUser
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateUser
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyUser
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
+  /api/v1/notebook/list/:
     get:
       operationId: listNotebooks
-      description: ''
+      description: Api View that allow user to update, delete or retrieve a notebook
+        object
       parameters: []
       responses:
         '200':
@@ -59,10 +270,38 @@ paths:
           description: ''
       tags:
       - api
-    post:
-      operationId: createNotebook
-      description: ''
-      parameters: []
+  /api/v1/notebook/{id}/:
+    get:
+      operationId: retrieveNotebook
+      description: Api View that allow user to update, delete or retrieve a notebook
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notebook.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notebook'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateNotebook
+      description: Api View that allow user to update, delete or retrieve a notebook
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notebook.
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -75,7 +314,7 @@ paths:
             schema:
               $ref: '#/components/schemas/Notebook'
       responses:
-        '201':
+        '200':
           content:
             application/json:
               schema:
@@ -83,10 +322,57 @@ paths:
           description: ''
       tags:
       - api
+    patch:
+      operationId: partialUpdateNotebook
+      description: Api View that allow user to update, delete or retrieve a notebook
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notebook.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notebook'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyNotebook
+      description: Api View that allow user to update, delete or retrieve a notebook
+        object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this notebook.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+      tags:
+      - api
   /api/v1/property/:
     get:
       operationId: listPropertys
-      description: ''
+      description: Api view that handle the creation of a property object
       parameters: []
       responses:
         '200':
@@ -101,7 +387,7 @@ paths:
       - api
     post:
       operationId: createProperty
-      description: ''
+      description: Api view that handle the creation of a property object
       parameters: []
       requestBody:
         content:
@@ -120,6 +406,101 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Property'
+          description: ''
+      tags:
+      - api
+  /api/v1/property/{id}/:
+    get:
+      operationId: retrieveProperty
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this property.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+          description: ''
+      tags:
+      - api
+    put:
+      operationId: updateProperty
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this property.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Property'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+          description: ''
+      tags:
+      - api
+    patch:
+      operationId: partialUpdateProperty
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this property.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Property'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Property'
+          description: ''
+      tags:
+      - api
+    delete:
+      operationId: destroyProperty
+      description: Api View that allow user to update, delete or retrieve a user object
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this property.
+        schema:
+          type: string
+      responses:
+        '204':
           description: ''
       tags:
       - api
@@ -266,6 +647,56 @@ paths:
           description: ''
       tags:
       - api
+  /api/v1/notebook/create/:
+    post:
+      operationId: createNotebook
+      description: Api allow user to create a notebook for a workspace
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notebook'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notebook'
+          description: ''
+      tags:
+      - api
+  /api/v1/comment/:
+    post:
+      operationId: createComment
+      description: Api allow user to create a comment for a notebook
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Comment'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+          description: ''
+      tags:
+      - api
   /api/v1/dj-rest-auth/password/reset/:
     post:
       operationId: createPasswordReset
@@ -389,7 +820,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/v1/dj-rest-auth/registration/:
+  /api/v1/auth/registration/:
     post:
       operationId: createRegister
       description: ''
@@ -414,7 +845,7 @@ paths:
           description: ''
       tags:
       - api
-  /api/v1/dj-rest-auth/registration/verify-email/:
+  /api/v1/auth/registration/verify-email/:
     post:
       operationId: createVerifyEmail
       description: ''
@@ -441,6 +872,29 @@ paths:
       - api
 components:
   schemas:
+    FrontDesk:
+      type: object
+      properties:
+        user_count:
+          type: string
+          readOnly: true
+        property_count:
+          type: string
+          readOnly: true
+        notebook_count:
+          type: string
+          readOnly: true
+    Workspace:
+      type: object
+      properties:
+        property:
+          type: integer
+        name:
+          type: string
+          maxLength: 50
+      required:
+      - property
+      - name
     User:
       type: object
       properties:
@@ -469,36 +923,25 @@ components:
           type: string
           nullable: true
           maxLength: 3000
-        author:
-          type: integer
-          nullable: true
       required:
       - workspace
     Property:
       type: object
       properties:
-        id:
-          type: integer
-          readOnly: true
-        created:
-          type: string
-          format: date-time
-          readOnly: true
-        modified:
-          type: string
-          format: date-time
-          readOnly: true
         name:
           type: string
           maxLength: 50
-        slug:
-          type: string
-          readOnly: true
-          pattern: ^[-a-zA-Z0-9_]+$
         collaborator:
           type: array
           items:
             type: integer
+        slug:
+          type: string
+          readOnly: true
+          pattern: ^[-a-zA-Z0-9_]+$
+        collaborator_count:
+          type: string
+          readOnly: true
       required:
       - name
       - collaborator
@@ -521,12 +964,26 @@ components:
           readOnly: true
         first_name:
           type: string
-          maxLength: 150
+          maxLength: 30
         last_name:
           type: string
           maxLength: 150
       required:
       - username
+    Comment:
+      type: object
+      properties:
+        workspace:
+          type: integer
+        notebook:
+          type: integer
+        content:
+          type: string
+          nullable: true
+          maxLength: 1000
+      required:
+      - workspace
+      - notebook
     PasswordReset:
       type: object
       properties:

@@ -86,9 +86,9 @@ halo = "*"
 django-autoslug = "*"
 django-cors-headers = "*"
 dj-rest-auth = "*"
-pyyaml = "*"
-uritemplate = "*"
-drf-yasg = "*"
+pyyaml = "==5.3.1"
+uritemplate = "==3.0.1"
+drf-yasg = "==1.17.1"
 sentry-sdk = "*"
 
 [dev-packages]
