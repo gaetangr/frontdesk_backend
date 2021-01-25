@@ -86,10 +86,10 @@ halo = "*"
 django-autoslug = "*"
 django-cors-headers = "*"
 dj-rest-auth = "*"
-pyyaml = "*"
-uritemplate = "*"
-drf-yasg = "*"
+uritemplate = "==3.0.1"
+drf-yasg = "==1.16.1"
 sentry-sdk = "*"
+PyYAML = "==5.3.1"
 
 [dev-packages]
 

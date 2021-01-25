@@ -4,7 +4,7 @@ from rest_framework import serializers
 
 from frontdesk.property.models import Property
 from frontdesk.users.models import User
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.workspace.models import Notebook
 
 
 class FrontDeskSerializer(serializers.Serializer):
@@ -26,54 +26,3 @@ class FrontDeskSerializer(serializers.Serializer):
 
     class Meta:
         fields = ("user_count", "property_count", "notebook_count")
-
-
-class WorkspaceSerializer(serializers.ModelSerializer):
-    """ WorkspaceSerialize that return JSON content  """
-
-    class Meta:
-        model = Workspace
-        fields = ("property", "name")
-
-
-class UserSerializer(serializers.ModelSerializer):
-    """ UserSerialize that return JSON content  """
-
-    class Meta:
-        model = User
-        fields = ("id", "username", "email")
-
-
-class NotebookSerializer(serializers.ModelSerializer):
-    """ NotebookSerialize that return JSON content  """
-
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = Notebook
-        fields = ["workspace", "content", "author"]
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    """ CommentSerialize that return JSON content  """
-
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
-
-    class Meta:
-        model = Comment
-        fields = ["workspace", "notebook", "content", "author"]
-
-
-class PropertySerializer(serializers.ModelSerializer):
-    """ PropertySerialize that return JSON content """
-
-    collaborator_count = serializers.SerializerMethodField("count_members")
-
-    def count_members(self, obj):
-        """ Return all collaborator related to the property """
-        return obj.collaborator.all().count()
-
-    class Meta:
-
-        model = Property
-        fields = ["name", "collaborator", "slug", "collaborator_count"]
