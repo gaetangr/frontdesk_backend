@@ -1,3 +1,4 @@
+""" Api views and logic for the property app """
 from rest_framework import generics
 
 from frontdesk.property.models import Property

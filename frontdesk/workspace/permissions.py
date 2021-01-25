@@ -1,3 +1,5 @@
+""" Views for the workspace app """
+
 from rest_framework import permissions
 
 

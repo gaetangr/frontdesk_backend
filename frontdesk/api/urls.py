@@ -1,3 +1,4 @@
+""" Handle all the endpoints for the API, all path are imported here  """
 from django.urls import path
 
 from frontdesk.property.views import (property_detail_view,

@@ -1,3 +1,5 @@
+""" views for the workspace app """
+
 from rest_framework import generics
 
 from frontdesk.workspace.models import Comment, Notebook, Workspace

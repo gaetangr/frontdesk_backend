@@ -1,3 +1,4 @@
+""" Permissions for the property app """
 from rest_framework import permissions
 
 from frontdesk.property.models import PropertyPermission

@@ -1,4 +1,4 @@
-""" Views related to the model `Users` """
+""" views for the users app """
 
 from django.contrib.auth import get_user_model
 from rest_framework import generics
