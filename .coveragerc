@@ -12,4 +12,5 @@ omit =
     # omit tests files and folder
     */tests/*
     *.local*
+    *admin.py*
     *manage.py*
