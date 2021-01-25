@@ -1,3 +1,5 @@
+""" Permissions for the users app """
+
 from rest_framework import permissions
 
 
