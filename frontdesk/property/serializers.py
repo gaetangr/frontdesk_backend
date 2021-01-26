@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from frontdesk.property.models import Property
+from frontdesk.property.models import Property, PropertyPermission
 
 
 class PropertySerializer(serializers.ModelSerializer):
@@ -18,3 +18,12 @@ class PropertySerializer(serializers.ModelSerializer):
 
         model = Property
         fields = ["name", "collaborator", "slug", "collaborator_count"]
+
+
+class PropertyPermissionSerializer(serializers.ModelSerializer):
+    """ PropertySerialize that return JSON content """
+
+    class Meta:
+
+        model = PropertyPermission
+        fields = ["is_admin", "is_staff"]

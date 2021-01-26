@@ -35,7 +35,7 @@ def test_user_detail_request_is_successfull(api_client):
 @pytest.mark.parametrize(
     "path_to_test",
     [
-        "property",
+        "property-list-create",
         "notebook-create",
         "comment-create",
     ],

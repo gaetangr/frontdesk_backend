@@ -88,7 +88,6 @@ LOCAL_APPS = [
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.property.apps.PropertyConfig",
-    "frontdesk.file.apps.FileConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS # when adding new apps, add them in the correct list 

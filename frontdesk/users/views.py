@@ -4,13 +4,32 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 
 from frontdesk.users.models import User
+from frontdesk.property.models import Property
 
 from .permissions import IsRequestUser
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CollaboratorSerializer
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------
 
+class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    """ Api view that allow user to retrieve, update, or destroy an instance of a collaborator"""
+
+    serializer_class = CollaboratorSerializer
+
+    def get_queryset(self):
+        """
+        This view should return the user detail only
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        property = Property.objects.filter(collaborator=user).first().pk
+        
+        return User.objects.filter()
+
+
+
+collaborator_retrieve_update_destroy = CollaboratorRetrieveUpdateDestroy.as_view()
 
 class UserListCreate(generics.ListCreateAPIView):
     """ Api view that display users and allow to create one """

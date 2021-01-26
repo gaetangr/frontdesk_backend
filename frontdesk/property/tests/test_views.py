@@ -23,7 +23,7 @@ def test_if_property_create_endpoint_return_success(api_client):
     user = User.objects.create_user(username="gaetan")
     token = Token.objects.create(user=user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
-    url = reverse("property")
+    url = reverse("property-list-create")
     response = api_client.post(url, {"name": "Overlook Hotel", "collaborator": user.pk})
     assert response.status_code == 201
 
@@ -37,6 +37,6 @@ def test_if_property_list_endpoint_return_content_for_request_user(api_client):
     property.collaborator.add(user)
     token = Token.objects.create(user=user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
-    url = reverse("property")
+    url = reverse("property-list-create")
     response = api_client.get(url)
     assert response.data[0]["name"] == property.name

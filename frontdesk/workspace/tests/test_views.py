@@ -68,7 +68,7 @@ def test_if_workspace_create_endpoint_return_success(api_client):
     workspace = Workspace.objects.create(property=property, name="Overlook")
     token = Token.objects.create(user=user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
-    url = reverse("workspace-create")
+    url = reverse("workspace-list-create")
     response = api_client.post(
         url,
         {
