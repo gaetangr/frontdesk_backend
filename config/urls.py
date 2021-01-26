@@ -6,13 +6,13 @@ from django.urls import include, path
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
-from drf_yasg import openapi  # new
-from drf_yasg.views import get_schema_view  # new
-from rest_framework import permissions  # new
+from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
+from rest_framework import permissions
 
 from frontdesk.property.models import Property
 
-schema_view = get_schema_view(  # new
+schema_view = get_schema_view(
     openapi.Info(
         title="Front desk API",
         default_version="v1",
@@ -30,7 +30,10 @@ urlpatterns = [
     path("admin/doc/", include("django.contrib.admindocs.urls")),
     # Local apps
     # ----------------------------------
-    path("api/v1/", include("frontdesk.api.urls")),
+    path(
+        "api/v1/", include("frontdesk.api.urls")
+    ),  # <------- We are using the path "api/v1"to specify that those endpoints are
+    # related to first version of the API.
     # Third party apps
     # ----------------------------
     path("api-auth/", include("rest_framework.urls")),

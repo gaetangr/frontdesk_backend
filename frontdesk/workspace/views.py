@@ -5,8 +5,7 @@ from rest_framework import generics
 from frontdesk.workspace.models import Comment, Notebook, Workspace
 
 from .permissions import IsAuthor, IsPropertyMember
-from .serializers import (CommentSerializer, NotebookSerializer,
-                          WorkspaceSerializer)
+from .serializers import CommentSerializer, NotebookSerializer, WorkspaceSerializer
 
 
 # WORKSPACE API VIEWS

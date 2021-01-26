@@ -26,3 +26,17 @@ def test_if_property_create_endpoint_return_success(api_client):
     url = reverse("property")
     response = api_client.post(url, {"name": "Overlook Hotel", "collaborator": user.pk})
     assert response.status_code == 201
+
+
+@pytest.mark.django_db
+def test_if_property_list_endpoint_return_content_for_request_user(api_client):
+    """ If property list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    property = Property.objects.create(name="Overlook")
+    property.collaborator.add(user)
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("property")
+    response = api_client.get(url)
+    assert response.data[0]["name"] == property.name
