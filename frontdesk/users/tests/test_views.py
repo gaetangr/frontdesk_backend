@@ -1,13 +1,12 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
 import pytest
-from django.urls import reverse
-import pytest
-from django.urls import reverse
-from frontdesk.property.models import Property
-from rest_framework.test import APIRequestFactory
-from rest_framework.authtoken.models import Token
 from django.contrib.auth.models import User
+from django.urls import reverse
+from rest_framework.authtoken.models import Token
+from rest_framework.test import APIRequestFactory
+
+from frontdesk.property.models import Property
 
 
 @pytest.fixture
@@ -16,6 +15,7 @@ def api_client():
     from rest_framework.test import APIClient
 
     return APIClient()
+
 
 @pytest.mark.django_db
 def test_user_detail_request_is_successfull(api_client):
@@ -51,25 +51,33 @@ def test_anonymous_user_is_forbidden_is_not_authenticated(api_client, path_to_te
 def test_if_user_create_endpoint_return_success(api_client):
     """ If client register, reponse should return a 201 created """
     url = reverse("rest_register")
-    response = api_client.post(url, {
-    'username': 'Gaetan',
-    'email': 'hello@gaetangr.me',
-    'password1': "you-will-never-guess",
-    'password2': "you-will-never-guess",
-})
+    response = api_client.post(
+        url,
+        {
+            "username": "Gaetan",
+            "email": "hello@gaetangr.me",
+            "password1": "you-will-never-guess",
+            "password2": "you-will-never-guess",
+        },
+    )
     assert response.status_code == 201
+
 
 @pytest.mark.django_db
 def test_if_token_is_generated_after_registration(api_client):
     """ If client register, reponse should return a key use for token authentication"""
     url = reverse("rest_register")
-    response = api_client.post(url, {
-    'username': 'Gaetan',
-    'email': 'hello@gaetangr.me',
-    'password1': "you-will-never-guess",
-    'password2': "you-will-never-guess",
-})  
+    response = api_client.post(
+        url,
+        {
+            "username": "Gaetan",
+            "email": "hello@gaetangr.me",
+            "password1": "you-will-never-guess",
+            "password2": "you-will-never-guess",
+        },
+    )
     assert response.data["key"]
+
 
 # Extra tests to assert some pages return 200 response and that admin page are
 # not available for regular users

@@ -1,7 +1,5 @@
 import pytest
-from django.contrib.auth.models import User
 from django.urls import reverse
-from rest_framework.authtoken.models import Token
 
 
 @pytest.fixture
@@ -10,6 +8,7 @@ def api_client():
     from rest_framework.test import APIClient
 
     return APIClient()
+
 
 @pytest.mark.django_db
 def test_global_endpoint_is_accessible(api_client):

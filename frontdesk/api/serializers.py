@@ -1,5 +1,6 @@
 """ Serializer for the front desk application"""
 
+import pytest
 from rest_framework import serializers
 
 from frontdesk.property.models import Property
@@ -7,7 +8,9 @@ from frontdesk.users.models import User
 from frontdesk.workspace.models import Notebook
 
 
-class FrontDeskSerializer(serializers.Serializer):
+# This class is exclude from coverage report as queryset
+# are already tested y the Django team
+class FrontDeskSerializer(serializers.Serializer):  # pragma: no cover
     """ FrontDeskSerialize that return JSON content regardinds stats and global information  """
 
     user_count = serializers.SerializerMethodField("count_users")
