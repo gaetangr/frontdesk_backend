@@ -8,6 +8,7 @@ from .permissions import IsAuthor, IsPropertyMember
 from .serializers import (CommentSerializer, NotebookSerializer,
                           WorkspaceSerializer)
 
+
 # WORKSPACE API VIEWS
 # ------------------------------------------------------------------------------
 class WorkspaceListCreate(generics.ListCreateAPIView):
@@ -19,6 +20,7 @@ class WorkspaceListCreate(generics.ListCreateAPIView):
 
 
 workspace_list_create_view = WorkspaceListCreate.as_view()
+
 
 class WorkspaceDetail(generics.RetrieveUpdateDestroyAPIView):
     """Api View that allow user to update, delete or retrieve a workspace object"""

@@ -35,7 +35,7 @@ Django==3.1.2 > supérieur
 
   
 
-Voici étape par étape comment installer front-desk sur votre machine
+Voici étape par étape comment installer front-desk sur votre machine, à noter que nous utilisons par défaut le gestionnaire de package **pipenv**, c'est l'outil recommandé pour le projet.
 
   
 
@@ -61,7 +61,13 @@ python -m venv venv
 
 ```
 
-  
+**Ou avec pipenv**
+
+```
+
+pipenv shell
+
+```
 
 - Installer les dépendances
 
@@ -70,6 +76,14 @@ python -m venv venv
 ```
 
 pip install -r requirements/local.txt
+
+```
+
+**Ou avec pipenv**
+
+```
+
+pipenv install -r requirements/local.txt
 
 ```
 
@@ -115,5 +129,49 @@ python manage.py createsuperuser
 ```
 
 python manage.py runserver
+
+```
+
+## Commandes utiles 💻
+  
+  Une fois les différents outils installés, vous pouvez utiliser les commandes suivantes:
+
+  - Lancer la série de tests
+
+```
+
+coverage run -m pytest frontdesk
+
+```
+
+  - Générer le fichier de couverture HTML
+
+```
+
+coverage html
+
+```
+
+  - Formatte du code avec Black
+
+```
+
+black .
+
+```
+
+  - Trier les imports
+
+```
+
+isort frontdesk
+
+```
+
+  - S'assurer de la conformité PEP8
+
+```
+
+flake8 frontdesk
 
 ```

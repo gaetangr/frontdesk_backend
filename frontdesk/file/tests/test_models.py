@@ -1,8 +1,8 @@
 import pytest
+from django.contrib.auth.models import User
 
 from frontdesk.file.models import File
 from frontdesk.property.models import Property
-from django.contrib.auth.models import User
 
 
 @pytest.mark.django_db
