@@ -10,7 +10,15 @@ from .serializers import (CommentSerializer, NotebookSerializer,
 
 # WORKSPACE API VIEWS
 # ------------------------------------------------------------------------------
+class WorkspaceListCreate(generics.ListCreateAPIView):
+    """Api View that allow user to update, delete or retrieve a workspace object"""
 
+    queryset = Workspace.objects.all()
+    serializer_class = WorkspaceSerializer
+    permission_classes = (IsPropertyMember,)
+
+
+workspace_list_create_view = WorkspaceListCreate.as_view()
 
 class WorkspaceDetail(generics.RetrieveUpdateDestroyAPIView):
     """Api View that allow user to update, delete or retrieve a workspace object"""

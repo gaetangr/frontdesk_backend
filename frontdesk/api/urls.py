@@ -8,7 +8,8 @@ from frontdesk.workspace.views import (comment_detail_view,
                                        notebook_create_view,
                                        notebook_detail_view,
                                        notebook_list_view,
-                                       workspace_detail_view)
+                                       workspace_detail_view,
+                                       workspace_list_create_view)
 
 from . import views
 
@@ -23,6 +24,7 @@ urlpatterns = [
     # WORKSPACE ROUTES
     # ------------------------------------------------------------------------------
     path("workspace/<int:pk>/", view=workspace_detail_view, name="workspace"),
+    path("workspace/create", view=workspace_list_create_view, name="workspace-create"),
     # NOTEBOOK ROUTES
     # ------------------------------------------------------------------------------
     path("notebook/create/", view=notebook_create_view, name="notebook-create"),
