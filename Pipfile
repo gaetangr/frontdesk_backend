@@ -87,7 +87,7 @@ django-autoslug = "*"
 django-cors-headers = "*"
 dj-rest-auth = "*"
 uritemplate = "==3.0.1"
-drf-yasg = "==1.16.1"
+drf-yasg = "==1.20.0"
 sentry-sdk = "*"
 PyYAML = "==5.3.1"
 

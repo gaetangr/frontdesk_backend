@@ -73,3 +73,6 @@ class Comment(TimeStampedModel):
         blank=True,
         verbose_name="Commenter la note",
     )
+    def __str__(self):
+        """ Return instance with a human readable fashion """
+        return self.content
