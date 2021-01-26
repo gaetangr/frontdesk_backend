@@ -67,3 +67,21 @@ def test_if_workspace_create_endpoint_return_success(api_client):
     url = reverse("workspace-create")
     response = api_client.post(url, {"property": property.pk, "name": "Overlook",})
     assert response.status_code == 201
+
+
+@pytest.mark.django_db
+def test_if_notebook_list_endpoint_return_content_for_request_user(api_client):
+    """ If notebook list endpoint is access by request user, should return notebook content """
+    
+    user = User.objects.create_user(username="gaetan")
+    property = Property.objects.create(name="Overlook")
+    property.collaborator.add(user)
+    workspace = Workspace.objects.create(property=property, name="Overlook")
+    notebook = Notebook.objects.create(workspace=workspace, content="Test", author=user)
+    token = Token.objects.create(user=user)
+    api_client.credentials(
+        HTTP_AUTHORIZATION="Token " + token.key
+    )
+    url = reverse("notebook-list")
+    response = api_client.get(url)
+    assert response.data[0]["content"] == notebook.content
