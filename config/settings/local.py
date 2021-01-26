@@ -5,11 +5,7 @@ Development-specific settings include
 DEBUG mode, log level, and activation of
 developer tools like django-debug-toolbar.
 """
-import logging
 
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-from sentry_sdk.integrations.logging import LoggingIntegration
 
 from .base import *
 
@@ -49,14 +45,6 @@ SECRET_KEY = env(
     default="!!!SET DJANGO_SECRET_KEY!!!",
 )
 
-# EMAIL
-# ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
-# print emails to the console for local use
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND",
-    default="django.core.mail.backends.console.EmailBackend",
-)
 
 # CACHES
 # ------------------------------------------------------------------------------
@@ -73,20 +61,3 @@ CACHES = {
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
 
 INSTALLED_APPS += ["django_extensions"]
-
-# Sentry
-# ------------------------------------------------------------------------------
-SENTRY_DSN = env("SENTRY_DSN")
-SENTRY_LOG_LEVEL = env.int("DJANGO_SENTRY_LOG_LEVEL", logging.WARNING)
-
-sentry_logging = LoggingIntegration(
-    level=SENTRY_LOG_LEVEL,  # Capture info and above as breadcrumbs
-    event_level=logging.WARNING,  # Send errors as events
-)
-integrations = [sentry_logging, DjangoIntegration()]
-sentry_sdk.init(
-    dsn=SENTRY_DSN,
-    integrations=integrations,
-    environment=env("SENTRY_ENVIRONMENT", default="production"),
-    traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
-)

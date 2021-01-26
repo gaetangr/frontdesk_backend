@@ -25,8 +25,7 @@ class Workspace(TimeStampedModel):
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        nbr_note = self.notes.all().count()
-        return f"{self.name} -> nombre de messages {nbr_note}"
+        return self.name
 
 
 class Notebook(models.Model):
@@ -62,9 +61,6 @@ class Comment(TimeStampedModel):
 
     notebook = models.ForeignKey(
         Notebook, on_delete=models.CASCADE, related_name="comments"
-    )
-    workspace = models.ForeignKey(
-        Workspace, on_delete=models.CASCADE, related_name="comments"
     )
     author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     content = models.CharField(

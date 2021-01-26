@@ -2,6 +2,7 @@
 Base settings to be extended for production, test and local.
 Settings common to all instances of the project.
 """
+import logging
 import os
 from pathlib import Path
 
@@ -90,7 +91,7 @@ LOCAL_APPS = [
     "frontdesk.file.apps.FileConfig",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS # when adding new apps, add them in the correct list 
 
 
 # MIDDLEWARE

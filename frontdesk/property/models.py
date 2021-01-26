@@ -4,13 +4,6 @@ from django.db import models
 from model_utils.models import TimeStampedModel
 
 
-class MembersManager(models.Manager):
-    """Set custom methods for a product."""
-
-    def get_all(self, pk):
-        return self.get(pk=pk).collaborator.all()
-
-
 class Property(TimeStampedModel):
     """
     Stores a property, using TimeStampedModel to provide a self updating
@@ -30,9 +23,6 @@ class Property(TimeStampedModel):
         default=False,
         help_text="If true property has premium features",
     )
-
-    objects = models.Manager()
-    members = MembersManager()
 
     class Meta:
         verbose_name_plural = "Properties"
@@ -62,7 +52,8 @@ class PropertyPermission(models.Model):
     class Meta:
         verbose_name_plural = "Properties permissions"
 
-    def __str__(self):
+    # This method is exclude from coverage report
+    def __str__(self):# pragma: no cover
         """ Return instance with a human readable fashion """
         is_admin = (
             "est administateur"

@@ -1,17 +1,19 @@
 """ Handle all the endpoints for the API, all path are imported here  """
 from django.urls import path
 
-from frontdesk.property.views import (property_detail_view,
-                                      property_list_create_view)
+from frontdesk.property.views import property_detail_view, property_list_create_view
 from frontdesk.users.views import user_detail_view, user_list_create_view
-from frontdesk.workspace.views import (comment_detail_view,
-                                       notebook_create_view,
-                                       notebook_detail_view,
-                                       notebook_list_view,
-                                       workspace_detail_view,
-                                       workspace_list_create_view)
+from frontdesk.workspace.views import (
+    comment_detail_view,
+    notebook_create_view,
+    notebook_detail_view,
+    notebook_list_view,
+    workspace_detail_view,
+    workspace_list_create_view,
+)
 
 from . import views
+
 
 urlpatterns = [
     # FRONTDESK GLOBAL ROUTES
