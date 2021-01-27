@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 import { signUp } from "../../redux/actions/authActions";
 import Faq from "./FaqRegister";
+import axios from "axios";
 
 import {
   Button,
@@ -17,6 +18,7 @@ import {
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import { Alert as MuiAlert } from "@material-ui/lab";
+import { AlertTitle } from "@material-ui/lab";
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -33,7 +35,7 @@ const Wrapper = styled(Paper)`
 function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
-
+  
   return (
     <Wrapper>
       <Helmet title="Inscription" />
@@ -44,25 +46,36 @@ function SignUp() {
       <Typography component="h2" variant="body1" align="center">
         Créez votre compte en quelques secondes !
       </Typography>
-
+      <Alert mt={3} mb={2} severity="info">
+        <AlertTitle>Information</AlertTitle>
+      
+        Les inscriptions sont ouvertes pour les propriétaires <u>uniquement</u>,
+        une fois inscrit vous pourrez ajouter vos collaborateurs à votre
+        établissement.
+    
+      </Alert>
+      
       <Formik
         initialValues={{
-          name: "Gaëtan",
-          email: "demo@frontdesk.fr",
-          password: "frontdesk",
-          confirmPassword: "frontdesk",
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
-          name: Yup.string().max(255).required("Le nom est requis"),
+          name: Yup.string()
+            .min(4, "Trop court")
+            .max(20, "Trop long")
+            .required("Le nom est requis"),
           email: Yup.string()
             .email("L'email n'est pas valide")
             .max(255)
             .required("L'email est requis"),
           password: Yup.string()
-            .min(12, "Au moins 12 charactères ")
+            .min(8, "Au moins 8 charactères ")
             .max(255)
-            .required("Required"),
+            .required("Requis"),
           confirmPassword: Yup.string().when("password", {
             is: (val) => (val && val.length > 0 ? true : false),
             then: Yup.string().oneOf(
@@ -72,14 +85,28 @@ function SignUp() {
           }),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          const name = values.name
+          const email = values.email;
+          const password = values.password;
           try {
             await dispatch(
-              signUp({
-                name: "test",
-                company: "test",
-                email: values.email,
-                password: values.password,
-              })
+              signUp(
+                axios({
+                  method: "post",
+                  url: "http://127.0.0.1:8000/api/v1/auth/registration/",
+                  data: {
+                    username: name,
+                    email: email,
+                    password1: password,
+                    password2: password,
+                  },
+                })
+                  .then((res) => {
+                    console.log(res);
+                    localStorage.setItem("username", name, "email", email );
+                  })
+                  
+              )
             );
             history.push("/auth/sign-in");
           } catch (error) {
@@ -100,12 +127,14 @@ function SignUp() {
           touched,
           values,
         }) => (
+          
           <form noValidate onSubmit={handleSubmit}>
             {errors.submit && (
               <Alert mt={2} mb={1} severity="warning">
                 {errors.submit}
               </Alert>
             )}
+
             <TextField
               type="text"
               name="name"
@@ -115,7 +144,6 @@ function SignUp() {
               error={Boolean(touched.name && errors.name)}
               fullWidth
               helperText={touched.name && errors.name}
-              helperText={"Sera visible par tous"}
               onBlur={handleBlur}
               onChange={handleChange}
               my={3}
@@ -137,7 +165,7 @@ function SignUp() {
               type="password"
               name="password"
               required
-              label="Mot de pase"
+              label="Mot de passe"
               value={values.password}
               error={Boolean(touched.password && errors.password)}
               fullWidth
@@ -159,9 +187,7 @@ function SignUp() {
               onChange={handleChange}
               my={3}
             />
-            <Alert mt={3} mb={2} severity="info">
-              Front desk V2.0 est actuellement <strong>Beta</strong>
-            </Alert>
+
             <Button
               type="submit"
               fullWidth
@@ -173,16 +199,6 @@ function SignUp() {
             </Button>
             <Divider />
             <Divider />
-            <Button
-              mt="3"
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="secondary"
-              disabled={isSubmitting}
-            >
-              Créer un compte collaborateur
-            </Button>
           </form>
         )}
       </Formik>

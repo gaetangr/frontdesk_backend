@@ -124,12 +124,14 @@ const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
   header: "Outils",
+
   icon: <Sliders />,
   containsHome: true,
   children: [
     {
       path: "/dashboard/default",
       name: "Votre dashboard",
+      guard: AuthGuard,
       component: Default,
     },
   ],
@@ -297,6 +299,7 @@ const changelogRoutes = {
   id: "Changelog",
   path: "/changelog",
   badge: "v2.0.0",
+  
   icon: <List />,
   component: Changelog,
   children: null,

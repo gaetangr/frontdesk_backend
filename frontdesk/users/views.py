@@ -22,6 +22,7 @@ class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         This view should return the user detail only
         for the currently authenticated user.
         """
+        
         user = self.request.user
         property = Property.objects.filter(collaborator=user).first().pk
         

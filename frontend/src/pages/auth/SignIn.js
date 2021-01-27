@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { signIn } from "../../redux/actions/authActions";
+import axios from "axios";
 
 import {
   Avatar,
@@ -21,7 +22,7 @@ import { spacing } from "@material-ui/system";
 import { Alert as MuiAlert } from "@material-ui/lab";
 
 const Alert = styled(MuiAlert)(spacing);
-
+const username = localStorage.getItem("username");
 const TextField = styled(MuiTextField)(spacing);
 
 const Wrapper = styled(Paper)`
@@ -41,14 +42,29 @@ const BigAvatar = styled(Avatar)`
 function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [key, setKey] = useState("blabla");
+  /*useEffect(() => {
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/v1/property/",
+      headers: {
+        Authorization: "Token b325d52b7e3352910a119a7ffe461f77fa77452d",
+      },
+    })
+      .then((res) => {
+        console.log();
+        
+      })
 
+              
+
+  });*/
   return (
     <Wrapper>
-      <Helmet title="Sign In" />
-      <BigAvatar alt="Lucy" src="/static/img/avatars/avatar-1.jpg" />
+      <Helmet title="Se connecter" />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Welcome back, Lucy!
+        Bienvenue, {username} !
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Connectez-vous pour continuer
@@ -56,28 +72,43 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          email: "demo@bootlab.io",
-          password: "unsafepassword",
+          email: "demo@fle.fr",
+          password: "password",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .email("Must be a valid email")
+          email: Yup.string().max(255).required("L'email est requis"),
+          password: Yup.string()
             .max(255)
-            .required("Email is required"),
-          password: Yup.string().max(255).required("Password is required"),
+            .required("Le mot de passe est requis"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             await dispatch(
-              signIn({ email: values.email, password: values.password })
+              signIn(
+                axios({
+                  method: "post",
+                  url: "http://127.0.0.1:8000/api/v1/dj-rest-auth/login/",
+                  data: {
+                    email: values.email,
+                    password: values.password,
+                  },
+                })
+                  .then((res) => {
+                    console.log(res.data.key);
+                    setKey(res.data.key);
+                    localStorage.setItem("key", res.data.key);
+                    localStorage.setItem("name-property", res.data[0].name);
+                  })
+              )
+
+              
             );
             history.push("/private");
           } catch (error) {
-            const message = error.message || "Something went wrong";
+            
 
-            setStatus({ success: false });
-            setErrors({ submit: message });
+            setStatus({ success: true });
             setSubmitting(false);
           }
         }}
@@ -104,7 +135,7 @@ function SignIn() {
             <TextField
               type="email"
               name="email"
-              label="Email"
+              label="Pseudo"
               value={values.email}
               error={Boolean(touched.email && errors.email)}
               fullWidth
