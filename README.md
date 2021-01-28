@@ -42,7 +42,6 @@ L'objectif est de repenser le code initial et répondre aux standards de l'indus
     
 ## Se lancer dans le projet 🚀
 
-  
 
 Les instructions suivantes vous permettront de vous lancer dans le projet et de le faire tourner sur votre machine avec les bons outils, merci d'en prendre connaissance avant toute pull request.
 

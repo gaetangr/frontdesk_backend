@@ -28,7 +28,7 @@ class Workspace(TimeStampedModel):
         return self.name
 
 
-class Notebook(models.Model):
+class Notebook(TimeStampedModel):
     """
     Stores a note for the workspace, related to :model:`workspace.Workspace` and
     :model:`auth.User`

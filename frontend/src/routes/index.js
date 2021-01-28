@@ -1,8 +1,7 @@
 import React from "react";
 
 import async from "../components/Async";
-import Divider from "@material-ui/core/Divider";
-import { Tooltip } from "@material-ui/core";
+
 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {
@@ -10,12 +9,8 @@ import {
   Briefcase,
   Calendar as CalendarIcon,
   CheckSquare,
-  CreditCard,
-  Grid,
-  Heart,
   Layout,
   List,
-  People,
   Book,
   Bookmark,
   Map,
@@ -39,64 +34,19 @@ const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 const Page404 = async(() => import("../pages/auth/Page404"));
 const Page500 = async(() => import("../pages/auth/Page500"));
 
-// Components components
-const Alerts = async(() => import("../pages/components/Alerts"));
-const Avatars = async(() => import("../pages/components/Avatars"));
-const Badges = async(() => import("../pages/components/Badges"));
-const Buttons = async(() => import("../pages/components/Buttons"));
-const Cards = async(() => import("../pages/components/Cards"));
-const Chips = async(() => import("../pages/components/Chips"));
-const Dialogs = async(() => import("../pages/components/Dialogs"));
-const ExpPanels = async(() => import("../pages/components/ExpansionPanels"));
-const Lists = async(() => import("../pages/components/Lists"));
-const Menus = async(() => import("../pages/components/Menus"));
-const Pagination = async(() => import("../pages/components/Pagination"));
-const Progress = async(() => import("../pages/components/Progress"));
-const Snackbars = async(() => import("../pages/components/Snackbars"));
-const Tooltips = async(() => import("../pages/components/Tooltips"));
 
 // Dashboards components
 const Default = async(() => import("../pages/dashboards/Default"));
-const Analytics = async(() => import("../pages/dashboards/Analytics"));
-const SaaS = async(() => import("../pages/dashboards/SaaS"));
-
-// Forms components
-const Pickers = async(() => import("../pages/forms/Pickers"));
-const SelectionCtrls = async(() => import("../pages/forms/SelectionControls"));
-const Selects = async(() => import("../pages/forms/Selects"));
-const TextFields = async(() => import("../pages/forms/TextFields"));
-const Dropzone = async(() => import("../pages/forms/Dropzone"));
-const Editors = async(() => import("../pages/forms/Editors"));
-const Formik = async(() => import("../pages/forms/Formik"));
 
 // Icons components
 const MaterialIcons = async(() => import("../pages/icons/MaterialIcons"));
 const FeatherIcons = async(() => import("../pages/icons/FeatherIcons"));
 
 // Pages components
-const Blank = async(() => import("../pages/pages/Blank"));
-const InvoiceDetails = async(() => import("../pages/pages/InvoiceDetails"));
-const InvoiceList = async(() => import("../pages/pages/InvoiceList"));
-const Orders = async(() => import("../pages/pages/Orders"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
 const Profile = async(() => import("../pages/pages/Profile"));
 const Settings = async(() => import("../pages/pages/Settings"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
-const Projects = async(() => import("../pages/pages/Projects"));
-const Calendar = async(() => import("../pages/pages/Calendar"));
-const Chat = async(() => import("../pages/pages/Chat"));
-
-// Tables components
-const SimpleTable = async(() => import("../pages/tables/SimpleTable"));
-const AdvancedTable = async(() => import("../pages/tables/AdvancedTable"));
-const DataGrid = async(() => import("../pages/tables/DataGrid"));
-
-// Chart components
-const Chartjs = async(() => import("../pages/charts/Chartjs"));
-
-// Maps components
-const GoogleMaps = async(() => import("../pages/maps/GoogleMaps"));
-const VectorMaps = async(() => import("../pages/maps/VectorMaps"));
 
 // Documentation
 const Welcome = async(() => import("../pages/docs/Welcome"));
@@ -131,7 +81,6 @@ const dashboardsRoutes = {
     {
       path: "/dashboard/default",
       name: "Votre dashboard",
-      guard: AuthGuard,
       component: Default,
     },
   ],
@@ -349,9 +298,9 @@ export const protectedRoutes = [protectedPageRoutes];
 export const sidebarRoutes = [
   dashboardsRoutes,
   pagesRoutes,
-  pagesRoutess,
-  pagesRoutesss,
-  tasksRoutes,
+  //pagesRoutess,
+  //pagesRoutesss,
+  //tasksRoutes,
   ProfileRoutes,
   authRoutes,
   documentationRoutes,

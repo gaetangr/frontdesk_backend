@@ -2,6 +2,10 @@ import React from "react";
 import styled from "styled-components/macro";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 
+import TwitterIcon from "@material-ui/icons/Twitter";
+import LinkedInIcon from "@material-ui/icons/LinkedIn";
+import MailIcon from "@material-ui/icons/Mail";
+
 import {
   Grid,
   Hidden,
@@ -42,14 +46,22 @@ function Footer() {
         <Hidden smDown>
           <Grid container item xs={12} md={6}>
             <List>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Support" />
+              <ListItem
+                button={true}
+                component="a"
+                href="https://twitter.com/FrontDe87237671"
+              >
+                <ListItemText primary={<TwitterIcon fontSize="small" />} />
               </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Mentions légales" />
+              <ListItem
+                button={true}
+                component="a"
+                href="https://www.linkedin.com/company/front-desk-ei"
+              >
+                <ListItemText primary={<LinkedInIcon fontSize="small" />} />
               </ListItem>
-              <ListItem button={true} component="a" href="#">
-                <ListItemText primary="Contribuer" />
+              <ListItem button={true} component="a" href="mailto:hello@gaetangr.me">
+                <ListItemText primary={<MailIcon fontSize="small" />} />
               </ListItem>
             </List>
           </Grid>

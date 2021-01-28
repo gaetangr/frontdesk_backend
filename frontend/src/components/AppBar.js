@@ -72,7 +72,7 @@ const Input = styled(InputBase)`
     width: 160px;
   }
 `;
-
+ const current = new Date()
 const AppBarComponent = ({ onDrawerToggle }) => (
   <React.Fragment>
     <AppBar position="sticky" elevation={0}>
@@ -90,12 +90,15 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-            <Typography>Jeudi 7 Janvier</Typography>
+            <Typography>{`${current.getUTCDate()}/${
+              current.getUTCMonth() + 1
+            }/${current.getUTCFullYear()}`}</Typography>
           </Grid>
           <Grid item xs />
           <Grid item>
-            <MessagesDropdown />
-            <NotificationsDropdown />
+            
+            {/* <MessagesDropdown /> */}
+            {/*  <NotificationsDropdown /> */}
 
             <UserDropdown />
           </Grid>
