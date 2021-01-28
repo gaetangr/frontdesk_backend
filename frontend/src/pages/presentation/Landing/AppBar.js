@@ -53,21 +53,12 @@ const AppBarComponent = () => (
                   ml={2}
                   color="inherit"
                   component={Link}
-                  to="/dashboard/analytics"
-                  target="_blank"
-                >
-                  Démonstration
-                </Button>
-                <Button
-                  ml={2}
-                  color="inherit"
-                  component={Link}
-                  to="/documentation/welcome"
+                  to="/documentation/getting-started"
                   target="_blank"
                 >
                   Documentation
                 </Button>
-                <Button ml={2} color="inherit" href="mailto:info@bootlab.io">
+                <Button ml={2} color="inherit" href="mailto:hello@gaetangr.me">
                   Support
                 </Button>
               </Hidden>
@@ -75,7 +66,7 @@ const AppBarComponent = () => (
                 ml={2}
                 color="primary"
                 variant="contained"
-                href="/dashboard/analytics"
+                href="/dashboard/default"
                 target="_blank"
               >
                 Lancer Front Desk

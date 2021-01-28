@@ -323,7 +323,8 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
     );
   };
-
+  const username = localStorage.getItem("username");
+  const nameProperty = localStorage.getItem("name-property");
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/" button>
@@ -390,23 +391,15 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
         <Grid container spacing={2}>
           <Grid item>
             <SidebarFooterBadge
-              overlap="circle"
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              variant="dot"
+              
             >
-              <Avatar
-                alt="Lucy Lavender"
-                src="https://media-exp1.licdn.com/dms/image/C5603AQECxqBiAO9Zsw/profile-displayphoto-shrink_400_400/0/1517412573625?e=1614816000&v=beta&t=fA8QMru4GpmUHFMtklWN8D-Qh8EL14XJrAuQwK_bJeY"
-              />
+         
             </SidebarFooterBadge>
           </Grid>
           <Grid item>
-            <SidebarFooterText variant="body2">Gaëtan Grond</SidebarFooterText>
+            <SidebarFooterText variant="body2">{username}</SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              Réceptionniste
+              {nameProperty}
             </SidebarFooterSubText>
           </Grid>
         </Grid>

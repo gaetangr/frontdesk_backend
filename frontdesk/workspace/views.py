@@ -57,7 +57,7 @@ class NotebookList(generics.ListAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Notebook.objects.filter(author=user)
+        return Notebook.objects.all()
 
 
 notebook_list_view = NotebookList.as_view()

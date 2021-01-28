@@ -1,228 +1,163 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-
+import axios from "axios";
 import Helmet from "react-helmet";
-
-import "react-dragula/dist/dragula.css";
-
+import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
 import {
   Avatar,
   Breadcrumbs as MuiBreadcrumbs,
-  Button,
+  Button as MuiButton,
   Card as MuiCard,
-  CardContent as MuiCardContent,
+  CardContent,
   Divider as MuiDivider,
+  FormControl as MuiFormControl,
+  Accordion as MuiAccordion,
+  AccordionDetails as MuiAccordionDetails,
+  AccordionSummary as MuiAccordionSummary,
   Grid,
-  TextField,
   Link,
-  Typography as MuiTypography,
+  TextField as MuiTextField,
+  Typography,
 } from "@material-ui/core";
 
-import { AvatarGroup } from "@material-ui/lab";
+import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
+import { element } from "prop-types";
 
-import { orange, green, blue } from "@material-ui/core/colors";
+const Accordion = styled(MuiAccordion)`
+  border: 1px solid
+    ${(props) =>
+      props.theme.palette.type === "dark"
+        ? `rgba(255, 255, 255, .15)`
+        : `rgba(0, 0, 0, .15)`};
+  border-radius: 6px;
+  box-shadow: 0;
+  text-align: left;
+  margin: 16px 0 !important;
 
-import { Add as AddIcon, CalendarToday } from "@material-ui/icons";
-
-import { MessageCircle } from "react-feather";
-
-import dragula from "react-dragula";
-
-const Card = styled(MuiCard)(spacing);
-
-const CardContent = styled(MuiCardContent)`
-  &:last-child {
-    padding-bottom: ${(props) => props.theme.spacing(4)}px;
+  &:before {
+    display: none;
   }
 `;
+const AccordionDetails = styled(MuiAccordionDetails)`
+  padding-left: 16px;
+  padding-right: 16px;
+`;
 
-const Divider = styled(MuiDivider)(spacing);
+const AccordionSummary = styled(MuiAccordionSummary)`
+  padding: 0 16px;
+  box-shadow: 0;
+  min-height: 48px !important;
+
+  .MuiAccordionSummary-content {
+    margin: 12px 0 !important;
+  }
+`;
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
-const TaskWrapper = styled(Card)`
-  border: 1px solid ${(props) => props.theme.palette.grey[300]};
-  margin-bottom: ${(props) => props.theme.spacing(4)}px;
-  cursor: grab;
+const Card = styled(MuiCard)(spacing);
 
-  &:hover {
-    background: ${(props) => props.theme.palette.background.default};
-  }
+const Divider = styled(MuiDivider)(spacing);
+
+const FormControl = styled(MuiFormControl)(spacing);
+
+const TextField = styled(MuiTextField)(spacing);
+
+const Button = styled(MuiButton)(spacing);
+
+const CloudUpload = styled(MuiCloudUpload)(spacing);
+
+const CenteredContent = styled.div`
+  text-align: center;
 `;
 
-const TaskWrapperContent = styled(CardContent)`
-  position: relative;
-
-  &:last-child {
-    padding-bottom: ${(props) => props.theme.spacing(4)}px;
-  }
+const BigAvatar = styled(Avatar)`
+  width: 120px;
+  height: 120px;
+  margin: 0 auto ${(props) => props.theme.spacing(2)}px;
 `;
 
-const TaskAvatars = styled.div`
-  margin-left: 8px;
-`;
 
-const MessageCircleIcon = styled(MessageCircle)`
-  color: ${(props) => props.theme.palette.grey[500]};
-  vertical-align: middle;
-`;
 
-const TaskBadge = styled.div`
-  background: ${(props) => props.color};
-  width: 40px;
-  height: 6px;
-  border-radius: 6px;
-  display: inline-block;
-  margin-right: ${(props) => props.theme.spacing(2)}px;
-`;
 
-const TaskNotifications = styled.div`
-  display: flex;
-  position: absolute;
-  bottom: ${(props) => props.theme.spacing(4)}px;
-  right: ${(props) => props.theme.spacing(4)}px;
-`;
 
-const TaskNotificationsAmount = styled.div`
-  color: ${(props) => props.theme.palette.grey[500]};
-  font-weight: 600;
-  margin-right: ${(props) => props.theme.spacing(1)}px;
-  line-height: 1.75;
-`;
-
-const Typography = styled(MuiTypography)(spacing);
-
-const TaskTitle = styled(Typography)`
-  font-weight: 600;
-  font-size: 15px;
-  margin-right: ${(props) => props.theme.spacing(10)}px;
-`;
-
-function Lane({ title, description, onContainerLoaded, children }) {
-  const handleContainerLoaded = (container) => {
-    if (container) {
-      onContainerLoaded(container);
-    }
-  };
-
+function Private() {
+  const [workspaceName, setWorkspaceName] = useState("");
+  const array1 = ["a", "b", "c"];
+  useEffect((Something) => {
+    axios({
+      method: "get",
+      url: "http://127.0.0.1:8000/api/v1/notebook/list/",
+      headers: {
+        Authorization: "Token 5281c3457f866dfb5d85a5c734a2f05879f2a98c",
+      },
+    }).then((res) => {
+      
+     res.data.forEach(element => setWorkspaceName(element.content))
+    });
+  });
   return (
     <Card mb={6}>
-      <TextField
-        fullWidth
-        label="Vous pouvez écrire votre consigne ici"
-        variant="outlined"
-        m={2}
-        multiline
-      />
-      <Button color="primary" variant="contained" fullWidth>
-        <AddIcon />
-        Ajouter une consigne
-      </Button>
-      <CardContent pb={0}>
+      <CardContent>
         <Typography variant="h6" gutterBottom>
-          {title}
+          Informations de votre établissement
         </Typography>
-        <Typography variant="body2" mb={4}>
-          {description}
-        </Typography>
-        <div ref={handleContainerLoaded}>{children}</div>
+{workspaceName}
+    
+        <Grid container spacing={6}>
+          <Grid item md={6}></Grid>
+        </Grid>
+
+        <TextField
+          not
+          id="address"
+          label="Adresse"
+          variant="outlined"
+          fullWidth
+          my={2}
+        />
+
+        <Grid item md={2}></Grid>
+
+        <Button variant="contained" color="primary" mt={3}>
+          Enregistrer les informations
+        </Button>
       </CardContent>
     </Card>
   );
 }
 
-function Task({ content, avatars }) {
-  return (
-    <TaskWrapper mb={4}>
-      <TaskWrapperContent>
-        <Typography>
-          {" "}
-          <CalendarToday style={{ fontSize: 15 }} /> Jeudi 7 Janvier
-        </Typography>
-        <Divider mb={3} />
-        <TaskTitle variant="body1" gutterBottom>
-          {content.title}
-        </TaskTitle>
-
-        {content.notifications && (
-          <TaskNotifications>
-            {" "}
-            <TaskNotificationsAmount>
-              {content.notifications}
-            </TaskNotificationsAmount>
-            <MessageCircleIcon />
-          </TaskNotifications>
-        )}
-      </TaskWrapperContent>
-    </TaskWrapper>
-  );
-}
-
-const demoTasks = [
-  {
-    title: "Redesign the homepage",
-    badges: [green[600]],
-    notifications: 2,
-  },
-  {
-    title: "Chambre 290 à faire en recouche s'il vous plait, merci à tous !",
-    badges: [green[600]],
-    notifications: 1,
-  },
-  {
-    title: "Petit dejeuner leve tot, préparer des pains au chocolat",
-    notifications: 4,
-  },
-  {
-    title: "Improve site speed",
-    badges: [green[600]],
-    notifications: 3,
-  },
-];
-
-const containers = [];
-
-function Tasks() {
-  const onContainerReady = (container) => {
-    containers.push(container);
-  };
-
-  useEffect(() => {
-    dragula(containers);
-  }, []);
-
+function Settings() {
   return (
     <React.Fragment>
-      <Helmet title="Tasks" />
+      <Helmet title="Settings" />
+
       <Typography variant="h3" gutterBottom display="inline">
-        Overlook Hôtel - Direction
+        Réglages
       </Typography>
 
       <Breadcrumbs aria-label="Breadcrumb" mt={2}>
         <Link component={NavLink} exact to="/">
-          tableau de bord
+          Dashboard
         </Link>
         <Link component={NavLink} exact to="/">
-          Espace de travail
+          Pages
         </Link>
-        <Typography>Overlook</Typography>
+        <Typography>Settings</Typography>
       </Breadcrumbs>
 
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={4} xl={4}>
-          <Lane onContainerLoaded={onContainerReady}>
-            <Task content={demoTasks[1]} />
-            <Task content={demoTasks[2]} />
-          </Lane>
+        <Grid item xs={12}>
+          <Private />
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default Tasks;
+export default Settings;

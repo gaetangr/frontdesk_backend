@@ -11,3 +11,11 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username", "email")
+
+
+class CollaboratorSerializer(serializers.ModelSerializer):
+    """ UserSerialize that return JSON content  """
+
+    class Meta:
+        model = User
+        fields = ("username", "email", "password", "profile.is_staff")

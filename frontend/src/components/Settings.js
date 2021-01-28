@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import {
   Box,
   Button,
+  Divider,
   Drawer,
   Fab as MuiFab,
   Grid,
@@ -141,6 +142,12 @@ function Demos() {
           <Demo title="Sombre" theme={THEMES.DARK} />
           <Demo title="Front desk" theme={THEMES.DEFAULT} />
         </Grid>
+      </Box>
+      <Divider />
+
+      <Box px={4} my={3}>
+        <Typography>Supprimer mes données de session</Typography>
+        <Typography>ldelpe</Typography>
       </Box>
     </Wrapper>
   );
