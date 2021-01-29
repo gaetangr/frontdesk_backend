@@ -263,4 +263,3 @@ Ces outils sont utilisés pour le listing et le formatage du code, ces derniers 
 
 - **Gaëtan GROND** - _Idée originale et fondateur du projet_ - [GITHUB](<[https://github.com/Mcflan-7](https://github.com/Mcflan-7)>)
 
-- **Chris pro** - _Conception du workspace, implémentation du package allauth_ - [GITHUB](<[https://github.com/chris-pro](https://github.com/chris-pro)>)
