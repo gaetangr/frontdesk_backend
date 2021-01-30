@@ -54,7 +54,6 @@ L'outil est utilisé par les hôtels de grands groupes comme Accorhotels (majori
 
 Les liens suivants sont des ressources internes qui vous informe sur le projet (Front Desk V2), son périmètre d'action et la road map.
 
-
 [Trello - RoadMap](https://trello.com/b/C4oeeKc3/front-desk-road-map)
 
 [Cahier des charges](https://github.com/gaetangr/frontdesk_V2/blob/main/docs/internal_docs/Front%20Desk%20-%20Cahier%20Des%20Charges.pdf)
@@ -359,8 +358,4 @@ Ces outils sont utilisés pour le listing et le formatage du code, ces derniers 
 
 ## Contributeurs 💻
 
-  
 
-  
-
-- **Gaëtan GROND** - _Idée originale et fondateur du projet_ - [GITHUB](<[https://github.com/Mcflan-7](https://github.com/Mcflan-7)>)
