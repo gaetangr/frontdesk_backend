@@ -1,3 +1,6 @@
+/**
+ * Will be shown on the bottom the app, but not on the landing page
+ */
 import React from "react";
 import styled from "styled-components/macro";
 import FavoriteIcon from "@material-ui/icons/Favorite";

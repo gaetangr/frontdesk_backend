@@ -6,11 +6,12 @@ import { Helmet } from "react-helmet";
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { signUp } from "../../redux/actions/authActions";
-import Faq from "./FaqRegister";
 import axios from "axios";
 
 import {
   Button,
+  Tooltip,
+  Checkbox,
   Divider,
   Paper,
   TextField as MuiTextField,
@@ -35,6 +36,7 @@ const Wrapper = styled(Paper)`
 function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
+
   
   return (
     <Wrapper>
@@ -48,25 +50,23 @@ function SignUp() {
       </Typography>
       <Alert mt={3} mb={2} severity="info">
         <AlertTitle>Information</AlertTitle>
-      
         Les inscriptions sont ouvertes pour les propriétaires <u>uniquement</u>,
         une fois inscrit vous pourrez ajouter vos collaborateurs à votre
         établissement.
-    
       </Alert>
-      
+
       <Formik
         initialValues={{
-          name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
+          name: "desssd",
+          email: "dz@gmail.fr",
+          password: "paspassword$$$12sword$$$12",
+          confirmPassword: "paspassword$$$12sword$$$12",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
           name: Yup.string()
             .min(4, "Trop court")
-            .max(20, "Trop long")
+            .max(50, "Trop long")
             .required("Le nom est requis"),
           email: Yup.string()
             .email("L'email n'est pas valide")
@@ -85,7 +85,7 @@ function SignUp() {
           }),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const name = values.name
+          const name = values.name;
           const email = values.email;
           const password = values.password;
           try {
@@ -103,12 +103,16 @@ function SignUp() {
                 })
                   .then((res) => {
                     console.log(res);
-                    localStorage.setItem("username", name, "email", email );
+                    console.log(res.data.key);
+                    localStorage.setItem("token", res.data.key);
                   })
-                  
+                  .catch((error) => {
+                    if (error.response) {
+                    }
+                  })
               )
             );
-            history.push("/auth/sign-in");
+            //history.push("/auth/sign-in");
           } catch (error) {
             const message = error.message || "Something went wrong";
 
@@ -127,7 +131,6 @@ function SignUp() {
           touched,
           values,
         }) => (
-          
           <form noValidate onSubmit={handleSubmit}>
             {errors.submit && (
               <Alert mt={2} mb={1} severity="warning">
@@ -187,7 +190,6 @@ function SignUp() {
               onChange={handleChange}
               my={3}
             />
-
             <Button
               type="submit"
               fullWidth
@@ -202,7 +204,6 @@ function SignUp() {
           </form>
         )}
       </Formik>
-      <Faq />
     </Wrapper>
   );
 }

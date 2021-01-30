@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -90,15 +91,13 @@ function SignIn() {
                   method: "post",
                   url: "http://127.0.0.1:8000/api/v1/dj-rest-auth/login/",
                   data: {
-                    email: values.email,
-                    password: values.password,
+                    username: "admin",
+                    password: "password",
                   },
                 })
                   .then((res) => {
                     console.log(res.data.key);
-                    setKey(res.data.key);
-                    localStorage.setItem("key", res.data.key);
-                    localStorage.setItem("name-property", res.data[0].name);
+      
                   })
               )
 
@@ -108,7 +107,7 @@ function SignIn() {
           } catch (error) {
             
 
-            setStatus({ success: true });
+            setStatus({ success: false });
             setSubmitting(false);
           }
         }}

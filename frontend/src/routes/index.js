@@ -31,16 +31,11 @@ const Terms = async(() => import("../pages/presentation/legals/Terms"));
 const SignIn = async(() => import("../pages/auth/SignIn"));
 const SignUp = async(() => import("../pages/auth/SignUp"));
 const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
-const Page404 = async(() => import("../pages/auth/Page404"));
-const Page500 = async(() => import("../pages/auth/Page500"));
 
 
 // Dashboards components
 const Default = async(() => import("../pages/dashboards/Default"));
 
-// Icons components
-const MaterialIcons = async(() => import("../pages/icons/MaterialIcons"));
-const FeatherIcons = async(() => import("../pages/icons/FeatherIcons"));
 
 // Pages components
 const Pricing = async(() => import("../pages/pages/Pricing"));
@@ -57,11 +52,7 @@ const EnvironmentVariables = async(() =>
 const Deployment = async(() => import("../pages/docs/Deployment"));
 const Theming = async(() => import("../pages/docs/Theming"));
 const StateManagement = async(() => import("../pages/docs/StateManagement"));
-const APICalls = async(() => import("../pages/docs/APICalls"));
-const ESLintAndPrettier = async(() =>
-  import("../pages/docs/ESLintAndPrettier")
-);
-const Support = async(() => import("../pages/docs/Support"));
+
 const Changelog = async(() => import("../pages/docs/Changelog"));
 
 // Landing
@@ -96,17 +87,7 @@ const pagesRoutes = {
       path: "/pages/profile",
       name: "Direction",
       component: Profile,
-    },
-    {
-      path: "/pages/settings",
-      name: "Réception",
-      component: Settings,
-    },
-    {
-      path: "/pages/pricing",
-      name: "Restaurant F&B",
-      component: Pricing,
-    },
+    }
   ],
   component: null,
 };
@@ -298,9 +279,6 @@ export const protectedRoutes = [protectedPageRoutes];
 export const sidebarRoutes = [
   dashboardsRoutes,
   pagesRoutes,
-  //pagesRoutess,
-  //pagesRoutesss,
-  //tasksRoutes,
   ProfileRoutes,
   authRoutes,
   documentationRoutes,
