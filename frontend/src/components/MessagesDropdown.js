@@ -1,3 +1,6 @@
+/**
+ * Will be shown on the top the app, used for private message from users
+ */
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -76,7 +79,7 @@ function MessagesDropdown() {
     <React.Fragment>
       <Tooltip title="Messages">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
-          <Indicator badgeContent={3}>
+          <Indicator badgeContent={2}>
             <MessageSquare />
           </Indicator>
         </IconButton>
@@ -92,30 +95,26 @@ function MessagesDropdown() {
       >
         <MessageHeader p={2}>
           <Typography variant="subtitle1" color="textPrimary">
-            3 New Messages
+            2 messages privés
           </Typography>
         </MessageHeader>
         <React.Fragment>
           <List disablePadding>
             <Message
-              title="Lucy Lavender"
-              description="Nam pretium turpis et arcu. Duis arcu tortor."
-              image="/static/img/avatars/avatar-1.jpg"
+              title="Gaëtan"
+              description="Pourrais-tu voir pour les VIP dans la chambre 208 stp ?"
+            
             />
             <Message
-              title="Remy Sharp"
-              description="Curabitur ligula sapien euismod vitae."
-              image="/static/img/avatars/avatar-2.jpg"
+              title="Fréderic"
+              description="Il faudrait te renseigner sur les congés payés de février s'il te plait 😁"
+            
             />
-            <Message
-              title="Cassandra Mixon"
-              description="Pellentesque auctor neque nec urna."
-              image="/static/img/avatars/avatar-3.jpg"
-            />
+        
           </List>
           <Box p={1} display="flex" justifyContent="center">
             <Button size="small" component={Link} to="#">
-              Show all messages
+              Voir tous les messages
             </Button>
           </Box>
         </React.Fragment>

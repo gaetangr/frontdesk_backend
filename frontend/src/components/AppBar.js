@@ -94,15 +94,13 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-            <Typography>{`${current.getUTCDate()}/${
-              current.getUTCMonth() + 1
-            }/${current.getUTCFullYear()}`}</Typography>
+           Overlook Hôtel
           </Grid>
           <Grid item xs />
           <Grid item>
             
-            {/* <MessagesDropdown /> */}
-            {/*  <NotificationsDropdown /> */}
+{/*             <MessagesDropdown /> */}
+             <NotificationsDropdown />
 
             <UserDropdown />
           </Grid>
