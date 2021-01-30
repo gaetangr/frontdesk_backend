@@ -393,7 +393,7 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
             <SidebarFooterBadge
               
             >
-         
+            
             </SidebarFooterBadge>
           </Grid>
           <Grid item>

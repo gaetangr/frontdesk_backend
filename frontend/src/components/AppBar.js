@@ -1,3 +1,7 @@
+/**
+ * Will be shown on the top the app, used for notifications, messages ...
+ */
+
 import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { darken } from "polished";

@@ -1,3 +1,6 @@
+/**
+ * Shown when the page is loading
+ */
 import React from "react";
 import styled from "styled-components/macro";
 

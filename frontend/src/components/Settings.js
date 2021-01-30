@@ -1,3 +1,6 @@
+/**
+ * Settings for the users, use for modifying the theme and set customs users
+ */
 import React, { useState } from "react";
 import styled, { css } from "styled-components/macro";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,8 +22,7 @@ import {
 
 import { Alert } from "@material-ui/lab";
 
-import { Palette as PaletteIcon } from "@material-ui/icons";
-import { border } from "@material-ui/system";
+import { Settings as SettingsIcon } from "@material-ui/icons";
 
 const DemoButton = styled.div`
   cursor: pointer;
@@ -61,21 +63,6 @@ const DemoButtonInner = styled.div`
     props.selectedTheme === THEMES.LIGHT &&
     css`
       background: ${grey[100]};
-    `}
-  ${(props) =>
-    props.selectedTheme === THEMES.BLUE &&
-    css`
-      background: linear-gradient(-45deg, #4782da 50%, ${grey[100]} 0);
-    `}
-  ${(props) =>
-    props.selectedTheme === THEMES.GREEN &&
-    css`
-      background: linear-gradient(-45deg, ${green[500]} 50%, ${grey[100]} 0);
-    `}
-  ${(props) =>
-    props.selectedTheme === THEMES.INDIGO &&
-    css`
-      background: linear-gradient(-45deg, ${indigo[500]} 50%, ${grey[100]} 0);
     `}
 `;
 
@@ -147,7 +134,7 @@ function Demos() {
 
       <Box px={4} my={3}>
         <Typography>Supprimer mes données de session</Typography>
-        <Typography>ldelpe</Typography>
+  
       </Box>
     </Wrapper>
   );
@@ -165,12 +152,14 @@ function Settings() {
   return (
     <React.Fragment>
       <Fab
-        size="medium"
+        size="small"
         color="primary"
         aria-label="Edit"
+     
         onClick={toggleDrawer(true)}
       >
-        <PaletteIcon />
+        <SettingsIcon />
+        
       </Fab>
       <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
         <Demos />

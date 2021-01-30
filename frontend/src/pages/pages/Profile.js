@@ -87,26 +87,21 @@ const BigAvatar = styled(Avatar)`
 function Private() {
   const [workspaceName, setWorkspaceName] = useState("");
   const array1 = ["a", "b", "c"];
-  useEffect((Something) => {
-    axios({
-      method: "get",
-      url: "http://127.0.0.1:8000/api/v1/notebook/list/",
-      headers: {
-        Authorization: "Token 5281c3457f866dfb5d85a5c734a2f05879f2a98c",
-      },
-    }).then((res) => {
-      
-     res.data.forEach(element => setWorkspaceName(element.content))
-    });
-  });
+  
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
           Informations de votre établissement
         </Typography>
-{workspaceName}
-    
+     
+
+        <ul>
+          {array1.map((value) => {
+            return <li >{value}</li>;
+          })}
+        </ul>
+
         <Grid container spacing={6}>
           <Grid item md={6}></Grid>
         </Grid>

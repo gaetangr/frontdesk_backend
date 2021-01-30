@@ -14,15 +14,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-import { green, red } from "@material-ui/core/colors";
-import { Settings } from "@material-ui/icons";
-
-import Actions from "./Actions";
-import BarChart from "./BarChart";
-import LineChart from "./LineChart";
-import DoughnutChart from "./DoughnutChart";
-import Stats from "./Stats";
-import Table from "./Table";
 
 const Divider = styled(MuiDivider)(spacing);
 
