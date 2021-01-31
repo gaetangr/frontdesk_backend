@@ -1,3 +1,6 @@
+/**
+ * All the routes are defined here
+ */
 import React from "react";
 
 import async from "../components/Async";
@@ -12,11 +15,8 @@ import {
   Layout,
   List,
   Book,
-  Bookmark,
-  Map,
   Monitor,
-  ShoppingCart,
-  PieChart,
+
   Sliders,
   Users,
 } from "react-feather";
@@ -38,10 +38,10 @@ const Default = async(() => import("../pages/dashboards/Default"));
 
 
 // Pages components
-const Pricing = async(() => import("../pages/pages/Pricing"));
-const Profile = async(() => import("../pages/pages/Profile"));
-const Settings = async(() => import("../pages/pages/Settings"));
+const Workspace = async(() => import("../pages/pages/Workspace"));
+const Logbook = async(() => import("../pages/pages/Logbook"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
+const Profile = async(() => import("../pages/pages/Profile"));
 
 // Documentation
 const Welcome = async(() => import("../pages/docs/Welcome"));
@@ -61,6 +61,8 @@ const Landing = async(() => import("../pages/presentation/Landing"));
 // Protected routes
 const ProtectedPage = async(() => import("../pages/protected/ProtectedPage"));
 
+// Dashboard routes 
+//------------------
 const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
@@ -78,45 +80,41 @@ const dashboardsRoutes = {
   component: null,
 };
 
-const pagesRoutes = {
+// Workspace routes 
+//------------------
+const workspaceRoutes = {
   id: "Espaces de travail",
   path: "/pages",
   icon: <Monitor />,
   children: [
     {
-      path: "/pages/profile",
-      name: "Direction",
-      component: Profile,
+      path: "/pages/workspace",
+      name: "Réception",
+      component: Workspace,
     }
   ],
   component: null,
 };
 
-const pagesRoutess = {
+// Logbook routes 
+//------------------
+const logbookRoutes = {
   id: "Registres",
   path: "/pages",
   icon: <Book />,
-  children: [
+  children: [,
     {
-      path: "/pages/profile",
-      name: "Espace de travail",
-      component: Profile,
-    },
-    {
-      path: "/pages/settings",
+      path: "/pages/logbook",
       name: "Registre de maintenance",
-      component: Settings,
-    },
-    {
-      path: "/pages/pricing",
-      name: "Check-list",
-      component: Pricing,
+      component: Logbook,
     },
   ],
   component: null,
 };
 
-const pagesRoutesss = {
+// Checklist routes 
+//------------------
+const checklistRoutes = {
   id: "Check-list",
   path: "/pages",
   icon: <Layout />,
@@ -124,22 +122,14 @@ const pagesRoutesss = {
     {
       path: "/pages/profile",
       name: "Matin",
-      component: Profile,
-    },
-    {
-      path: "/pages/settings",
-      name: "Après-midi",
-      component: Settings,
-    },
-    {
-      path: "/pages/pricing",
-      name: "Soir",
-      component: Pricing,
+      component: Workspace,
     },
   ],
   component: null,
 };
 
+// Tasks routes 
+//------------------
 const tasksRoutes = {
   id: "Tâches",
   path: "/tasks",
@@ -149,14 +139,18 @@ const tasksRoutes = {
   children: null,
 };
 
+// Profil routes 
+//------------------
 const ProfileRoutes = {
   id: "Mon compte",
-  path: "/auth",
+  path: "/profile",
   icon: <Users />,
   children: null,
-  component: null,
+  component: Profile,
 };
 
+// Auth routes 
+//------------------
 const authRoutes = {
   id: "Authentification",
   path: "/auth",
@@ -182,6 +176,8 @@ const authRoutes = {
   component: null,
 };
 
+// Documentations routes 
+//------------------
 const landingRoutes = {
   id: "Landing Page",
   path: "/",
@@ -225,6 +221,9 @@ const documentationRoutes = {
   component: null,
 };
 
+
+// Changelog routes 
+//------------------
 const changelogRoutes = {
   id: "Changelog",
   path: "/changelog",
@@ -255,9 +254,9 @@ const TermRoutes = {
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   dashboardsRoutes,
-  pagesRoutes,
-  pagesRoutess,
-  pagesRoutesss,
+  workspaceRoutes,
+  logbookRoutes,
+  checklistRoutes,
   ProfileRoutes,
   TermRoutes,
   tasksRoutes,
@@ -278,7 +277,9 @@ export const protectedRoutes = [protectedPageRoutes];
 // Routes visible in the sidebar
 export const sidebarRoutes = [
   dashboardsRoutes,
-  pagesRoutes,
+  workspaceRoutes,
+  logbookRoutes,
+  checklistRoutes,
   ProfileRoutes,
   authRoutes,
   documentationRoutes,

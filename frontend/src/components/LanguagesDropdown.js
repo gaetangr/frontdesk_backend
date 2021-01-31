@@ -1,3 +1,6 @@
+/**
+ * Will be activated once complete, allow user to switch language 
+ */
 import React from "react";
 import styled from "styled-components/macro";
 

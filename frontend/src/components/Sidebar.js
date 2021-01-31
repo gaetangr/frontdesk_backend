@@ -1,3 +1,6 @@
+/**
+ * Side bar menu that display brand, menu, user information (bottom)
+ */
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 import { rgba } from "polished";
@@ -390,16 +393,13 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       <SidebarFooter>
         <Grid container spacing={2}>
           <Grid item>
-            <SidebarFooterBadge
-              
-            >
-            
-            </SidebarFooterBadge>
+            <SidebarFooterBadge></SidebarFooterBadge>
           </Grid>
+          <Avatar size="small">G</Avatar>
           <Grid item>
-            <SidebarFooterText variant="body2">{username}</SidebarFooterText>
+            <SidebarFooterText variant="body2">Gaëtan</SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              {nameProperty}
+              Réception
             </SidebarFooterSubText>
           </Grid>
         </Grid>

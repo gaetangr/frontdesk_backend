@@ -1,171 +1,224 @@
+/**
+ * Settings and information for a given user
+ */
 import React from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
+import Zoom from "@material-ui/core/Zoom";
 import Helmet from "react-helmet";
-import MuiAlert from "@material-ui/lab/Alert";
-import Snackbar from "@material-ui/core/Snackbar";
-import Box from "@material-ui/core/Box";
-import { positions } from "@material-ui/system";
+
 import {
-  CalendarToday
-} from "@material-ui/icons";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import Avatar from "@material-ui/core/Avatar";
-import { deepOrange, deepPurple } from "@material-ui/core/colors";
-import {
-  CardContent,
-  CardActions,
-  CardHeader,
-  Badge,
-  Menu,
-  MenuItem,
-  IconButton,
-  Button,
-  Grid,
-  Tooltip,
-  Link,
+  Avatar,
   Breadcrumbs as MuiBreadcrumbs,
+  Button as MuiButton,
   Card as MuiCard,
+  CardContent,
   Divider as MuiDivider,
+  FormControl as MuiFormControl,
+  Grid,
+    Link,
+  Tooltip,
+  TextField as MuiTextField,
   Typography,
 } from "@material-ui/core";
 
+import { Info } from "react-feather";
+import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 import { spacing } from "@material-ui/system";
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  orange: {
-    color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
-  },
-  purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-}));
+
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+
 const Card = styled(MuiCard)(spacing);
 
 const Divider = styled(MuiDivider)(spacing);
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const FormControl = styled(MuiFormControl)(spacing);
 
-function WorkspaceContent(props) {
-  const classes = useStyles();
-  
-  const [state, setState] = React.useState({
-    open: false,
-    vertical: "top",
-    horizontal: "right",
-  });
+const TextField = styled(MuiTextField)(spacing);
 
-  const { vertical, horizontal, open } = state;
+const Button = styled(MuiButton)(spacing);
 
-  const handleClick = (newState) => () => {
-    setState({ open: true, ...newState });
-  };
-   const handleClose = () => {
-     setState({ ...state, open: false });
-   };
+const CloudUpload = styled(MuiCloudUpload)(spacing);
 
+const CenteredContent = styled.div`
+  text-align: center;
+`;
+
+const BigAvatar = styled(Avatar)`
+  width: 120px;
+  height: 120px;
+  margin: 0 auto ${(props) => props.theme.spacing(2)}px;
+`;
+
+function Public() {
   return (
     <Card mb={6}>
-      <CardContent
-      >
-        <Snackbar
-          open={open}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical, horizontal }}
-          open={open}
-          onClose={handleClose}
-          key={vertical + horizontal}
-        >
-          <Alert onClose={handleClose} severity="success">
-            Le message a été marqué comme fait
-          </Alert>
-        </Snackbar>
-
-        <CardHeader
-          avatar={<Avatar className={classes.purple}>G</Avatar>}
-          action={<IconButton aria-label="settings"></IconButton>}
-          title={`${props.name} - ${props.title}`}
-          subheader="14 janvier, 2020"
-        />
-
-        <Divider mb={3} />
-        <Typography variant="p" gutterBottom>
-          {props.message}
-        </Typography>
-      </CardContent>
-
-      <Box display="flex" flexDirection="row">
-        <Divider mb={3} />
-        <CardActions flexDirection="row-reverse" align="right">
-          <Button size="small" color="primary">
-            Répondre
-          </Button>
-          <Button size="small" color="secondary">
-            Marquer comme fait
-          </Button>
-          <Button
-            onClick={handleClick({ vertical: "top", horizontal: "right" })}
-            size="small"
-            color="secondary"
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Informations publiques{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vos collégues"
           >
-            Important
-          </Button>
-        </CardActions>
-      </Box>
+            <Info size={16} />
+          </Tooltip>
+        </Typography>
+
+        <Grid container spacing={6}>
+          <Grid item md={8}>
+            <TextField
+              id="username"
+              label="Pseudo"
+              defaultValue="John Doe"
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+            <TextField
+              id="linkedin"
+              label="Titre"
+              placeholder="Ex: réceptionniste, directeur, gouvernante"
+              defaultValue=""
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+            <TextField
+              id="linkedin"
+              label="Linkedin"
+              defaultValue=""
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+
+            <FormControl fullWidth my={2} variant="outlined">
+              <TextField
+                label="Biographie"
+                id="biographie"
+                multiline={true}
+                rows={3}
+                rowsMax={4}
+                variant="outlined"
+                placeholder="Ex: Je travaille comme réceptionniste à l'hôtel Overlook hôtel"
+                defaultValue=""
+              />
+            </FormControl>
+          </Grid>
+          <Grid item md={4}>
+            <CenteredContent>
+              <BigAvatar
+                alt="Remy Sharp"
+                src="/static/img/avatars/avatar-1.jpg"
+              />
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="raised-button-file"
+                multiple
+                type="file"
+              />
+              <label htmlFor="raised-button-file">
+                <Button variant="contained" color="primary" component="span">
+                  <CloudUpload mr={2} /> Télécharger
+                </Button>
+
+                <Typography variant="caption" display="block" gutterBottom>
+                  Pour un résultat optimal, veuillez utiliser une image au
+                  format .jpg
+                </Typography>
+              </label>
+            </CenteredContent>
+          </Grid>
+        </Grid>
+
+        <Button variant="contained" color="primary">
+          Sauvegarder les changements
+        </Button>
+      </CardContent>
     </Card>
   );
 }
 
-function Workspace() {
+function Private() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Informations privées{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vous et l'administrateur de votre propriété"
+          >
+            <Info size={16} />
+          </Tooltip>
+        </Typography>
+
+        <Grid container spacing={6}>
+          <Grid item md={6}>
+            <TextField
+              id="first-name"
+              label="Prénom"
+              variant="outlined"
+              defaultValue=""
+              fullWidth
+              my={2}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextField
+              id="last-name"
+              label="Nom"
+              variant="outlined"
+              defaultValue=""
+              fullWidth
+              my={2}
+            />
+          </Grid>
+        </Grid>
+
+        <TextField
+          id="email"
+          label="Email"
+          variant="outlined"
+          type="email"
+          defaultValue=""
+          fullWidth
+          my={2}
+        />
+
+        <Button variant="contained" color="primary" mt={3}>
+          Sauvegarder les changements
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Settings() {
   return (
     <React.Fragment>
-      <Helmet title="Blank" />
+      <Helmet title="Profil" />
+
       <Typography variant="h3" gutterBottom display="inline">
-        Cahier de consignes
+        Profil
       </Typography>
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={9}>
-          <WorkspaceContent
-            name="Gaetan"
-            title="Réceptionniste"
-            message="Ne pas oublier de donner la chambre 206 aux femmes de chambre pour
-          ménage"
-          />
-          <WorkspaceContent
-            name="Antoinette"
-            title="Gouvernante"
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
-          ménage"
-          />
-          <WorkspaceContent
-            name="Raphaël"
-            title="Directeur"
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.."
-          />
+        <Grid item xs={12}>
+          <Public />
+          <Private />
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default Workspace;
+export default Settings;
