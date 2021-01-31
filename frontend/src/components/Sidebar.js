@@ -82,8 +82,8 @@ const BrandIcon = styled(Logo)`
   margin-right: ${(props) => props.theme.spacing(2)}px;
   color: ${(props) => props.theme.sidebar.header.brand.color};
   fill: ${(props) => props.theme.sidebar.header.brand.color};
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
 `;
 
 const BrandChip = styled(Chip)`
@@ -330,8 +330,8 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
   const nameProperty = localStorage.getItem("name-property");
   return (
     <Drawer variant="permanent" {...rest}>
-      <Brand component={NavLink} to="/" button>
-        {" "}
+      <Brand component={NavLink} to="/dashboard/default" button>
+        <BrandIcon />{" "}
         <Box ml={1}>
           Front Desk <BrandChip label="BETA" />
         </Box>

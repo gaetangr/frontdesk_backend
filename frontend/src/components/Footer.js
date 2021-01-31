@@ -8,7 +8,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import TwitterIcon from "@material-ui/icons/Twitter";
 import LinkedInIcon from "@material-ui/icons/LinkedIn";
 import MailIcon from "@material-ui/icons/Mail";
-
+import { ReactComponent as Logo } from "../vendor/logo-footer.png";
 import {
   Grid,
   Hidden,
@@ -72,6 +72,7 @@ function Footer() {
         <Grid container item xs={12} md={6} justify="flex-end">
           <List>
             <ListItem button={true}>
+            
               <ListItemText
                 primary={`© ${new Date().getFullYear()} - Front Desk`}
               />

@@ -1,18 +1,13 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-import {
-  Button as MuiButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@material-ui/core";
+import { Button as MuiButton, Menu, MenuItem } from "@material-ui/core";
 
 import {
   Loop as LoopIcon,
   FilterList as FilterListIcon,
-  PersonAdd,
-  Settings,
+  PersonAdd
+
 } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
@@ -41,30 +36,13 @@ function Actions() {
 
   return (
     <React.Fragment>
-      <Tooltip title="Ajouter un collaborateur à votre établissement">
-        <SmallButton size="small" mr={2}>
-          <PersonAdd />
-        </SmallButton>
-      </Tooltip>
-
-      <Tooltip title="Modifier les réglages de votre établissement">
-        <SmallButton size="small" mr={2}>
-          <Settings />
-        </SmallButton>
-      </Tooltip>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}>Today</MenuItem>
-        <MenuItem onClick={handleClose}>Yesterday</MenuItem>
-        <MenuItem onClick={handleClose}>Last 7 days</MenuItem>
-        <MenuItem onClick={handleClose}>Last 30 days</MenuItem>
-        <MenuItem onClick={handleClose}>This month</MenuItem>
-        <MenuItem onClick={handleClose}>Last month</MenuItem>
-      </Menu>
+      <SmallButton size="small" mr={2}>
+        <PersonAdd />
+      </SmallButton>
+      <SmallButton size="small" mr={2}>
+        <LoopIcon />
+      </SmallButton>
+     
     </React.Fragment>
   );
 }

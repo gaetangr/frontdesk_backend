@@ -57,10 +57,10 @@ function SignUp() {
 
       <Formik
         initialValues={{
-          name: "desssd",
-          email: "dz@gmail.fr",
-          password: "paspassword$$$12sword$$$12",
-          confirmPassword: "paspassword$$$12sword$$$12",
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
           submit: false,
         }}
         validationSchema={Yup.object().shape({

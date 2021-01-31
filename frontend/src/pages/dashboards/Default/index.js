@@ -1,69 +1,89 @@
 import React from "react";
-import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
+import styled, { withTheme } from "styled-components/macro";
 
-import Helmet from "react-helmet";
+import { Helmet } from "react-helmet";
 
 import {
-  CardContent,
   Grid,
-  Link,
-  Breadcrumbs as MuiBreadcrumbs,
-  Card as MuiCard,
+  TextField,
   Divider as MuiDivider,
-  Typography,
+  Typography as MuiTypography,
 } from "@material-ui/core";
+
+import { green, red } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
 
-const Card = styled(MuiCard)(spacing);
+import Actions from "./Actions";
+
+// Custom components
+import Workspace from "./Workspace";
+import MyTeam from "./MyTeam";
+import Logbook from "./LogbookLatest";
 
 const Divider = styled(MuiDivider)(spacing);
 
-const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
+const Typography = styled(MuiTypography)(spacing);
 
-function EmptyCard() {
-  return (
-    <Card mb={6}>
-      <CardContent>
-        <Typography variant="h6" gutterBottom>
-          Empty card
-        </Typography>
-        <Typography variant="body2" gutterBottom>
-          Empty card
-        </Typography>
-      </CardContent>
-    </Card>
-  );
-}
-
-function Blank() {
+function Analytics({ theme }) {
   return (
     <React.Fragment>
-      <Helmet title="Blank" />
-      <Typography variant="h3" gutterBottom display="inline">
-        Blank
-      </Typography>
+      <Helmet title="Tableau de bord" />
+      <Grid justify="space-between" container spacing={6}>
+        <Grid item>
+          <Typography variant="h3" gutterBottom>
+            Tableau de bord
+          </Typography>
+          <Typography variant="subtitle1">
+            Heureux de vous revoir, Gaëtan!{" "}
+            <span role="img" aria-label="Waving Hand Sign">
+              👋
+            </span>
+          </Typography>
+        </Grid>
 
-      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} exact to="/">
-          Dashboard
-        </Link>
-        <Link component={NavLink} exact to="/">
-          Pages
-        </Link>
-        <Typography>Blank</Typography>
-      </Breadcrumbs>
+        <Grid item>
+          <Actions />
+        </Grid>
+      </Grid>
 
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12}>
-          <EmptyCard />
+        <Grid item xs={12} lg={8}></Grid>
+        <Grid item xs={12} lg={4}></Grid>
+      </Grid>
+      <Grid container spacing={6}>
+        <Grid item xs={12} lg={5}>
+          <TextField
+            label="Mes notes - Personnel"
+            multiline
+            rows={10}
+            variant="outlined"
+            variant="filled"
+            placeholder="Vous pouvez enregistrer des notes facilements"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} lg={7}>
+          <MyTeam />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={6}>
+        <Grid item xs={12} lg={8}></Grid>
+        <Grid item xs={12} lg={4}></Grid>
+      </Grid>
+      <Grid container spacing={6}>
+        <Grid item xs={12} lg={5}>
+          <Logbook />
+        </Grid>
+        <Grid item xs={12} lg={7}>
+          <Workspace />
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default Blank;
+export default withTheme(Analytics);

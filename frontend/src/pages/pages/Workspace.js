@@ -11,6 +11,7 @@ import Helmet from "react-helmet";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
+import { TimePicker, DatePicker, DateTimePicker } from "@material-ui/pickers";
 import { positions } from "@material-ui/system";
 import {
   CalendarToday
@@ -89,8 +90,7 @@ function WorkspaceContent(props) {
 
   return (
     <Card mb={6}>
-      <CardContent
-      >
+      <CardContent>
         <Snackbar
           open={open}
           autoHideDuration={4000}
@@ -131,7 +131,7 @@ function WorkspaceContent(props) {
             size="small"
             color="secondary"
           >
-            Important
+            Epingler
           </Button>
         </CardActions>
       </Box>
@@ -142,7 +142,8 @@ function WorkspaceContent(props) {
 function Workspace() {
   return (
     <React.Fragment>
-      <Helmet title="Blank" />
+      <Helmet title="Espace de travail" />
+
       <Typography variant="h3" gutterBottom display="inline">
         Cahier de consignes
       </Typography>
@@ -150,6 +151,17 @@ function Workspace() {
 
       <Grid container spacing={6}>
         <Grid item xs={9}>
+          <TextField
+            multiline
+            rows={4}
+            variant="outlined"
+            label="Votre consigne"
+            fullWidth
+          />
+          <Button fullWidth variant="contained" color="primary">
+            Ajouter la consigne
+          </Button>
+          <Divider my={6} />
           <WorkspaceContent
             name="Gaetan"
             title="Réceptionniste"
@@ -168,6 +180,14 @@ function Workspace() {
             message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.."
           />
         </Grid>
+        <DatePicker
+          margin="normal"
+          variant="standard"
+          label="Filter les consignes"
+          value=""
+          onChange=""
+          error="de"
+        />
       </Grid>
     </React.Fragment>
   );
