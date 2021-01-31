@@ -1,3 +1,7 @@
+/**
+ * Will be shown on the top the app, used for notifications from users and front desk ...
+ */
+
 import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -17,7 +21,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Bell, Home, UserPlus, Server } from "react-feather";
+import { Bell, Home, UserPlus, Server, AtSign, MessageCircle } from "react-feather";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
@@ -81,7 +85,7 @@ function NotificationsDropdown() {
     <React.Fragment>
       <Tooltip title="Notifications">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
-          <Indicator badgeContent={7}>
+          <Indicator badgeContent={4}>
             <Bell />
           </Indicator>
         </IconButton>
@@ -97,35 +101,27 @@ function NotificationsDropdown() {
       >
         <NotificationHeader p={2}>
           <Typography variant="subtitle1" color="textPrimary">
-            7 New Notifications
+            4 nouvelles notifications
           </Typography>
         </NotificationHeader>
         <React.Fragment>
           <List disablePadding>
+     
             <Notification
-              title="Update complete"
-              description="Restart server to complete update."
-              Icon={Server}
+              title="Nouvelle consigne"
+              description="Une consigne vient d'être postée sur votre cahier de consigne"
+              Icon={MessageCircle}
             />
+
             <Notification
-              title="New connection"
-              description="Anna accepted your request."
-              Icon={UserPlus}
-            />
-            <Notification
-              title="Lorem ipsum"
-              description="Aliquam ex eros, imperdiet vulputate hendrerit et"
-              Icon={Bell}
-            />
-            <Notification
-              title="New login"
-              description="Login from 192.186.1.1."
-              Icon={Home}
+              title="Gaetan vous a taggué"
+              description="Gaetan vient de vous tagguer sur un message"
+              Icon={AtSign}
             />
           </List>
           <Box p={1} display="flex" justifyContent="center">
             <Button size="small" component={Link} to="#">
-              Show all notifications
+              Voir toutes les notifications
             </Button>
           </Box>
         </React.Fragment>

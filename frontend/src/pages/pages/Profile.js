@@ -1,9 +1,12 @@
-import React, {useEffect, useState} from "react";
+/**
+ * Settings and information for a given user
+ */
+import React from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
+import Zoom from "@material-ui/core/Zoom";
 import Helmet from "react-helmet";
-import { ExpandMore as ExpandMoreIcon } from "@material-ui/icons";
+
 import {
   Avatar,
   Breadcrumbs as MuiBreadcrumbs,
@@ -12,49 +15,17 @@ import {
   CardContent,
   Divider as MuiDivider,
   FormControl as MuiFormControl,
-  Accordion as MuiAccordion,
-  AccordionDetails as MuiAccordionDetails,
-  AccordionSummary as MuiAccordionSummary,
   Grid,
-  Link,
+    Link,
+  Tooltip,
   TextField as MuiTextField,
   Typography,
 } from "@material-ui/core";
 
+import { Info } from "react-feather";
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
 
 import { spacing } from "@material-ui/system";
-import { element } from "prop-types";
-
-const Accordion = styled(MuiAccordion)`
-  border: 1px solid
-    ${(props) =>
-      props.theme.palette.type === "dark"
-        ? `rgba(255, 255, 255, .15)`
-        : `rgba(0, 0, 0, .15)`};
-  border-radius: 6px;
-  box-shadow: 0;
-  text-align: left;
-  margin: 16px 0 !important;
-
-  &:before {
-    display: none;
-  }
-`;
-const AccordionDetails = styled(MuiAccordionDetails)`
-  padding-left: 16px;
-  padding-right: 16px;
-`;
-
-const AccordionSummary = styled(MuiAccordionSummary)`
-  padding: 0 16px;
-  box-shadow: 0;
-  min-height: 48px !important;
-
-  .MuiAccordionSummary-content {
-    margin: 12px 0 !important;
-  }
-`;
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
@@ -80,45 +51,149 @@ const BigAvatar = styled(Avatar)`
   margin: 0 auto ${(props) => props.theme.spacing(2)}px;
 `;
 
-
-
-
-
-function Private() {
-  const [workspaceName, setWorkspaceName] = useState("");
-  const array1 = ["a", "b", "c"];
-  
+function Public() {
   return (
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Informations de votre établissement
+          Informations publiques{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vos collégues"
+          >
+            <Info size={16} />
+          </Tooltip>
         </Typography>
-     
-
-        <ul>
-          {array1.map((value) => {
-            return <li >{value}</li>;
-          })}
-        </ul>
 
         <Grid container spacing={6}>
-          <Grid item md={6}></Grid>
+          <Grid item md={8}>
+            <TextField
+              id="username"
+              label="Pseudo"
+              defaultValue="John Doe"
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+            <TextField
+              id="linkedin"
+              label="Titre"
+              placeholder="Ex: réceptionniste, directeur, gouvernante"
+              defaultValue=""
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+            <TextField
+              id="linkedin"
+              label="Linkedin"
+              defaultValue=""
+              variant="outlined"
+              fullWidth
+              my={2}
+            />
+
+            <FormControl fullWidth my={2} variant="outlined">
+              <TextField
+                label="Biographie"
+                id="biographie"
+                multiline={true}
+                rows={3}
+                rowsMax={4}
+                variant="outlined"
+                placeholder="Ex: Je travaille comme réceptionniste à l'hôtel Overlook hôtel"
+                defaultValue=""
+              />
+            </FormControl>
+          </Grid>
+          <Grid item md={4}>
+            <CenteredContent>
+              <BigAvatar
+                alt="Remy Sharp"
+                src="/static/img/avatars/avatar-1.jpg"
+              />
+              <input
+                accept="image/*"
+                style={{ display: "none" }}
+                id="raised-button-file"
+                multiple
+                type="file"
+              />
+              <label htmlFor="raised-button-file">
+                <Button variant="contained" color="primary" component="span">
+                  <CloudUpload mr={2} /> Télécharger
+                </Button>
+
+                <Typography variant="caption" display="block" gutterBottom>
+                  Pour un résultat optimal, veuillez utiliser une image au
+                  format .jpg
+                </Typography>
+              </label>
+            </CenteredContent>
+          </Grid>
+        </Grid>
+
+        <Button variant="contained" color="primary">
+          Sauvegarder les changements
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Private() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Informations privées{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vous et l'administrateur de votre propriété"
+          >
+            <Info size={16} />
+          </Tooltip>
+        </Typography>
+
+        <Grid container spacing={6}>
+          <Grid item md={6}>
+            <TextField
+              id="first-name"
+              label="Prénom"
+              variant="outlined"
+              defaultValue=""
+              fullWidth
+              my={2}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextField
+              id="last-name"
+              label="Nom"
+              variant="outlined"
+              defaultValue=""
+              fullWidth
+              my={2}
+            />
+          </Grid>
         </Grid>
 
         <TextField
-          not
-          id="address"
-          label="Adresse"
+          id="email"
+          label="Email"
           variant="outlined"
+          type="email"
+          defaultValue=""
           fullWidth
           my={2}
         />
 
-        <Grid item md={2}></Grid>
-
         <Button variant="contained" color="primary" mt={3}>
-          Enregistrer les informations
+          Sauvegarder les changements
         </Button>
       </CardContent>
     </Card>
@@ -128,26 +203,17 @@ function Private() {
 function Settings() {
   return (
     <React.Fragment>
-      <Helmet title="Settings" />
+      <Helmet title="Profil" />
 
       <Typography variant="h3" gutterBottom display="inline">
-        Réglages
+        Profil
       </Typography>
-
-      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} exact to="/">
-          Dashboard
-        </Link>
-        <Link component={NavLink} exact to="/">
-          Pages
-        </Link>
-        <Typography>Settings</Typography>
-      </Breadcrumbs>
 
       <Divider my={6} />
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
+          <Public />
           <Private />
         </Grid>
       </Grid>

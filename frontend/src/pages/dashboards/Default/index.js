@@ -1,66 +1,69 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components/macro";
+import { NavLink } from "react-router-dom";
 
-import { Helmet } from "react-helmet";
-import axios from "axios";
+import Helmet from "react-helmet";
+
 import {
-  Grid,
-  Divider as MuiDivider,
-  Typography as MuiTypography,
-  Card,
   CardContent,
-  TextField,
+  Grid,
+  Link,
+  Breadcrumbs as MuiBreadcrumbs,
+  Card as MuiCard,
+  Divider as MuiDivider,
+  Typography,
 } from "@material-ui/core";
 
 import { spacing } from "@material-ui/system";
 
+const Card = styled(MuiCard)(spacing);
 
 const Divider = styled(MuiDivider)(spacing);
 
-const Typography = styled(MuiTypography)(spacing);
-const username = localStorage.getItem("username");
-function Default() {
-  // Similaire à componentDidMount et componentDidUpdate :
+const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
+function EmptyCard() {
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Empty card
+        </Typography>
+        <Typography variant="body2" gutterBottom>
+          Empty card
+        </Typography>
+      </CardContent>
+    </Card>
+  );
+}
 
-  // Similaire à componentDidMount et componentDidUpdate :
-  useEffect(() => {
-  axios({
-    method: "post",
-    url: "http://127.0.0.1:8000/api/v1/property/",
-    data: { username: "REACT", email: "react@gmail.com", password1: "", password2: "" },
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      //handle success
-      console.log(response);
-    })
-    .catch(function (response) {
-      //handle error
-      console.log(response);
-    });},);
+function Blank() {
   return (
     <React.Fragment>
-      <Helmet title="Tableau de bord" />
+      <Helmet title="Blank" />
+      <Typography variant="h3" gutterBottom display="inline">
+        Blank
+      </Typography>
 
-      <Grid justify="space-between" container spacing={6}>
-        <Grid item>
-          <Typography variant="h3" gutterBottom>
-            Tableau de bord
-          </Typography>
-          <Typography variant="subtitle1">
-            Bonjour, {username}! Prêt pour une nouvelle journée ?{" "}
-            <span role="img" aria-label="Waving Hand Sign">
-              🚀
-            </span>
-          </Typography>
+      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
+        <Link component={NavLink} exact to="/">
+          Dashboard
+        </Link>
+        <Link component={NavLink} exact to="/">
+          Pages
+        </Link>
+        <Typography>Blank</Typography>
+      </Breadcrumbs>
+
+      <Divider my={6} />
+
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <EmptyCard />
         </Grid>
-        <Divider my={6} />
       </Grid>
     </React.Fragment>
   );
 }
 
-export default Default;
+export default Blank;

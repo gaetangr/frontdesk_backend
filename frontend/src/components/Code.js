@@ -1,3 +1,6 @@
+/**
+ * Use to format code for the documentation (eg: to show developers how to install our plateform )
+ */
 import React from "react";
 import styled from "styled-components/macro";
 
