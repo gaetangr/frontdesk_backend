@@ -10,6 +10,7 @@ class Profile(models.Model):
     """
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200, null=True, blank=True)
     linkedin = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):

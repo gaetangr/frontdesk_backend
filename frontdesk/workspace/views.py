@@ -50,6 +50,7 @@ class NotebookList(generics.ListAPIView):
 
     serializer_class = NotebookSerializer
     permission_classes = (IsAuthor,)
+    
 
     def get_queryset(self):
         """
@@ -57,7 +58,7 @@ class NotebookList(generics.ListAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Notebook.objects.all()
+        return Notebook.objects.all().order_by("-id").filter(author=user)
 
 
 notebook_list_view = NotebookList.as_view()

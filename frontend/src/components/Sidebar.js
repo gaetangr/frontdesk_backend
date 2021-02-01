@@ -1,15 +1,16 @@
 /**
  * Side bar menu that display brand, menu, user information (bottom)
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 import { rgba } from "polished";
 import { NavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
-
+import axios from "axios";
 import { spacing } from "@material-ui/system";
+import { FRONTDESK_API } from "../constants";
 
 import {
   Badge,
@@ -328,12 +329,27 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
   };
   const username = localStorage.getItem("username");
   const nameProperty = localStorage.getItem("name-property");
+  const [items, setItems] = useState([]);
+  function displayNotebook() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: "Token c6b4fe4280a58e8d4c2cacd3b4f9f4c7e49d2d1e",
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+    useEffect(() => {
+      displayNotebook();
+    }, []);
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/dashboard/default" button>
         <BrandIcon />{" "}
         <Box ml={1}>
-          Front Desk <BrandChip label="BETA" />
+          Front Desk <BrandChip label="APP" />
         </Box>
       </Brand>
       <Scrollbar>
@@ -397,9 +413,11 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
           </Grid>
           <Avatar size="small">G</Avatar>
           <Grid item>
-            <SidebarFooterText variant="body2">Gaëtan</SidebarFooterText>
+            <SidebarFooterText variant="body2">
+              {items.first_name} {items.last_name}
+            </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              Réception
+              {items.title}
             </SidebarFooterSubText>
           </Grid>
         </Grid>

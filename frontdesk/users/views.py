@@ -37,6 +37,13 @@ class UserListCreate(generics.ListCreateAPIView):
 
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    def get_queryset(self):
+        """
+        This view should return the user detail only
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return get_user_model().objects.filter(pk=user.pk)
 
 
 user_list_create_view = UserListCreate.as_view()
