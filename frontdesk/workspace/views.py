@@ -2,10 +2,12 @@
 
 from rest_framework import generics
 
+from frontdesk.property.models import Property
 from frontdesk.workspace.models import Comment, Notebook, Workspace
 
 from .permissions import IsAuthor, IsPropertyMember
-from .serializers import CommentSerializer, NotebookSerializer, WorkspaceSerializer
+from .serializers import (CommentSerializer, NotebookSerializer,
+                          WorkspaceSerializer)
 
 
 # WORKSPACE API VIEWS
@@ -50,7 +52,6 @@ class NotebookList(generics.ListAPIView):
 
     serializer_class = NotebookSerializer
     permission_classes = (IsAuthor,)
-    
 
     def get_queryset(self):
         """
@@ -58,7 +59,9 @@ class NotebookList(generics.ListAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Notebook.objects.all().order_by("-id").filter(author=user)
+        property = Property.objects.all().filter(collaborator=user).first()
+        workspace = Workspace.objects.all().filter(property=property).first()
+        return Notebook.objects.all().order_by("-id").filter(workspace=workspace)
 
 
 notebook_list_view = NotebookList.as_view()

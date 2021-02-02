@@ -65,7 +65,7 @@ function SignIn() {
       <Helmet title="Se connecter" />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Bienvenue, {username} !
+        Bienvenue, {username ? username : "visiteur"} !
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Connectez-vous pour continuer
@@ -73,8 +73,8 @@ function SignIn() {
 
       <Formik
         initialValues={{
-          email: "demo@fle.fr",
-          password: "password",
+          email: "demo@bootlab.io",
+          password: "unsafepassword",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -86,28 +86,14 @@ function SignIn() {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             await dispatch(
-              signIn(
-                axios({
-                  method: "post",
-                  url: "http://127.0.0.1:8000/api/v1/dj-rest-auth/login/",
-                  data: {
-                    username: "admin",
-                    password: "password",
-                  },
-                })
-                  .then((res) => {
-                    console.log(res.data.key);
-      
-                  })
-              )
-
-              
+              signIn({ email: values.email, password: values.password })
             );
             history.push("/private");
           } catch (error) {
-            
+            const message = error.message || "Something went wrong";
 
             setStatus({ success: false });
+            setErrors({ submit: message });
             setSubmitting(false);
           }
         }}
@@ -122,10 +108,6 @@ function SignIn() {
           values,
         }) => (
           <form noValidate onSubmit={handleSubmit}>
-            <Alert mt={3} mb={1} severity="info">
-              Utilisez <strong>demo@frontdesk.fr</strong> and{" "}
-              <strong>frontdesk2021</strong> pour essayer la plateforme
-            </Alert>
             {errors.submit && (
               <Alert mt={2} mb={1} severity="warning">
                 {errors.submit}

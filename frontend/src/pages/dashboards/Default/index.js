@@ -1,15 +1,18 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled, { withTheme } from "styled-components/macro";
-
+import ReactMarkdown from "react-markdown";
+import axios from "axios";
 import { Helmet } from "react-helmet";
-
+import { FRONTDESK_API, TOKEN } from "../../../constants";
 import {
   Grid,
   TextField,
+  Card as MuiCard,
+  Paper,
   Divider as MuiDivider,
   Typography as MuiTypography,
 } from "@material-ui/core";
-
+import { Edit } from "react-feather";
 import { green, red } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
@@ -22,10 +25,27 @@ import MyTeam from "./MyTeam";
 import Logbook from "./LogbookLatest";
 
 const Divider = styled(MuiDivider)(spacing);
-
+const Card = styled(MuiCard)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 
-function Analytics({ theme }) {
+function Default({ theme }) {
+  const [items, setItems] = useState([]);
+
+  function displayUser() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    
+    });
+  }
+  useEffect(() => {
+    displayUser();
+  }, []);
   return (
     <React.Fragment>
       <Helmet title="Tableau de bord" />
@@ -35,7 +55,7 @@ function Analytics({ theme }) {
             Tableau de bord
           </Typography>
           <Typography variant="subtitle1">
-            Heureux de vous revoir, Gaëtan!{" "}
+            Heureux de vous revoir, {items.first_name}!{" "}
             <span role="img" aria-label="Waving Hand Sign">
               👋
             </span>
@@ -55,15 +75,16 @@ function Analytics({ theme }) {
       </Grid>
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
-          <TextField
-            label="Mes notes - Personnel"
-            multiline
-            rows={10}
-            variant="outlined"
-            variant="filled"
-            placeholder="Vous pouvez enregistrer des notes facilements"
-            fullWidth
-          />
+          <Card mb={7}>
+            <Grid container justify="flex-end">
+              <Edit  size={20} />
+            </Grid>
+
+            <Paper>
+              {" "}
+              <ReactMarkdown source={items.note} />{" "}
+            </Paper>
+          </Card>
         </Grid>
         <Grid item xs={12} lg={7}>
           <MyTeam />
@@ -86,4 +107,4 @@ function Analytics({ theme }) {
   );
 }
 
-export default withTheme(Analytics);
+export default withTheme(Default);

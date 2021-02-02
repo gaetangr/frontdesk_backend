@@ -1,7 +1,7 @@
 import pytest
+from django.contrib.auth.models import User
 
 from frontdesk.users.models import Profile
-from django.contrib.auth.models import User
 
 
 @pytest.mark.django_db

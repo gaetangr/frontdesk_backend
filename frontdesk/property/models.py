@@ -53,7 +53,7 @@ class PropertyPermission(models.Model):
         verbose_name_plural = "Properties permissions"
 
     # This method is exclude from coverage report
-    def __str__(self):# pragma: no cover
+    def __str__(self):  # pragma: no cover
         """ Return instance with a human readable fashion """
         is_admin = (
             "est administateur"

@@ -3,7 +3,7 @@
  * The form logic and all components related to the workspace
  * should be contain in this file
  */
-import { FRONTDESK_API } from "../../constants/";
+import { FRONTDESK_API, TOKEN } from "../../constants/";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import Helmet from "react-helmet";
@@ -126,7 +126,7 @@ function WorkspaceContent(props) {
       method: "delete",
       url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
       headers: {
-        Authorization: "Token b325d52b7e3352910a119a7ffe461f77fa77452d",
+        Authorization: `Token ${TOKEN}`,
       },
     });
   }
@@ -139,7 +139,7 @@ function WorkspaceContent(props) {
       method: "patch",
       url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
       headers: {
-        Authorization: "Token b325d52b7e3352910a119a7ffe461f77fa77452d",
+        Authorization: `Token ${TOKEN}`,
       },
       data: { is_done: true },
     });
@@ -211,19 +211,39 @@ function refreshPage() {
 
 function Workspace() {
   const [items, setItems] = useState([]);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState(
+  );
 
-
-function displayNotebook() {
-  axios({
+async function displayNotebook() {
+  const reponse = await axios({
     method: "get",
     url: `${FRONTDESK_API}/notebook/list/`,
     headers: {
-      Authorization: "Token b325d52b7e3352910a119a7ffe461f77fa77452d",
+      Authorization: `Token ${TOKEN}`,
     },
-  }).then((res) => {
-    setItems(res.data);
   });
-}
+    setItems(reponse.data);
+    }
+  
+  async function createNotebook() {
+    const reponse = await axios({
+      method: "post",
+      url: `${FRONTDESK_API}/notebook/create/`,
+      data: {
+        id: 129,
+        workspace: 23,
+        content: "REACT",
+        author: 2,
+        username: "admin",
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+  }
+    
+   
   const workspaceCard = items.map((msg) => (
     <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
@@ -234,7 +254,10 @@ function displayNotebook() {
     />
   ));
   useEffect(() => {
+    console.log(value)
     displayNotebook()
+    setValue("Je render")
+    console.log(value)
   }, []);
 
   return (
@@ -264,13 +287,28 @@ function displayNotebook() {
             rows={4}
             variant="outlined"
             label="Votre consigne"
+            placeholder="Ajouter votre consigne"
+        
             fullWidth
           />
-          <Button fullWidth variant="contained" color="primary">
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={console.log("lplp")}
+            color="primary"
+          >
             Ajouter la consigne
           </Button>
           <Divider my={6} />
           {workspaceCard}
+
+          {error ? (
+            <Alert mt={3} mb={1} severity="error">
+              {error}
+            </Alert>
+          ) : (
+            ""
+          )}
         </Grid>
       </Grid>
     </React.Fragment>

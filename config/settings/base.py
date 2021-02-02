@@ -90,7 +90,9 @@ LOCAL_APPS = [
     "frontdesk.property.apps.PropertyConfig",
 ]
 
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS # when adding new apps, add them in the correct list 
+INSTALLED_APPS = (
+    DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+)  # when adding new apps, add them in the correct list
 
 
 # MIDDLEWARE

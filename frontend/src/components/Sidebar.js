@@ -10,7 +10,7 @@ import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 import axios from "axios";
 import { spacing } from "@material-ui/system";
-import { FRONTDESK_API } from "../constants";
+import { FRONTDESK_API, TOKEN } from "../constants";
 
 import {
   Badge,
@@ -327,15 +327,14 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
     );
   };
-  const username = localStorage.getItem("username");
-  const nameProperty = localStorage.getItem("name-property");
+
   const [items, setItems] = useState([]);
   function displayNotebook() {
     axios({
       method: "get",
       url: `${FRONTDESK_API}/users/`,
       headers: {
-        Authorization: "Token c6b4fe4280a58e8d4c2cacd3b4f9f4c7e49d2d1e",
+        Authorization: `Token ${TOKEN}`,
       },
     }).then((res) => {
       setItems(res.data[0]);
@@ -411,7 +410,9 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
           <Grid item>
             <SidebarFooterBadge></SidebarFooterBadge>
           </Grid>
-          <Avatar size="small">G</Avatar>
+          <Avatar size="small" src={items.image}>
+      
+          </Avatar>
           <Grid item>
             <SidebarFooterText variant="body2">
               {items.first_name} {items.last_name}

@@ -20,3 +20,4 @@ export const AUTH_RESET_PASSWORD_FAILURE = "AUTH_RESET_PASSWORD_FAILURE";
 
 // API
 export const FRONTDESK_API = "http://127.0.0.1:8000/api/v1"
+export const TOKEN = localStorage.getItem("token");

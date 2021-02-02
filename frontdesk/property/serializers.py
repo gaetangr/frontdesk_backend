@@ -3,12 +3,18 @@
 from rest_framework import serializers
 
 from frontdesk.property.models import Property, PropertyPermission
+from frontdesk.workspace.models import Workspace
 
 
 class PropertySerializer(serializers.ModelSerializer):
     """ PropertySerialize that return JSON content """
 
     collaborator_count = serializers.SerializerMethodField("count_members")
+    username = serializers.SerializerMethodField("is_named_bar")
+
+    def is_named_bar(self, obj):
+        workspace = Workspace.objects.filter(property=obj).first()
+        return workspace.name
 
     def count_members(self, obj):
         """ Return all collaborator related to the property """
@@ -17,7 +23,7 @@ class PropertySerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Property
-        fields = ["name", "collaborator", "slug", "collaborator_count"]
+        fields = ["name", "collaborator", "slug", "collaborator_count", "username"]
 
 
 class PropertyPermissionSerializer(serializers.ModelSerializer):

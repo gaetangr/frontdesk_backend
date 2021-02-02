@@ -47,6 +47,10 @@ class Notebook(TimeStampedModel):
         default=False,
         help_text="If set to true the note is mark as done and display a different design",
     )
+    is_pinned = models.BooleanField(
+        default=False,
+        help_text="If set to true the note is mark as pinned and show on the dashboard",
+    )
 
     def __str__(self):
         """ Return instance with a human readable fashion """
