@@ -30,7 +30,7 @@ const Divider = styled(MuiDivider)(spacing);
 const Card = styled(MuiCard)(spacing);
 const Typography = styled(MuiTypography)(spacing);
 
-function Default({ theme }) {
+function Manager({ theme }) {
   const [items, setItems] = useState([]);
 
   function displayUser() {
@@ -54,10 +54,10 @@ function Default({ theme }) {
       <Grid justify="space-between" container spacing={6}>
         <Grid item>
           <Typography variant="h3" gutterBottom>
-            Tableau de bord
+            Tableau de bord - Gestion d'utilisateurs
           </Typography>
           <Typography variant="subtitle1">
-            Heureux de vous revoir, {items.first_name}!{" "}
+            Heureux de vous revoirssss, {items.first_name}!{" "}
             <span role="img" aria-label="Waving Hand Sign">
               👋
             </span>
@@ -100,6 +100,7 @@ function Default({ theme }) {
           <Button
             fullWidth
             variant="contained"
+
             color="primary"
           >
             Modifier
@@ -123,4 +124,4 @@ function Default({ theme }) {
   );
 }
 
-export default withTheme(Default);
+export default withTheme(Manager);

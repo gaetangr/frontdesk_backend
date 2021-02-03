@@ -10,7 +10,7 @@ import Helmet from "react-helmet";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
-import { Loop } from "@material-ui/icons";
+import { Loop, Group, Build, SingleBed, GroupWork} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
@@ -30,6 +30,7 @@ import {
   IconButton,
   Button,
   Grid,
+  Paper,
   Tooltip,
   Link,
   Breadcrumbs as MuiBreadcrumbs,
@@ -203,29 +204,41 @@ function WorkspaceContent(props) {
   );
 }
 
-
 function refreshPage() {
   window.location.reload(false);
 }
 
-
 function Workspace() {
   const [items, setItems] = useState([]);
   const [value, setValue] = useState("");
-  const [error, setError] = useState(
-  );
+  const [error, setError] = useState();
+  const [count, setCount] = useState(0);
 
-async function displayNotebook() {
-  const reponse = await axios({
-    method: "get",
-    url: `${FRONTDESK_API}/notebook/list/`,
-    headers: {
-      Authorization: `Token ${TOKEN}`,
-    },
-  });
-    setItems(reponse.data);
-    }
+  const [term, setTerm] = useState('');
   
+  const displayNotebook = async () => {
+    const reponse = await axios({
+      method: "get",
+      url: `${FRONTDESK_API}/notebook/list/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+    setItems(reponse.data);
+  }
+
+
+ useEffect(() => {
+   // Met à jour le titre du document via l’API du navigateur
+  displayNotebook();
+ }, []);
+
+
+
+
+
+
+
   async function createNotebook() {
     const reponse = await axios({
       method: "post",
@@ -242,8 +255,7 @@ async function displayNotebook() {
       },
     });
   }
-    
-   
+
   const workspaceCard = items.map((msg) => (
     <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
@@ -253,12 +265,7 @@ async function displayNotebook() {
       notebookId={msg.id}
     />
   ));
-  useEffect(() => {
-    console.log(value)
-    displayNotebook()
-    setValue("Je render")
-    console.log(value)
-  }, []);
+
 
   return (
     <React.Fragment>
@@ -288,15 +295,9 @@ async function displayNotebook() {
             variant="outlined"
             label="Votre consigne"
             placeholder="Ajouter votre consigne"
-        
             fullWidth
           />
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={console.log("lplp")}
-            color="primary"
-          >
+          <Button fullWidth variant="contained" color="primary">
             Ajouter la consigne
           </Button>
           <Divider my={6} />
@@ -309,6 +310,49 @@ async function displayNotebook() {
           ) : (
             ""
           )}
+        </Grid>
+        <Grid justify="flex-start" container item xs={3}>
+        
+           
+            <li Style="list-style-type:none;">
+              {" "}
+              <ul>
+                <Chip
+                  size="small"
+                  color="primary"
+                  label="Equipe (tous)"
+                  icon={<GroupWork />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Maintenance"
+                  icon={<Build />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Etage"
+                  icon={<SingleBed />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Manager (tous)"
+                  icon={<Group />}
+                />
+              </ul>
+            </li>
+       
         </Grid>
       </Grid>
     </React.Fragment>

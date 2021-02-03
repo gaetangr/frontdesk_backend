@@ -88,6 +88,7 @@ LOCAL_APPS = [
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.property.apps.PropertyConfig",
+    "frontdesk.notification.apps.NotificationConfig",
 ]
 
 INSTALLED_APPS = (

@@ -10,13 +10,15 @@ class Property(TimeStampedModel):
     and creating field.
     """
 
-    name = models.CharField(max_length=50, verbose_name="Nom de l'établissement")
+    name = models.CharField(max_length=50, verbose_name="Nom de l'établissement",
+    help_text="The name will be used to identify the property")
     slug = AutoSlugField(
         "Nom de l'établissement", unique=True, always_update=False, populate_from="name"
     )
     collaborator = models.ManyToManyField(
         User,
         verbose_name="Collaborateurs",
+        help_text="Users selected will have full access to the property and the workspace related"
     )
 
     is_premium = models.BooleanField(
