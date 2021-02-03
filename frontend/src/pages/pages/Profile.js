@@ -1,12 +1,12 @@
 /**
  * Settings and information for a given user
  */
-import React from "react";
+import React, {useState, useEffect} from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 import Zoom from "@material-ui/core/Zoom";
 import Helmet from "react-helmet";
-
+import {FRONTDESK_API, TOKEN} from "../../constants/"
 import {
   Avatar,
   Breadcrumbs as MuiBreadcrumbs,
@@ -24,7 +24,7 @@ import {
 
 import { Info } from "react-feather";
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
-
+import axios from "axios";
 import { spacing } from "@material-ui/system";
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
@@ -51,7 +51,24 @@ const BigAvatar = styled(Avatar)`
   margin: 0 auto ${(props) => props.theme.spacing(2)}px;
 `;
 
+
 function Public() {
+  const [items, setItems] = useState([]);
+
+  function displayUser() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+  useEffect(() => {
+    displayUser();
+  }, []);
   return (
     <Card mb={6}>
       <CardContent>
@@ -72,30 +89,30 @@ function Public() {
             <TextField
               id="username"
               label="Pseudo"
-              defaultValue="John Doe"
-              variant="outlined"
+              value={items.username}
+              
               fullWidth
               my={2}
             />
             <TextField
-              id="linkedin"
+              id="title"
               label="Titre"
               placeholder="Ex: réceptionniste, directeur, gouvernante"
-              defaultValue=""
-              variant="outlined"
+              value={items.title}
+              
               fullWidth
               my={2}
             />
             <TextField
               id="linkedin"
               label="Linkedin"
-              defaultValue=""
-              variant="outlined"
+              value={items.linkedin}
+              
               fullWidth
               my={2}
             />
 
-            <FormControl fullWidth my={2} variant="outlined">
+            <FormControl fullWidth my={2} >
               <TextField
                 label="Biographie"
                 id="biographie"
@@ -104,7 +121,7 @@ function Public() {
                 rowsMax={4}
                 variant="outlined"
                 placeholder="Ex: Je travaille comme réceptionniste à l'hôtel Overlook hôtel"
-                defaultValue=""
+                value={items.bio}
               />
             </FormControl>
           </Grid>
@@ -112,7 +129,7 @@ function Public() {
             <CenteredContent>
               <BigAvatar
                 alt="Remy Sharp"
-                src="/static/img/avatars/avatar-1.jpg"
+               
               />
               <input
                 accept="image/*"
@@ -144,6 +161,22 @@ function Public() {
 }
 
 function Private() {
+    const [items, setItems] = useState([]);
+
+    function displayUser() {
+      axios({
+        method: "get",
+        url: `${FRONTDESK_API}/users/`,
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      }).then((res) => {
+        setItems(res.data[0]);
+      });
+    }
+    useEffect(() => {
+      displayUser();
+    }, []);
   return (
     <Card mb={6}>
       <CardContent>
@@ -164,8 +197,8 @@ function Private() {
             <TextField
               id="first-name"
               label="Prénom"
-              variant="outlined"
-              defaultValue=""
+              
+              value={items.first_name}
               fullWidth
               my={2}
             />
@@ -174,8 +207,8 @@ function Private() {
             <TextField
               id="last-name"
               label="Nom"
-              variant="outlined"
-              defaultValue=""
+              
+              value={items.last_name}
               fullWidth
               my={2}
             />
@@ -185,9 +218,9 @@ function Private() {
         <TextField
           id="email"
           label="Email"
-          variant="outlined"
+          
           type="email"
-          defaultValue=""
+          value={items.email}
           fullWidth
           my={2}
         />
@@ -201,6 +234,7 @@ function Private() {
 }
 
 function Settings() {
+  
   return (
     <React.Fragment>
       <Helmet title="Profil" />

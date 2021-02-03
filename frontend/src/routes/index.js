@@ -4,7 +4,7 @@
 import React from "react";
 
 import async from "../components/Async";
-
+import axios from "axios";
 
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {
@@ -35,6 +35,7 @@ const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 
 // Dashboards components
 const Default = async(() => import("../pages/dashboards/Default"));
+const Manager = async(() => import("../pages/dashboards/Manager"));
 
 
 // Pages components
@@ -73,8 +74,13 @@ const dashboardsRoutes = {
   children: [
     {
       path: "/dashboard/default",
-      name: "Votre dashboard",
+      name: "Mon espace",
       component: Default,
+    },
+    {
+      path: "/dashboard/manager",
+      name: "Mon espace manager",
+      component: Manager,
     },
   ],
   component: null,
@@ -278,8 +284,8 @@ export const protectedRoutes = [protectedPageRoutes];
 export const sidebarRoutes = [
   dashboardsRoutes,
   workspaceRoutes,
-  logbookRoutes,
-  checklistRoutes,
+  //logbookRoutes,
+  //checklistRoutes,
   ProfileRoutes,
   authRoutes,
   documentationRoutes,

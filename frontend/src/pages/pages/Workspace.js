@@ -3,32 +3,34 @@
  * The form logic and all components related to the workspace
  * should be contain in this file
  */
-import React from "react";
+import { FRONTDESK_API, TOKEN } from "../../constants/";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/macro";
-import { NavLink } from "react-router-dom";
-import DeleteIcon from "@material-ui/icons/Delete";
 import Helmet from "react-helmet";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
-import { positions } from "@material-ui/system";
-import {
-  CalendarToday
-} from "@material-ui/icons";
+import { Loop, Group, Build, SingleBed, GroupWork} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
-import { deepOrange, deepPurple } from "@material-ui/core/colors";
+import {
+  deepOrange,
+  deepPurple,
+  indigo,
+  blue,
+  green,
+  orange,
+} from "@material-ui/core/colors";
 import {
   CardContent,
   CardActions,
   CardHeader,
-  Badge,
-  Menu,
-  MenuItem,
+  Chip,
   IconButton,
   Button,
   Grid,
+  Paper,
   Tooltip,
   Link,
   Breadcrumbs as MuiBreadcrumbs,
@@ -36,13 +38,47 @@ import {
   Divider as MuiDivider,
   Typography,
 } from "@material-ui/core";
+import { spacing } from "@material-ui/system";
+import axios from "axios";
 
+// Custom functions
+//------------------------------
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
+/**
+ * Returns the first letter of the username.
+ *
+ * @param {string} string The string to be parsed.
+ */
+function FirstLetter(string) {
+  return string.slice(0, 2);
+}
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-import { spacing } from "@material-ui/system";
+
+// Custom constants
+//------------------------------
+const DoneChip = styled(Chip)`
+  background-color: ${green[700]};
+  border-radius: 5px;
+  color: ${(props) => props.theme.palette.common.white};
+  font-size: 12px;
+  height: 18px;
+  float: right;
+  margin-left: 2px;
+  margin-top: 3px;
+  padding: 3px 0;
+
+  span {
+    padding-left: ${(props) => props.theme.spacing(1.375)}px;
+    padding-right: ${(props) => props.theme.spacing(1.375)}px;
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -58,115 +94,265 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
   },
+  green: {
+    color: theme.palette.getContrastText(green[500]),
+    backgroundColor: green[500],
+  },
+  blue: {
+    color: theme.palette.getContrastText(blue[500]),
+    backgroundColor: blue[500],
+  },
+
   small: {
     width: theme.spacing(3),
     height: theme.spacing(3),
   },
 }));
 const Card = styled(MuiCard)(spacing);
-
 const Divider = styled(MuiDivider)(spacing);
-
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
+// Components
+//------------------------------
+
+/**
+ * Return a workspace content with props
+ */
 function WorkspaceContent(props) {
+  /**
+   * Delete an instance of a notebook
+   */
+  function handleDelete() {
+    axios({
+      method: "delete",
+      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+  }
+
+  /**
+   * mark a notebook as done
+   */
+  function handleDone() {
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+      data: { is_done: true },
+    });
+  }
+
   const classes = useStyles();
-  
-  const [state, setState] = React.useState({
-    open: false,
-    vertical: "top",
-    horizontal: "right",
-  });
-
-  const { vertical, horizontal, open } = state;
-
-  const handleClick = (newState) => () => {
-    setState({ open: true, ...newState });
-  };
-   const handleClose = () => {
-     setState({ ...state, open: false });
-   };
-
   return (
     <Card mb={6}>
-      <CardContent
-      >
-        <Snackbar
-          open={open}
-          autoHideDuration={4000}
-          anchorOrigin={{ vertical, horizontal }}
-          open={open}
-          onClose={handleClose}
-          key={vertical + horizontal}
-        >
-          <Alert onClose={handleClose} severity="success">
-            Le message a été marqué comme fait
-          </Alert>
-        </Snackbar>
-
+      <CardContent>
+        <Grid justify="flex-end">{props.status}</Grid>
+        {/* Header - Author info, date, status */}
         <CardHeader
-          avatar={<Avatar className={classes.purple}>G</Avatar>}
+          avatar={
+            <Avatar className={classes.purple}>
+              {FirstLetter(props.name)}
+            </Avatar>
+          }
           action={<IconButton aria-label="settings"></IconButton>}
           title={`${props.name} - ${props.title}`}
           subheader="14 janvier, 2020"
         />
 
         <Divider mb={3} />
-        <Typography variant="p" gutterBottom>
-          {props.message}
-        </Typography>
+
+        {/* Content - Message content */}
+        <Typography gutterBottom>{props.message}</Typography>
       </CardContent>
 
+      {/* Actions - Actions for the user such as add comment, mark as done etc */}
       <Box display="flex" flexDirection="row">
-        <Divider mb={3} />
-        <CardActions flexDirection="row-reverse" align="right">
-          <Button size="small" color="primary">
-            Répondre
-          </Button>
-          <Button size="small" color="secondary">
-            Marquer comme fait
-          </Button>
-          <Button
-            onClick={handleClick({ vertical: "top", horizontal: "right" })}
-            size="small"
-            color="secondary"
-          >
-            Important
-          </Button>
-        </CardActions>
+        <Grid container justify="flex-start">
+          <Grid item>
+            {" "}
+            <Button size="small" color="primary">
+              <Link href={props.answerLink}>Répondre</Link>
+            </Button>
+            <Button onClick={handleDone} size="small" color="secondary">
+              <Link href={props.doneLink}>Marquer comme fait</Link>
+            </Button>
+            <Button size="small" color="secondary">
+              Epingler
+            </Button>
+          </Grid>
+        </Grid>
+
+        {/* Actions - Actions if user == request.user such as edit or delete */}
+        <Grid container justify="flex-end">
+          <Grid item xl="auto">
+            {" "}
+            <Button size="small" color="primary">
+              <Link href={props.editLink}>Editer</Link>
+            </Button>
+            <Button onClick={handleDelete} size="small" color="secondary">
+              <Link href={props.deleteLink}>supprimer</Link>
+            </Button>
+          </Grid>
+          <CardActions flexDirection="row-reverse" align="right"></CardActions>
+        </Grid>
       </Box>
     </Card>
   );
 }
 
+function refreshPage() {
+  window.location.reload(false);
+}
+
 function Workspace() {
+  const [items, setItems] = useState([]);
+  const [value, setValue] = useState("");
+  const [error, setError] = useState();
+  const [count, setCount] = useState(0);
+
+  const [term, setTerm] = useState('');
+  
+  const displayNotebook = async () => {
+    const reponse = await axios({
+      method: "get",
+      url: `${FRONTDESK_API}/notebook/list/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+    setItems(reponse.data);
+  }
+
+
+ useEffect(() => {
+   // Met à jour le titre du document via l’API du navigateur
+  displayNotebook();
+ }, []);
+
+
+
+
+
+
+
+  async function createNotebook() {
+    const reponse = await axios({
+      method: "post",
+      url: `${FRONTDESK_API}/notebook/create/`,
+      data: {
+        id: 129,
+        workspace: 23,
+        content: "REACT",
+        author: 2,
+        username: "admin",
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+  }
+
+  const workspaceCard = items.map((msg) => (
+    <WorkspaceContent
+      name={capitalizeFirstLetter(msg.username)}
+      title="Réceptionniste"
+      status={msg.is_done == true ? <DoneChip label="Fait" /> : ""}
+      message={msg.content}
+      notebookId={msg.id}
+    />
+  ));
+
+
   return (
     <React.Fragment>
-      <Helmet title="Blank" />
+      <Helmet title="Espace de travail" />
+
       <Typography variant="h3" gutterBottom display="inline">
-        Cahier de consignes
+        <Grid container spacing={6}>
+          <Grid item xs={8}>
+            {" "}
+            Cahier de consignes
+          </Grid>
+          <Grid direction item>
+            <Button>
+              {" "}
+              <Loop onClick={refreshPage} />
+            </Button>
+          </Grid>
+        </Grid>
       </Typography>
       <Divider my={6} />
 
       <Grid container spacing={6}>
         <Grid item xs={9}>
-          <WorkspaceContent
-            name="Gaetan"
-            title="Réceptionniste"
-            message="Ne pas oublier de donner la chambre 206 aux femmes de chambre pour
-          ménage"
+          <TextField
+            multiline
+            rows={4}
+            variant="outlined"
+            label="Votre consigne"
+            placeholder="Ajouter votre consigne"
+            fullWidth
           />
-          <WorkspaceContent
-            name="Antoinette"
-            title="Gouvernante"
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.
-          ménage"
-          />
-          <WorkspaceContent
-            name="Raphaël"
-            title="Directeur"
-            message="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.."
-          />
+          <Button fullWidth variant="contained" color="primary">
+            Ajouter la consigne
+          </Button>
+          <Divider my={6} />
+          {workspaceCard}
+
+          {error ? (
+            <Alert mt={3} mb={1} severity="error">
+              {error}
+            </Alert>
+          ) : (
+            ""
+          )}
+        </Grid>
+        <Grid justify="flex-start" container item xs={3}>
+        
+           
+            <li Style="list-style-type:none;">
+              {" "}
+              <ul>
+                <Chip
+                  size="small"
+                  color="primary"
+                  label="Equipe (tous)"
+                  icon={<GroupWork />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Maintenance"
+                  icon={<Build />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Etage"
+                  icon={<SingleBed />}
+                />
+              </ul>
+              <ul>
+                {" "}
+                <Chip
+                  size="small"
+                  color="secondary"
+                  label="Manager (tous)"
+                  icon={<Group />}
+                />
+              </ul>
+            </li>
+       
         </Grid>
       </Grid>
     </React.Fragment>

@@ -3,7 +3,8 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from frontdesk.property.models import Property
+from frontdesk.property.models import Property, PropertyPermission
+from frontdesk.users.models import User
 from frontdesk.workspace.models import Notebook, Workspace
 
 
@@ -15,15 +16,14 @@ def create_welcome_datas(sender, instance, created, **kwargs):
     if created:
         # Creating workspace and workspace.name matching property.name
         workspace = Workspace.objects.create(
-            property=instance, name=f"Espace de travail - {instance.name}"
+            property=instance, name=f"Cahier de consignes- {instance.name}"
         )
         # Creating notebook content to welcome user and populate workspace
         Notebook.objects.create(
             workspace=workspace,
-            content="C'est votre premier message 👋, Il est temps d'inviter vos collaborateurs !",
+            content="C'est votre premier message 👋, Il est temps de créer les comptes de vos collaborateurs!",
         )
 
-        # Creating a property permission and set current us to staff and admin
-        # PropertyPermission.objects.create(user=user, property=instance, is_staff=True, is_admin=True)
         # Logging new property so it's send to sentry logging
         logging.info(f"The {instance.name} property has been created ! ✨")
+

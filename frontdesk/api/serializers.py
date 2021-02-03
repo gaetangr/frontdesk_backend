@@ -1,6 +1,5 @@
 """ Serializer for the front desk application"""
 
-import pytest
 from rest_framework import serializers
 
 from frontdesk.property.models import Property

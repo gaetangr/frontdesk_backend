@@ -1,15 +1,16 @@
 /**
  * Side bar menu that display brand, menu, user information (bottom)
  */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 import { rgba } from "polished";
 import { NavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
-
+import axios from "axios";
 import { spacing } from "@material-ui/system";
+import { FRONTDESK_API, TOKEN } from "../constants";
 
 import {
   Badge,
@@ -82,8 +83,8 @@ const BrandIcon = styled(Logo)`
   margin-right: ${(props) => props.theme.spacing(2)}px;
   color: ${(props) => props.theme.sidebar.header.brand.color};
   fill: ${(props) => props.theme.sidebar.header.brand.color};
-  width: 32px;
-  height: 32px;
+  width: 35px;
+  height: 35px;
 `;
 
 const BrandChip = styled(Chip)`
@@ -326,14 +327,28 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       Object.assign({}, openRoutes, { [index]: !openRoutes[index] })
     );
   };
-  const username = localStorage.getItem("username");
-  const nameProperty = localStorage.getItem("name-property");
+
+  const [items, setItems] = useState([]);
+  function displayNotebook() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+    useEffect(() => {
+      displayNotebook();
+    }, []);
   return (
     <Drawer variant="permanent" {...rest}>
-      <Brand component={NavLink} to="/" button>
-        {" "}
+      <Brand component={NavLink} to="/dashboard/default" button>
+        <BrandIcon />{" "}
         <Box ml={1}>
-          Front Desk <BrandChip label="BETA" />
+          Front Desk <BrandChip label="APP" />
         </Box>
       </Brand>
       <Scrollbar>
@@ -395,11 +410,15 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
           <Grid item>
             <SidebarFooterBadge></SidebarFooterBadge>
           </Grid>
-          <Avatar size="small">G</Avatar>
+          <Avatar size="small" src={items.image}>
+      
+          </Avatar>
           <Grid item>
-            <SidebarFooterText variant="body2">Gaëtan</SidebarFooterText>
+            <SidebarFooterText variant="body2">
+              {items.first_name} {items.last_name}
+            </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              Réception
+              {items.title}
             </SidebarFooterSubText>
           </Grid>
         </Grid>

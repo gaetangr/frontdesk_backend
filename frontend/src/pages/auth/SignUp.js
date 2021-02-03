@@ -57,10 +57,11 @@ function SignUp() {
 
       <Formik
         initialValues={{
-          name: "desssd",
-          email: "dz@gmail.fr",
-          password: "paspassword$$$12sword$$$12",
-          confirmPassword: "paspassword$$$12sword$$$12",
+          name: "",
+          property_name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -68,6 +69,10 @@ function SignUp() {
             .min(4, "Trop court")
             .max(50, "Trop long")
             .required("Le nom est requis"),
+          property_name: Yup.string()
+            .min(4, "Trop court")
+            .max(90, "Trop long")
+            .required("Le nom de votre établissement est requis"),
           email: Yup.string()
             .email("L'email n'est pas valide")
             .max(255)
@@ -86,6 +91,7 @@ function SignUp() {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           const name = values.name;
+          const property_name = values.property_name;
           const email = values.email;
           const password = values.password;
           try {
@@ -142,11 +148,26 @@ function SignUp() {
               type="text"
               name="name"
               required
-              label="Nom d'utilisateur"
+              label="Prénom"
+              placeholder="Ce prénom sera utilisé pour vous identifier entre collaborateurs"
               value={values.name}
               error={Boolean(touched.name && errors.name)}
               fullWidth
               helperText={touched.name && errors.name}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              my={3}
+            />
+            <TextField
+              type="text"
+              name="property_name"
+              required
+              placeholder="Choississez le nom de votre établissement, les différents outils y seront rattachés"
+              label="Nom de votre établissement"
+              value={values.property_name}
+              error={Boolean(touched.property_name && errors.property_name)}
+              fullWidth
+              helperText={touched.property_name && errors.property_name}
               onBlur={handleBlur}
               onChange={handleChange}
               my={3}
@@ -199,8 +220,7 @@ function SignUp() {
             >
               Créer un compte propriétaire
             </Button>
-            <Divider />
-            <Divider />
+            <Typography color="textSecondary" variant="caption">Vous pourrez changer les informations plus tard</Typography>
           </form>
         )}
       </Formik>

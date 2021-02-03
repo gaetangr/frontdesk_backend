@@ -10,13 +10,15 @@ class Property(TimeStampedModel):
     and creating field.
     """
 
-    name = models.CharField(max_length=50, verbose_name="Nom de l'établissement")
+    name = models.CharField(max_length=50, verbose_name="Nom de l'établissement",
+    help_text="The name will be used to identify the property")
     slug = AutoSlugField(
         "Nom de l'établissement", unique=True, always_update=False, populate_from="name"
     )
     collaborator = models.ManyToManyField(
         User,
         verbose_name="Collaborateurs",
+        help_text="Users selected will have full access to the property and the workspace related"
     )
 
     is_premium = models.BooleanField(
@@ -53,7 +55,7 @@ class PropertyPermission(models.Model):
         verbose_name_plural = "Properties permissions"
 
     # This method is exclude from coverage report
-    def __str__(self):# pragma: no cover
+    def __str__(self):  # pragma: no cover
         """ Return instance with a human readable fashion """
         is_admin = (
             "est administateur"

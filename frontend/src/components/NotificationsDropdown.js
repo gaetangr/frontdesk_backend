@@ -2,10 +2,10 @@
  * Will be shown on the top the app, used for notifications from users and front desk ...
  */
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-
+import { FRONTDESK_API, TOKEN, TIMEOUT_VALUE } from "../constants";
 import {
   Avatar as MuiAvatar,
   Badge,
@@ -21,7 +21,8 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Bell, Home, UserPlus, Server, AtSign, MessageCircle } from "react-feather";
+import { Bell, Home, Mail, AlertTriangle, Flag, UserPlus, Server, AtSign, MessageCircle } from "react-feather";
+import axios from "axios";
 
 const Popover = styled(MuiPopover)`
   .MuiPaper-root {
@@ -53,7 +54,7 @@ function Notification({ title, description, Icon }) {
       <ListItemAvatar>
         <Avatar>
           <SvgIcon fontSize="small">
-            <Icon />
+            {Icon}
           </SvgIcon>
         </Avatar>
       </ListItemAvatar>
@@ -65,11 +66,54 @@ function Notification({ title, description, Icon }) {
         }}
         secondary={description}
       />
+      <Typography variant="caption">Voir</Typography>
     </ListItem>
   );
 }
 
 function NotificationsDropdown() {
+    const [items, setItems] = useState([]);
+
+    async function displayNotification() {
+      const reponse = await axios({
+        method: "get",
+        url: `${FRONTDESK_API}/notification/`,
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      });
+      setItems(reponse.data);
+  }
+
+const categories = ["message", "system", "tag" , "pinned"]
+  const notificationCard = items.map((msg) => (
+    <Notification
+      title={msg.title}
+      description={msg.content}
+      Icon={
+        msg.category == "tag" ? (
+          <AtSign />
+        ) : msg.category == "message" ? (
+          <Mail />
+        ) : msg.category == "system" ? (
+          <AlertTriangle />
+        ) : msg.category == "pinned" ? (
+          <Flag />
+        ) : (
+          <Bell />
+        )
+      }
+    />
+  ));
+useEffect(() => {
+  
+setTimeout(() => {
+  displayNotification();
+}, TIMEOUT_VALUE); 
+
+}, );
+
+
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
 
@@ -85,7 +129,7 @@ function NotificationsDropdown() {
     <React.Fragment>
       <Tooltip title="Notifications">
         <IconButton color="inherit" ref={ref} onClick={handleOpen}>
-          <Indicator badgeContent={4}>
+          <Indicator badgeContent={items.length}>
             <Bell />
           </Indicator>
         </IconButton>
@@ -101,24 +145,11 @@ function NotificationsDropdown() {
       >
         <NotificationHeader p={2}>
           <Typography variant="subtitle1" color="textPrimary">
-            4 nouvelles notifications
+            {items.length} nouvelles notifications
           </Typography>
         </NotificationHeader>
         <React.Fragment>
-          <List disablePadding>
-     
-            <Notification
-              title="Nouvelle consigne"
-              description="Une consigne vient d'être postée sur votre cahier de consigne"
-              Icon={MessageCircle}
-            />
-
-            <Notification
-              title="Gaetan vous a taggué"
-              description="Gaetan vient de vous tagguer sur un message"
-              Icon={AtSign}
-            />
-          </List>
+          <List disablePadding>{notificationCard}</List>
           <Box p={1} display="flex" justifyContent="center">
             <Button size="small" component={Link} to="#">
               Voir toutes les notifications
