@@ -9,6 +9,7 @@ import {
   CardActions,
   CardContent,
   Grid,
+  Tooltip,
   Link,
   Breadcrumbs as MuiBreadcrumbs,
   Card as MuiCard,
@@ -43,29 +44,19 @@ function Pricing() {
     <React.Fragment>
       <Helmet title="Pricing" />
       <Typography variant="h3" gutterBottom display="inline">
-        Pricing
+        Nos abonnements
       </Typography>
-
-      <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-        <Link component={NavLink} exact to="/">
-          Dashboard
-        </Link>
-        <Link component={NavLink} exact to="/">
-          Pages
-        </Link>
-        <Typography>Pricing</Typography>
-      </Breadcrumbs>
 
       <Divider my={6} />
 
       <Header>
         <Typography variant="h3" gutterBottom align="center">
-          We have a plan for everyone
+          Choisissez l'abonnement qui vous convient le mieux
         </Typography>
 
         <Typography variant="subtitle1" gutterBottom align="center">
-          Whether you're a business or an individual, 14-day trial no credit
-          card required.
+          Peu importe la taille et le budget de votre hôtel, nous avons un plan
+          pour chacun d'entre vous
         </Typography>
       </Header>
 
@@ -75,7 +66,7 @@ function Pricing() {
             <Grid item xs={12} md={4}>
               <Card p={5}>
                 <CardHeader
-                  title="Free"
+                  title="Gratuit"
                   titleTypographyProps={{ align: "center" }}
                   pb={0}
                   pt={2}
@@ -89,7 +80,7 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      $0
+                      0€
                     </Typography>
                     <Typography
                       variant="h5"
@@ -97,31 +88,34 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      /mo
+                      /mois
                     </Typography>
                   </Price>
                   <Typography variant="subtitle1" align="center">
-                    10 users included
+                    20 collaborateurs
                     <br />
-                    2 GB of storage
+                    50 consignes/jour
                     <br />
-                    Help center access
+                    Espace de travail
                     <br />
-                    Email support
+                    Assistance par email
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="outlined" color="primary">
-                    Sign up for free
+                    S'inscrire gratuitement
                   </Button>
                 </CardActions>
+                <Typography variant="caption" gutterBottom align="center">
+                  L'offre gratuite ne nécessite aucun paiement
+                </Typography>
               </Card>
             </Grid>
             <Grid item xs={12} md={4}>
               <Card p={5}>
                 <CardHeader
-                  title="Free"
-                  subheader="Most popular"
+                  title="Premium"
+                  subheader="Plus populaire"
                   titleTypographyProps={{ align: "center" }}
                   subheaderTypographyProps={{ align: "center" }}
                   action={<StarIcon />}
@@ -137,7 +131,7 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      $15
+                      9€
                     </Typography>
                     <Typography
                       variant="h5"
@@ -145,30 +139,39 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      /mo
+                      /mois
                     </Typography>
                   </Price>
                   <Typography variant="subtitle1" align="center">
-                    20 users included
+                    100 collaborateurs
                     <br />
-                    10 GB of storage
+                    200 consignes/jour
                     <br />
-                    Help center access
+                    Espace de travail
                     <br />
-                    Priority email support
+                    Hébérgement de plannings
+                    <br />
+                    Assistance par email prioritaire
+                    <br />
+                    Assistance par téléphone
+                    <br />
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="contained" color="primary">
-                    Get started
+                    S'abonner
                   </Button>
                 </CardActions>
+                <Typography variant="caption" gutterBottom align="center">
+                  L'abonnement est facturé par mois et propriété
+                </Typography>
               </Card>
             </Grid>
             <Grid item xs={12} md={4}>
               <Card p={5}>
                 <CardHeader
-                  title="Enterprise"
+                  title="Sponsors"
+                  subheaderTypographyProps={{ align: "center" }}
                   titleTypographyProps={{ align: "center" }}
                   pb={0}
                   pt={2}
@@ -182,7 +185,7 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      $30
+                      15€
                     </Typography>
                     <Typography
                       variant="h5"
@@ -190,27 +193,42 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      /mo
+                      /mois
                     </Typography>
                   </Price>
                   <Typography variant="subtitle1" align="center">
-                    50 users included
+                    Abonnement premium
                     <br />
-                    30 GB of storage
+                    Sponsors officiel
                     <br />
-                    Help center access
+                    Outils en avant première
                     <br />
-                    Phone & email support
+                    Contact priviligié
+                    <br />
                   </Typography>
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="outlined" color="primary">
-                    Contact us
+                    Nous soutenir
                   </Button>
                 </CardActions>
+                <Typography variant="caption" gutterBottom align="center">
+                  L'abonnement est facturé par mois et propriété
+                </Typography>
               </Card>
             </Grid>
           </Grid>
+          <br />
+
+          <Typography variant="caption" gutterBottom align="center">
+            Si vous n'êtes pas satisfait à 100% nous vous remboursons votre abonnement, aucune justification requise, un simple email au support et le tour est joué !
+          </Typography>
+          <br />
+          <Typography variant="caption" gutterBottom align="center">
+            Le traitement des paiements en ligne sont gérés par notre paternaire
+            Stripe
+          </Typography>
+          <br />
         </Grid>
       </Grid>
     </React.Fragment>

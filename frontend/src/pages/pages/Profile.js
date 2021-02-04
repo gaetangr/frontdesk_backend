@@ -95,6 +95,8 @@ function Public() {
               my={2}
             />
             <TextField
+              disabled="okkoo"
+              helperText="Veuillez contacter votre administrateur pour modifier votre titre"
               id="title"
               label="Titre"
               placeholder="Ex: réceptionniste, directeur, gouvernante"

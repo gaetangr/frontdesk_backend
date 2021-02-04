@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 import Footer from "../../../components/Footer";
-
+import Pricing from "../../../pages/pages/Pricing";
 import {
   Box,
   Container,

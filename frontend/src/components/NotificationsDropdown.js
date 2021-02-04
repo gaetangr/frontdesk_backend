@@ -53,7 +53,9 @@ function Notification({ title, description, Icon }) {
     <ListItem divider component={Link} to="#">
       <ListItemAvatar>
         <Avatar>
+          
           <SvgIcon fontSize="small">
+            
             {Icon}
           </SvgIcon>
         </Avatar>

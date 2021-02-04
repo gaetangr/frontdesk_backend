@@ -10,7 +10,7 @@ import Helmet from "react-helmet";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
-import { Loop, Group, Build, SingleBed, GroupWork} from "@material-ui/icons";
+import { Loop, Group, Build, SingleBed, GroupWork, RoomService} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
@@ -312,47 +312,52 @@ function Workspace() {
           )}
         </Grid>
         <Grid justify="flex-start" container item xs={3}>
-        
-           
-            <li Style="list-style-type:none;">
+          <li Style="list-style-type:none;">
+            {" "}
+            <ul>
+              <Chip
+                size="small"
+                color="primary"
+                label="Tous"
+                icon={<Group />}
+              />
+            </ul>
+            <ul>
+              <Chip
+                size="small"
+                color="primary"
+                label="Réception"
+                icon={<RoomService />}
+              />
+            </ul>
+            <ul>
               {" "}
-              <ul>
-                <Chip
-                  size="small"
-                  color="primary"
-                  label="Equipe (tous)"
-                  icon={<GroupWork />}
-                />
-              </ul>
-              <ul>
-                {" "}
-                <Chip
-                  size="small"
-                  color="secondary"
-                  label="Maintenance"
-                  icon={<Build />}
-                />
-              </ul>
-              <ul>
-                {" "}
-                <Chip
-                  size="small"
-                  color="secondary"
-                  label="Etage"
-                  icon={<SingleBed />}
-                />
-              </ul>
-              <ul>
-                {" "}
-                <Chip
-                  size="small"
-                  color="secondary"
-                  label="Manager (tous)"
-                  icon={<Group />}
-                />
-              </ul>
-            </li>
-       
+              <Chip
+                size="small"
+                color="secondary"
+                label="Maintenance"
+                icon={<Build />}
+              />
+            </ul>
+            <ul>
+              {" "}
+              <Chip
+                size="small"
+                color="secondary"
+                label="Etage"
+                icon={<SingleBed />}
+              />
+            </ul>
+            <ul>
+              {" "}
+              <Chip
+                size="small"
+                color="secondary"
+                label="Manager"
+                icon={<Group />}
+              />
+            </ul>
+          </li>
         </Grid>
       </Grid>
     </React.Fragment>

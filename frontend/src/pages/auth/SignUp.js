@@ -11,6 +11,7 @@ import axios from "axios";
 import {
   Button,
   Tooltip,
+  Link,
   Checkbox,
   Divider,
   Paper,
@@ -48,11 +49,11 @@ function SignUp() {
       <Typography component="h2" variant="body1" align="center">
         Créez votre compte en quelques secondes !
       </Typography>
-      <Alert mt={3} mb={2} severity="info">
+      <Alert mt={3} mb={2} severity="warning">
         <AlertTitle>Information</AlertTitle>
-        Les inscriptions sont ouvertes pour les propriétaires <u>uniquement</u>,
-        une fois inscrit vous pourrez ajouter vos collaborateurs à votre
-        établissement.
+        Les inscriptions sont ouvertes pour les propriétaires <u>
+          uniquement
+        </u> <Link href="/documentation/account-manager">En savoir plus</Link>
       </Alert>
 
       <Formik
@@ -220,7 +221,9 @@ function SignUp() {
             >
               Créer un compte propriétaire
             </Button>
-            <Typography color="textSecondary" variant="caption">Vous pourrez changer les informations plus tard</Typography>
+            <Typography color="textSecondary" variant="caption">
+              Vous pourrez changer les informations plus tard
+            </Typography>
           </form>
         )}
       </Formik>

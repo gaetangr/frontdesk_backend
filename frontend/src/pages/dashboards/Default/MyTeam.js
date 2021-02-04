@@ -1,15 +1,19 @@
 import React from "react";
 import styled from "styled-components/macro";
 import axios from "axios";
-
 import {
   Card as MuiCard,
   CardHeader,
   Chip as MuiChip,
   IconButton,
   Paper,
+  Divider,
+  Typography,
+  Avatar,
   Table,
   TableBody,
+  Button,
+  TextField,
   Tooltip,
   TableCell,
   TableHead,
@@ -17,12 +21,46 @@ import {
 } from "@material-ui/core";
 
 import { red, green } from "@material-ui/core/colors";
-
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
+import { makeStyles } from "@material-ui/core/styles";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
 import { spacing } from "@material-ui/system";
 
-import { MoreVertical, Mail, Edit, Trash2} from "react-feather";
+import {
+  MoreVertical,
+  Eye,
+  Mail,
+  Edit,
+  Trash2,
+  MessageCircle,
+  HelpCircle,
+  Linkedin,
+  Bell,
+  Send,
+} from "react-feather";
 
 const Card = styled(MuiCard)(spacing);
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
 
 const Chip = styled(MuiChip)`
   height: 20px;
@@ -45,53 +83,168 @@ function createData(source, users, sessions, bounce, avg) {
 }
 
 const rows = [
-  createData(
-    "Raphaël",
-    "Directeur",
-    <Mail size={18} />,
-    <Edit size={18} />
-  ),
+  createData("Raphaël", "Directeur", "4 février 2021", <Eye size={18} />),
 ];
 
-const TrafficTable = () => (
-  <Card mb={3}>
-    <CardHeader
-      action={
-        <IconButton aria-label="settings">
-          <MoreVertical />
-        </IconButton>
-      }
-      title="Mon équipe"
-    />
+function TrafficTable() {
+  const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
+  const [profil, setProfil] = React.useState(false);
 
-    <Paper>
-      <TableWrapper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Pseudo</TableCell>
-              <TableCell align="right">Titre</TableCell>
-              <TableCell align="right">Message privé</TableCell>
-              <TableCell align="right">Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.source}
-                </TableCell>
-                <TableCell align="right">{row.users}</TableCell>
-                <TableCell align="right">{row.sessions}</TableCell>
-                <TableCell align="right">{row.bounce}</TableCell>
-                <TableCell align="right">{row.avg}</TableCell>
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleProfil = () => {
+    setProfil(true);
+  };
+  const handleClick = () => {
+    setOpen(true);
+  };
+  const handleNotification = () => {
+    setOpen1(true);
+    setOpen(false);
+  };
+  const handleClickOpenSnack = () => {
+    setOpen1(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen1(false);
+    setOpen(false);
+    setProfil(false);
+  };
+  return (
+    <Card mb={3}>
+      <Snackbar
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+        open={open1}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity="success">
+          Message envoyé
+        </Alert>
+      </Snackbar>
+
+      <CardHeader
+        action={
+          <Tooltip title="La liste de tous les collaborateurs, vous pouvez leur envoyer une notification privée et voir leur">
+            <IconButton aria-label="settings">
+              <HelpCircle />
+            </IconButton>
+          </Tooltip>
+        }
+        title="Mon équipe"
+      />
+
+      <Paper>
+        <TableWrapper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Prénom</TableCell>
+                <TableCell align="right">Titre</TableCell>
+                <TableCell align="right">Dernière connexion</TableCell>
+                <TableCell align="right">Profil</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableWrapper>
-    </Paper>
-  </Card>
-);
+            </TableHead>
+            <TableBody>
+              {rows.map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell component="th" scope="row">
+                    {row.source}
+                  </TableCell>
+                  <TableCell align="right">{row.users}</TableCell>
+                  <TableCell onClick={handleClickOpen} align="right">
+                    {row.sessions}
+                  </TableCell>
+                  <TableCell align="right">{row.bounce}</TableCell>
+                  <TableCell onClick={handleProfil} align="right">
+                    {row.avg}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableWrapper>
+      </Paper>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title"></DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Pour envoyer un message privée, remplissez le titre ou laissez-le
+            par défault et le contenu, le collaborateur recevra une notification
+            instantément.
+          </DialogContentText>
+          <TextField
+            defaultValue="Vous avez un nouveau message privé"
+            margin="dense"
+            id="title"
+            label="Titre du message"
+            fullWidth
+          />
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            multiline
+            label="Contenu du message"
+            rows={5}
+            fullWidth
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={handleNotification} color="primary">
+            Envoyer
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        align="center"
+        open={profil}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">
+          <Avatar />
+          <br />
+          Gaëtan - Réceptionniste
+          <br />
+          <Typography variant="caption">hello@gaetangr.me</Typography>
+          <br />
+          <Typography variant="caption">0627382727</Typography>
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText>
+            <Button onClick={handleClickOpen} color="inherit">
+              <MessageCircle />
+            </Button>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Fermer
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Card>
+  );
+}
 
 export default TrafficTable;

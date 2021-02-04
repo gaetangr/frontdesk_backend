@@ -19,7 +19,7 @@ import { red, green } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
 
-import { MoreVertical, Mail, Edit, Trash2, Eye} from "react-feather";
+import { MoreVertical, Mail, Edit, Trash2, Eye, HelpCircle} from "react-feather";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -60,9 +60,11 @@ const TrafficTable = () => (
   <Card mb={3}>
     <CardHeader
       action={
-        <IconButton aria-label="settings">
-          <MoreVertical />
-        </IconButton>
+        <Tooltip title="Les consignes épinglées seront affichées ici">
+          <IconButton aria-label="settings">
+            <HelpCircle />
+          </IconButton>
+        </Tooltip>
       }
       title="Consignes épinglées"
     />

@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { Menu as MenuIcon, Loop } from "@material-ui/icons";
 
 import NotificationsDropdown from "./NotificationsDropdown";
 import MessagesDropdown from "./MessagesDropdown";

@@ -43,17 +43,17 @@ const Workspace = async(() => import("../pages/pages/Workspace"));
 const Logbook = async(() => import("../pages/pages/Logbook"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Profile = async(() => import("../pages/pages/Profile"));
+const Pricing = async(() => import("../pages/pages/Pricing"));
+const Team = async(() => import("../pages/pages/Team"));
+
 
 // Documentation
-const Welcome = async(() => import("../pages/docs/Welcome"));
 const GettingStarted = async(() => import("../pages/docs/GettingStarted"));
-const EnvironmentVariables = async(() =>
-  import("../pages/docs/EnvironmentVariables")
+const AccountManager = async(() =>
+  import("../pages/docs/AccountManager")
 );
-const Deployment = async(() => import("../pages/docs/Deployment"));
-const Theming = async(() => import("../pages/docs/Theming"));
-const StateManagement = async(() => import("../pages/docs/StateManagement"));
-
+const Support = async(() => import("../pages/docs/Support"));
+const WorkspaceDoc = async(() => import("../pages/docs/Workspace"));
 const Changelog = async(() => import("../pages/docs/Changelog"));
 
 // Landing
@@ -90,16 +90,11 @@ const dashboardsRoutes = {
 //------------------
 const workspaceRoutes = {
   id: "Espaces de travail",
-  path: "/pages",
+  path: "/pages/workspace",
+  name: "Réception",
+  component: Workspace,
   icon: <Monitor />,
-  children: [
-    {
-      path: "/pages/workspace",
-      name: "Réception",
-      component: Workspace,
-    }
-  ],
-  component: null,
+  children: null
 };
 
 // Logbook routes 
@@ -204,24 +199,19 @@ const documentationRoutes = {
       component: GettingStarted,
     },
     {
-      path: "/documentation/environment-variables",
-      name: "Votre compte",
-      component: EnvironmentVariables,
+      path: "/documentation/account-manager",
+      name: "Compte propriétaire",
+      component: AccountManager,
     },
     {
-      path: "/documentation/deployment",
+      path: "/documentation/workspace",
       name: "Espace de travail",
-      component: Deployment,
+      component: WorkspaceDoc,
     },
     {
-      path: "/documentation/theming",
-      name: "Registre de maintenance",
-      component: Theming,
-    },
-    {
-      path: "/documentation/state-management",
-      name: "J'ai un problème",
-      component: StateManagement,
+      path: "/documentation/support",
+      name: "Support et assistance",
+      component: Support,
     },
   ],
   component: null,
@@ -257,6 +247,22 @@ const TermRoutes = {
   children: null,
 };
 
+// Routes for temrs, CGU and legals ...
+const PricingRoutes = {
+  id: "Pricing",
+  path: "/pricing",
+  component: Pricing,
+  children: null,
+};
+
+// Routes for temrs, CGU and legals ...
+const TeamRoutes = {
+  id: "Team",
+  path: "/team",
+  component: Team,
+  children: null,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   dashboardsRoutes,
@@ -264,6 +270,8 @@ export const dashboardLayoutRoutes = [
   logbookRoutes,
   checklistRoutes,
   ProfileRoutes,
+  TeamRoutes,
+  PricingRoutes,
   TermRoutes,
   tasksRoutes,
   authRoutes,
