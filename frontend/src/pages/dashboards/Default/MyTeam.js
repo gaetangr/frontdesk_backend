@@ -121,15 +121,7 @@ function TrafficTable() {
     setOpen1(true);
   };
 
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
 
-    setOpen1(false);
-    setOpen(false);
-    setProfil(false);
-  };
   return (
     <Card mb={3}>
       <Snackbar

@@ -138,14 +138,6 @@ function Public() {
                 type="file"
               />
               <label htmlFor="raised-button-file">
-                <Button variant="contained" color="primary" component="span">
-                  <CloudUpload mr={2} /> Télécharger
-                </Button>
-
-                <Typography variant="caption" display="block" gutterBottom>
-                  Pour un résultat optimal, veuillez utiliser une image au
-                  format .jpg
-                </Typography>
               </label>
             </CenteredContent>
           </Grid>

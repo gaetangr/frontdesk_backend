@@ -4,13 +4,30 @@
  * should be contain in this file
  */
 import { FRONTDESK_API, TOKEN } from "../../constants/";
-import React, { useEffect, useState } from "react";
+import React, { isValidElement, useEffect, useState } from "react";
 import styled from "styled-components/macro";
+import Countdown from "react-countdown";
+import { useHistory } from "react-router-dom";
+import { useIdleTimer } from "react-idle-timer";
 import Helmet from "react-helmet";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
-import { Loop, Group, Build, SingleBed, GroupWork, RoomService} from "@material-ui/icons";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {
+  Loop,
+  Group,
+  Build,
+  SingleBed,
+  GroupWork,
+  RoomService,
+} from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Avatar from "@material-ui/core/Avatar";
@@ -136,17 +153,53 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
  * Return a workspace content with props
  */
 function WorkspaceContent(props) {
-  /**
-   * Delete an instance of a notebook
-   */
-  function handleDelete() {
+  const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("success");
+  const handleClickOpen = (msg, severity) => {
+    console.log(msg);
+    setMessage(msg);
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  function handleAction(method, message, data) {
     axios({
-      method: "delete",
+      method: method,
       url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
       headers: {
         Authorization: `Token ${TOKEN}`,
       },
-    });
+      data,
+    })
+      .then(handleClickOpen(message))
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+          handleClickOpen(error.response.data.detail);
+          setError("error");
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  }
+
+  /**
+   * Delete an instance of a notebook
+   */
+  function handleDelete() {
+    handleAction("delete", "message supprimé");
   }
 
   /**
@@ -160,7 +213,49 @@ function WorkspaceContent(props) {
         Authorization: `Token ${TOKEN}`,
       },
       data: { is_done: true },
-    });
+    })
+      .then((reponse) => {
+        handleClickOpen("La consigne est indiquée comme fait")
+        console.log(reponse.data)
+      }) 
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+          handleClickOpen(error.response.data.detail);
+          setError("error");
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  }
+
+  function handlePinned() {
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+      data: { is_pinned: true },
+    })
+      .then(handleClickOpen("La consigne a été épinglée"))
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+          handleClickOpen(error.response.data.detail);
+          setError("error");
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
   }
 
   const classes = useStyles();
@@ -179,7 +274,7 @@ function WorkspaceContent(props) {
           }
           action={<IconButton aria-label="settings"></IconButton>}
           title={`${props.name} - ${props.title}`}
-          subheader="14 janvier, 2020"
+          subheader={props.created}
         />
 
         <Divider mb={3} />
@@ -189,17 +284,17 @@ function WorkspaceContent(props) {
       </CardContent>
 
       {/* Actions - Actions for the user such as add comment, mark as done etc */}
-      <Box display="flex">
+      <Box mt={4} ml={4} mb={3} display="flex">
         <Grid container justify="flex-start">
           <Grid item>
             {" "}
             <Button size="small" color="primary">
-              <Link href={props.answerLink}>Répondre</Link>
+              <Link href={props.answerLink}>Répondre </Link>
             </Button>
             <Button onClick={handleDone} size="small" color="secondary">
               <Link href={props.doneLink}>Marquer comme fait</Link>
             </Button>
-            <Button size="small" color="secondary">
+            <Button onClick={handlePinned} size="small" color="secondary">
               Epingler
             </Button>
           </Grid>
@@ -209,7 +304,6 @@ function WorkspaceContent(props) {
         <Grid container justify="flex-end">
           <Grid item xl="auto">
             {" "}
-            
             <Button size="small" color="primary">
               <Link href={props.editLink}>Editer</Link>
             </Button>
@@ -219,23 +313,53 @@ function WorkspaceContent(props) {
           </Grid>
           <CardActions align="right"></CardActions>
         </Grid>
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: "top",
+            horizontal: "right",
+          }}
+          open={open}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert onClose={handleClose} severity={error}>
+            {message}
+          </Alert>
+        </Snackbar>
       </Box>
     </Card>
   );
 }
 
-function refreshPage() {
-  window.location.reload(false);
-}
-
 function Workspace() {
-  const [items, setItems] = useState([]);
-  const [value, setValue] = useState("");
-  const [error, setError] = useState();
-  const [count, setCount] = useState(0);
 
-  const [term, setTerm] = useState('');
   
+
+  const [items, setItems] = useState([]);
+  const [error, setError] = useState();
+  const [idle, setIdle] = useState(false);
+  const [idleTime, setIdleTime] = useState(0);
+
+  
+  const handleClickOpen = () => {
+    setIdle(true);
+  };
+
+  const handleClose = () => {
+    setIdle(false);
+  };
+  const handleOnIdle = (event) => {
+    setIdle(true);
+    //history.go("/auth/sign-in");
+  };
+
+  const { getRemainingTime, getLastActiveTime, getTotalIdleTime } = useIdleTimer({
+    onIdle: handleOnIdle,
+    debounce: 500,
+    timeout: 3330000,
+  });
+
   const displayNotebook = async () => {
     const reponse = await axios({
       method: "get",
@@ -245,34 +369,59 @@ function Workspace() {
       },
     });
     setItems(reponse.data);
+  };
+
+  function refreshPage() {
+    window.location.reload(false);
   }
 
-
- 
-
+  const [progress, setProgress] = React.useState("");
 
 
 
-
+  useEffect(() => {
+    displayNotebook();
+    console.log("koko");
+  }, []);
 
   async function createNotebook() {
     const reponse = await axios({
       method: "post",
       url: `${FRONTDESK_API}/notebook/create/`,
       data: {
-        id: 129,
-        workspace: 23,
-        content: "REACT",
-        author: 2,
-        username: "admin",
+        id: 35,
+        workspace: 1,
+        author: 1,
+        content: "fffzdzdzdzdzdf",
+        is_done: false,
+        is_pinned: false,
       },
       headers: {
         Authorization: `Token ${TOKEN}`,
       },
-    });
+    })
+      .then(
+        setProgress(<LinearProgress />),
+        setTimeout(displayNotebook, 2000),
+        setProgress(<LinearProgress />)
+      )
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
   }
 
+
   const workspaceCard = items.map((msg) => (
+
     <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
       title={msg.username_title}
@@ -281,9 +430,10 @@ function Workspace() {
       pinned={msg.is_pinned == true ? <PinnedChip label="Important" /> : ""}
       message={msg.content}
       notebookId={msg.id}
+      created={msg.created.slice(0, 10)}
+      
     />
   ));
-
 
   return (
     <React.Fragment>
@@ -293,34 +443,71 @@ function Workspace() {
         <Grid container spacing={6}>
           <Grid item xs={8}>
             {" "}
-            Cahier de consignes
+            Cahier de consignes{" "}
           </Grid>
+
           <Grid item>
             <Button>
               {" "}
-              <Loop onClick={refreshPage} />
+              <Loop onClick={displayNotebook} />
             </Button>
           </Grid>
         </Grid>
       </Typography>
+
       <Divider my={6} />
 
+      <Dialog
+        open={idle}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"Êtes-vous toujours là 🧐  ?"}
+        </DialogTitle>
+
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Afin de protéger vos données nous allons vous déconnecter dans
+            <Countdown
+              intervalDelay={0}
+              precision={0}
+              renderer={(props) => <div>{props.total / 1000} secondes </div>}
+              date={Date.now() + 30000}
+            />
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            Gardez-moi en ligne
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Grid container spacing={6}>
         <Grid item xs={9}>
+          
           <TextField
             multiline
             rows={4}
+            value="CONSIGNE"
             variant="outlined"
             label="Votre consigne"
             placeholder="Ajouter votre consigne"
             fullWidth
           />
-          <Button fullWidth variant="contained" color="primary">
+          <Button
+            onClick={createNotebook}
+            fullWidth
+            variant="contained"
+            color="primary"
+          >
             Ajouter la consigne
           </Button>
+       
+          {progress}
           <Divider my={6} />
           {workspaceCard}
-
           {error ? (
             <Alert mt={3} mb={1} severity="error">
               {error}

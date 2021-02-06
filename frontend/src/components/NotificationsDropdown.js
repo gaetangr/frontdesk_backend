@@ -112,7 +112,7 @@ useEffect(() => {
   
 setTimeout(() => {
   displayNotification();
-}, TIMEOUT_VALUE); 
+}, 30000); 
 
 }, );
 

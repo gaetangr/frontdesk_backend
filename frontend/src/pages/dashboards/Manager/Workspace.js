@@ -74,7 +74,6 @@ const TrafficTable = () => (
             <TableRow>
               <TableCell>Message</TableCell>
               <TableCell align="left">Date</TableCell>
-              <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

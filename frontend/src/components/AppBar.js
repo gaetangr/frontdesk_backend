@@ -5,6 +5,7 @@
 import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { darken } from "polished";
+import { useIdleTimer } from 'react-idle-timer'
 import { Search as SearchIcon } from "react-feather";
 
 import {

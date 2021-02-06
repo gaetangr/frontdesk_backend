@@ -80,7 +80,7 @@ function TrafficTable() {
         {msg.content}
       </TableCell>
       <TableCell align="right">23 février</TableCell>
-      <TableCell align="right"></TableCell>
+      <TableCell align="right"> <Trash2 size="19"  /></TableCell>
   </TableRow>
   
   
