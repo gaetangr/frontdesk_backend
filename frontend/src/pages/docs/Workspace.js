@@ -15,8 +15,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-import Code from "../../components/Code";
-
 const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);

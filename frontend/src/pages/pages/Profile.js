@@ -89,8 +89,8 @@ function Public() {
             <TextField
               id="username"
               label="Pseudo"
+              InputLabelProps={{ shrink: true }}
               value={items.username}
-              
               fullWidth
               my={2}
             />
@@ -99,29 +99,29 @@ function Public() {
               helperText="Veuillez contacter votre administrateur pour modifier votre titre"
               id="title"
               label="Titre"
+              InputLabelProps={{ shrink: true }}
               placeholder="Ex: réceptionniste, directeur, gouvernante"
               value={items.title}
-              
               fullWidth
               my={2}
             />
             <TextField
               id="linkedin"
               label="Linkedin"
+              InputLabelProps={{ shrink: true }}
               value={items.linkedin}
-              
               fullWidth
               my={2}
             />
 
-            <FormControl fullWidth my={2} >
+            <FormControl fullWidth my={2}>
               <TextField
                 label="Biographie"
                 id="biographie"
+                InputLabelProps={{ shrink: true }}
                 multiline={true}
                 rows={3}
                 rowsMax={4}
-                variant="outlined"
                 placeholder="Ex: Je travaille comme réceptionniste à l'hôtel Overlook hôtel"
                 value={items.bio}
               />
@@ -129,10 +129,7 @@ function Public() {
           </Grid>
           <Grid item md={4}>
             <CenteredContent>
-              <BigAvatar
-                alt="Remy Sharp"
-               
-              />
+              <BigAvatar alt="Remy Sharp" />
               <input
                 accept="image/*"
                 style={{ display: "none" }}
@@ -198,8 +195,8 @@ function Private() {
           <Grid item md={6}>
             <TextField
               id="first-name"
+              InputLabelProps={{ shrink: true }}
               label="Prénom"
-              
               value={items.first_name}
               fullWidth
               my={2}
@@ -208,8 +205,8 @@ function Private() {
           <Grid item md={6}>
             <TextField
               id="last-name"
+              InputLabelProps={{ shrink: true }}
               label="Nom"
-              
               value={items.last_name}
               fullWidth
               my={2}
@@ -220,13 +217,21 @@ function Private() {
         <TextField
           id="email"
           label="Email"
-          
           type="email"
+          InputLabelProps={{ shrink: true }}
           value={items.email}
           fullWidth
           my={2}
         />
-
+        <TextField
+          id="phone_number"
+          label="Numéro de téléphone"
+          InputLabelProps={{ shrink: true }}
+          type="number"
+          value={items.email}
+          fullWidth
+          my={2}
+        />
         <Button variant="contained" color="primary" mt={3}>
           Sauvegarder les changements
         </Button>

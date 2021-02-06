@@ -1,5 +1,7 @@
-import React from "react";
+import { FRONTDESK_API, TOKEN } from "../../../constants";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components/macro";
+import axios from "axios";
 
 import {
   Card as MuiCard,
@@ -49,52 +51,75 @@ const rows = [
     "21 janvier 2021",
     <Eye size={18} />
   ),
-  createData(
-    "S'occuper des VIP avec un panier d'acceuil",
-    "21 janvier 2021",
-    <Eye size={18} />
-  ),
+
 ];
 
-const TrafficTable = () => (
-  <Card mb={3}>
-    <CardHeader
-      action={
-        <Tooltip title="Les consignes épinglées seront affichées ici">
-          <IconButton aria-label="settings">
-            <HelpCircle />
-          </IconButton>
-        </Tooltip>
-      }
-      title="Consignes épinglées"
-    />
+function TrafficTable() {
 
-    <Paper>
-      <TableWrapper>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Message</TableCell>
-              <TableCell align="left">Date</TableCell>
-              <TableCell align="right">Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell component="th" scope="row">
-                  {row.source}
-                </TableCell>
-                <TableCell align="right">{row.users}</TableCell>
-                <TableCell align="right">{row.sessions}</TableCell>
-                <TableCell align="right">{row.bounce}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableWrapper>
-    </Paper>
-  </Card>
-);
+  
+  const [items, setItems] = useState([]);
+    const displayNotebook = async () => {
+      const reponse = await axios({
+        method: "get",
+        url: `${FRONTDESK_API}/notebook/list/pinned`,
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      });
+      setItems(reponse.data); 
+      console.log(reponse)
+  };
+   useEffect(() => {
+     // Met à jour le titre du document via l’API du navigateur
+     displayNotebook();
+   }, []);
+  const workspaceCard = items.map((msg) => (
+     
+     <TableRow key={msg.id}>
+      <TableCell component="th" scope="row">
+        {msg.content}
+      </TableCell>
+      <TableCell align="right">23 février</TableCell>
+      <TableCell align="right"></TableCell>
+  </TableRow>
+  
+  
+  ));
+  return (
+    <Card mb={3}>
+      <CardHeader
+        action={
+          <Tooltip title="Les consignes épinglées seront affichées ici">
+            <IconButton aria-label="settings">
+              <HelpCircle />
+            </IconButton>
+          </Tooltip>
+        }
+        title="Consignes épinglées"
+      />
+
+      <Paper>
+        
+        <TableWrapper>
+          
+              <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Message</TableCell>
+
+          <TableCell align="left">Date</TableCell>
+          <TableCell align="right">Action</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {workspaceCard}
+      </TableBody>
+    </Table>
+        
+        </TableWrapper>
+      </Paper>
+    </Card>
+  );
+}
 
 export default TrafficTable;

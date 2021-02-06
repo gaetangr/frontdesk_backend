@@ -16,7 +16,6 @@ import {
 import { Alert } from "@material-ui/lab";
 import { spacing } from "@material-ui/system";
 
-import Code from "../../components/Code";
 
 const Divider = styled(MuiDivider)(spacing);
 

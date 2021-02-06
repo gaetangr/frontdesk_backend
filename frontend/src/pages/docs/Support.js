@@ -37,14 +37,11 @@ function Support() {
           <Box mb={10}>
             <Typography variant="subtitle1" gutterBottom my={4}>
               Pour des questions concernant l'utilisation de l'application, des suggestions ou
-              tout autre problème technique veuillez contacter 
-               {""}
-               <Link href="mailto:hello@front-desk.app">
-            hello@front-desk.app
+              tout autre problème technique veuillez contacter
+              <Link href="mailto:hello@front-desk.app">    hello@front-desk.app
               </Link>
               <br />
               <br />
-              Si vous avez des suggestions à apporter à l'application
             </Typography>
           </Box>
         </Grid>

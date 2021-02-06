@@ -1,6 +1,7 @@
-import React from "react";
-import styled from "styled-components/macro";
+import { FRONTDESK_API, TOKEN } from "../../../constants";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
+import styled from "styled-components/macro";
 import {
   Card as MuiCard,
   CardHeader,
@@ -77,20 +78,32 @@ const TableWrapper = styled.div`
 
 // Data
 let id = 0;
-function createData(source, users, sessions, bounce, avg) {
+function createData(name, title, last_login, profil) {
   id += 1;
-  return { id, source, users, sessions, bounce, avg };
+  return { id, name, title, last_login, profil };
 }
 
-const rows = [
-  createData("Raphaël", "Directeur", "4 février 2021", <Eye size={18} />),
-];
 
 function TrafficTable() {
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false);
   const [profil, setProfil] = React.useState(false);
-
+ const [items, setItems] = useState([]);
+ const DisplayUsers = async () => {
+   const reponse = await axios({
+     method: "get",
+     url: `${FRONTDESK_API}/collaborator/`,
+     headers: {
+       Authorization: `Token ${TOKEN}`,
+     },
+   });
+   setItems(reponse.data);
+   console.log(reponse);
+ };
+ useEffect(() => {
+   // Met à jour le titre du document via l’API du navigateur
+   DisplayUsers();
+ }, []);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -156,19 +169,17 @@ function TrafficTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.map((row) => (
+              {items.map((row) => (
                 <TableRow key={row.id}>
                   <TableCell component="th" scope="row">
-                    {row.source}
+                    {row.first_name}
                   </TableCell>
-                  <TableCell align="right">{row.users}</TableCell>
-                  <TableCell onClick={handleClickOpen} align="right">
-                    {row.sessions}
-                  </TableCell>
-                  <TableCell align="right">{row.bounce}</TableCell>
+                  <TableCell align="right">{row.title}</TableCell>
+                  <TableCell align="right">26</TableCell>
                   <TableCell onClick={handleProfil} align="right">
-                    {row.avg}
+                   <Eye size="19"/>
                   </TableCell>
+        
                 </TableRow>
               ))}
             </TableBody>

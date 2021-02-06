@@ -132,9 +132,12 @@ function Demos() {
       </Box>
       <Divider />
 
-      <Box px={4} my={3}>
-        <Typography>Supprimer mes données de session</Typography>
-  
+      <Box align="center" px={4} my={3}>
+        <Button href="mailto:hello@front-desk.app" variant="contained" color="primary">
+          Contacter le support
+        </Button>
+        <br /> <br />
+
       </Box>
     </Wrapper>
   );

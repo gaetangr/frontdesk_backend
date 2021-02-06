@@ -13,7 +13,7 @@ from .serializers import CollaboratorSerializer, UserSerializer
 # ------------------------------------------------------------------------------
 
 
-class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class CollaboratorRetrieveUpdateDestroy(generics.ListAPIView):
     """ Api view that allow user to retrieve, update, or destroy an instance of a collaborator"""
 
     serializer_class = CollaboratorSerializer
@@ -27,7 +27,7 @@ class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         property = Property.objects.filter(collaborator=user).first().pk
 
-        return User.objects.filter()
+        return User.objects.filter(property=property)
 
 
 collaborator_retrieve_update_destroy = CollaboratorRetrieveUpdateDestroy.as_view()

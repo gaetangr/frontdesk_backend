@@ -36,8 +36,8 @@ function UserDropdown() {
   const handleSignOut = async () => {
     await dispatch(signOut());
     history.push("/auth/sign-in");
-    localStorage.removeItem("name-property");
-    localStorage.removeItem("username");
+    localStorage.removeItem("token");
+
   };
 
   return (

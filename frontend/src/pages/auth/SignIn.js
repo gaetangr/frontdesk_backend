@@ -86,9 +86,10 @@ function SignIn() {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             await dispatch(
-              signIn({ email: values.email, password: values.password })
+              signIn({ email: values.email, password: values.password }
+              )
             );
-            history.push("/private");
+            history.push("/dashboard/default");
           } catch (error) {
             const message = error.message || "Something went wrong";
 

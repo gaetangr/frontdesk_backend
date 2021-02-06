@@ -33,7 +33,6 @@ import Actions from "./Actions";
 // Custom components
 import Workspace from "./Workspace";
 import MyTeam from "./MyTeam";
-import Logbook from "./LogbookLatest";
 
 const Divider = styled(MuiDivider)(spacing);
 const Card = styled(MuiCard)(spacing);
@@ -114,11 +113,7 @@ const handleClose = () => {
 
             <Paper component="blockquote">
               {" "}
-              <ReactMarkdown
-                source={
-                  "## Mémo \n\n - Ne pas oublier les **plannings** de février \n\n - Fin de mois "
-                }
-              />{" "}
+              <ReactMarkdown source={items.note} />{" "}
             </Paper>
           </Card>
         </Grid>
@@ -126,8 +121,11 @@ const handleClose = () => {
           <TextField
             multiline
             rows={6}
+            rowsMax={15}
             variant="outlined"
             label="Votre note"
+            defaultValue={items.note}
+            InputLabelProps={{ shrink: true }}
             placeholder="Modifier votre note"
             fullWidth
           />
@@ -135,7 +133,7 @@ const handleClose = () => {
             Modifier
           </Button>
           <Typography onClick={handleClickOpen} variant="caption">
-            Formatter votre texte
+            Formater votre texte
           </Typography>
           <Dialog
             open={open}
@@ -146,11 +144,11 @@ const handleClose = () => {
             aria-describedby="alert-dialog-slide-description"
           >
             <DialogTitle id="alert-dialog-slide-title">
-              {"Formatter ses notes"}
+              {"Formater ses notes"}
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-slide-description">
-                Vous pouvez utiliser les balises suivantes pour formatter votre
+                Vous pouvez utiliser les balises suivantes pour formater votre
                 texte:
                 <ul>
                   <li># Titre de niveau 1</li>

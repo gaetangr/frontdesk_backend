@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-import Code from "../../components/Code";
 import { Helmet } from "react-helmet";
 
 import {

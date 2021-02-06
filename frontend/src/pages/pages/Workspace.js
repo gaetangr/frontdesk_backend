@@ -79,6 +79,23 @@ const DoneChip = styled(Chip)`
   }
 `;
 
+const PinnedChip = styled(Chip)`
+  background-color: ${orange[700]};
+  border-radius: 5px;
+  color: ${(props) => props.theme.palette.common.white};
+  font-size: 12px;
+  height: 18px;
+  float: right;
+  margin-left: 2px;
+  margin-top: 3px;
+  padding: 3px 0;
+
+  span {
+    padding-left: ${(props) => props.theme.spacing(1.375)}px;
+    padding-right: ${(props) => props.theme.spacing(1.375)}px;
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -150,7 +167,9 @@ function WorkspaceContent(props) {
   return (
     <Card mb={6}>
       <CardContent>
-        <Grid justify="flex-end">{props.status}</Grid>
+        <Grid>
+          {props.status} {props.pinned}
+        </Grid>
         {/* Header - Author info, date, status */}
         <CardHeader
           avatar={
@@ -170,7 +189,7 @@ function WorkspaceContent(props) {
       </CardContent>
 
       {/* Actions - Actions for the user such as add comment, mark as done etc */}
-      <Box display="flex" flexDirection="row">
+      <Box display="flex">
         <Grid container justify="flex-start">
           <Grid item>
             {" "}
@@ -190,6 +209,7 @@ function WorkspaceContent(props) {
         <Grid container justify="flex-end">
           <Grid item xl="auto">
             {" "}
+            
             <Button size="small" color="primary">
               <Link href={props.editLink}>Editer</Link>
             </Button>
@@ -197,7 +217,7 @@ function WorkspaceContent(props) {
               <Link href={props.deleteLink}>supprimer</Link>
             </Button>
           </Grid>
-          <CardActions flexDirection="row-reverse" align="right"></CardActions>
+          <CardActions align="right"></CardActions>
         </Grid>
       </Box>
     </Card>
@@ -228,11 +248,7 @@ function Workspace() {
   }
 
 
- useEffect(() => {
-   // Met à jour le titre du document via l’API du navigateur
-  displayNotebook();
- }, []);
-
+ 
 
 
 
@@ -259,8 +275,10 @@ function Workspace() {
   const workspaceCard = items.map((msg) => (
     <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
-      title="Réceptionniste"
+      title={msg.username_title}
+      key={msg.id}
       status={msg.is_done == true ? <DoneChip label="Fait" /> : ""}
+      pinned={msg.is_pinned == true ? <PinnedChip label="Important" /> : ""}
       message={msg.content}
       notebookId={msg.id}
     />
@@ -277,7 +295,7 @@ function Workspace() {
             {" "}
             Cahier de consignes
           </Grid>
-          <Grid direction item>
+          <Grid item>
             <Button>
               {" "}
               <Loop onClick={refreshPage} />
@@ -311,7 +329,7 @@ function Workspace() {
             ""
           )}
         </Grid>
-        <Grid justify="flex-start" container item xs={3}>
+        <Grid container item xs={3}>
           <li Style="list-style-type:none;">
             {" "}
             <ul>

@@ -40,7 +40,6 @@ const Manager = async(() => import("../pages/dashboards/Manager"));
 
 // Pages components
 const Workspace = async(() => import("../pages/pages/Workspace"));
-const Logbook = async(() => import("../pages/pages/Logbook"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Profile = async(() => import("../pages/pages/Profile"));
 const Pricing = async(() => import("../pages/pages/Pricing"));
@@ -76,11 +75,13 @@ const dashboardsRoutes = {
       path: "/dashboard/default",
       name: "Mon espace",
       component: Default,
+    
     },
     {
       path: "/dashboard/manager",
       name: "Mon espace manager",
       component: Manager,
+     
     },
   ],
   component: null,
@@ -92,26 +93,13 @@ const workspaceRoutes = {
   id: "Espaces de travail",
   path: "/pages/workspace",
   name: "Réception",
+ 
   component: Workspace,
   icon: <Monitor />,
-  children: null
+  children: null,
 };
 
-// Logbook routes 
-//------------------
-const logbookRoutes = {
-  id: "Registres",
-  path: "/pages",
-  icon: <Book />,
-  children: [,
-    {
-      path: "/pages/logbook",
-      name: "Registre de maintenance",
-      component: Logbook,
-    },
-  ],
-  component: null,
-};
+
 
 // Checklist routes 
 //------------------
@@ -193,21 +181,21 @@ const documentationRoutes = {
   path: "/documentation",
   icon: <BookOpen />,
   children: [
-    {
+ /*    {
       path: "/documentation/getting-started",
       name: "Démarrer sur Front Desk",
       component: GettingStarted,
-    },
+    }, */
     {
       path: "/documentation/account-manager",
       name: "Compte propriétaire",
       component: AccountManager,
     },
-    {
+    /* {
       path: "/documentation/workspace",
       name: "Espace de travail",
       component: WorkspaceDoc,
-    },
+    }, */
     {
       path: "/documentation/support",
       name: "Support et assistance",
@@ -267,7 +255,6 @@ const TeamRoutes = {
 export const dashboardLayoutRoutes = [
   dashboardsRoutes,
   workspaceRoutes,
-  logbookRoutes,
   checklistRoutes,
   ProfileRoutes,
   TeamRoutes,

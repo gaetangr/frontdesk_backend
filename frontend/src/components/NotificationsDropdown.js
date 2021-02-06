@@ -91,6 +91,7 @@ const categories = ["message", "system", "tag" , "pinned"]
   const notificationCard = items.map((msg) => (
     <Notification
       title={msg.title}
+      key={msg.id}
       description={msg.content}
       Icon={
         msg.category == "tag" ? (

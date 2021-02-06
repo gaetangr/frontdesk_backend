@@ -163,7 +163,7 @@ function Pricing() {
                   </Button>
                 </CardActions>
                 <Typography variant="caption" gutterBottom align="center">
-                  L'abonnement est facturé par mois et propriété
+                  L'abonnement est facturé par mois et par établissement
                 </Typography>
               </Card>
             </Grid>
@@ -185,7 +185,7 @@ function Pricing() {
                       align="center"
                       display="inline"
                     >
-                      15€
+                      19€
                     </Typography>
                     <Typography
                       variant="h5"
@@ -199,9 +199,9 @@ function Pricing() {
                   <Typography variant="subtitle1" align="center">
                     Abonnement premium
                     <br />
-                    Sponsors officiel
+                    250 collaborateurs
                     <br />
-                    Outils en avant première
+                    Consignes/jour illimitées
                     <br />
                     Contact priviligié
                     <br />
@@ -213,7 +213,7 @@ function Pricing() {
                   </Button>
                 </CardActions>
                 <Typography variant="caption" gutterBottom align="center">
-                  L'abonnement est facturé par mois et propriété
+                  L'abonnement est facturé par mois et par établissement
                 </Typography>
               </Card>
             </Grid>
@@ -221,7 +221,9 @@ function Pricing() {
           <br />
 
           <Typography variant="caption" gutterBottom align="center">
-            Si vous n'êtes pas satisfait à 100% nous vous remboursons votre abonnement, aucune justification requise, un simple email au support et le tour est joué !
+            Si vous n'êtes pas satisfait à 100% nous vous remboursons votre
+            abonnement, aucune justification requise, un simple email au support
+            et le tour est joué !
           </Typography>
           <br />
           <Typography variant="caption" gutterBottom align="center">

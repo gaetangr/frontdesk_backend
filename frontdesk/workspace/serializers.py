@@ -24,12 +24,13 @@ class NotebookSerializer(serializers.ModelSerializer):
 
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
-        # user = Profile.objects.get(pk=obj.author.pk)
-        return "Réceptionniste"
+        user = Profile.objects.get(pk=obj.author.pk)
+        return user.title
 
     def username_field(self, obj):
         """ Add a custom field serializer that return the username of user """
-        return "Gaëtan"
+        user = User.objects.get(pk=obj.author.pk)
+        return user.first_name
 
     class Meta:
         model = Notebook
@@ -39,6 +40,7 @@ class NotebookSerializer(serializers.ModelSerializer):
             "content",
             "author",
             "is_done",
+            "is_pinned",
             "created",
             "modified",
             "username",
