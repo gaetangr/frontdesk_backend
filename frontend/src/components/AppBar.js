@@ -93,7 +93,7 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-           Overlook Hôtel
+         
           </Grid>
           <Grid item xs />
           <Grid item>

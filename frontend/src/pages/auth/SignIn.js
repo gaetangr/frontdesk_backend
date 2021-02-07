@@ -4,17 +4,23 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Link } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+import { useForm, Controller } from "react-hook-form";
 import { Helmet } from "react-helmet";
-import * as Yup from "yup";
-import { Formik } from "formik";
+import { FRONTDESK_API, TOKEN } from "../../constants/";
 import { signIn } from "../../redux/actions/authActions";
 import axios from "axios";
-
+import { green } from "@material-ui/core/colors";
+import Snackbar from "@material-ui/core/Snackbar";
 import {
   Avatar,
   Checkbox,
   FormControlLabel,
   Button,
+  LinearProgress,
+  CircularProgress,
   Paper,
   TextField as MuiTextField,
   Typography,
@@ -40,26 +46,113 @@ const BigAvatar = styled(Avatar)`
   margin: 0 auto ${(props) => props.theme.spacing(5)}px;
 `;
 
+
+const schema = yup.object().shape({
+
+  username: yup.string().required("Veuillez renseigner votre pseudo").min(3, "Trop court "),
+});
+
 function SignIn() {
+
+  const methods = useForm({
+    resolver: yupResolver(schema),
+  });
+  const { register, handleSubmit, control,errors,touched, reset } = methods;
   const dispatch = useDispatch();
   const history = useHistory();
-  const [key, setKey] = useState("blabla");
-  /*useEffect(() => {
+  const [key, setKey] = useState("");
+  const [error, setError] = useState(false);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState("")
+
+    const handleClose = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+
+      setError(false);
+    };
+  function displayUser() {
     axios({
       method: "get",
-      url: "http://127.0.0.1:8000/api/v1/property/",
+      url: `${FRONTDESK_API}/users/`,
       headers: {
-        Authorization: "Token b325d52b7e3352910a119a7ffe461f77fa77452d",
+        Authorization: `Token ${TOKEN}`,
       },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+
+  const errorCard = (
+    <Snackbar
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={error}
+      autoHideDuration={3000}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} variant="filled" severity="error">
+        Connexion impossible, veuillez vérifier votre saisie 
+      </Alert>
+    </Snackbar>
+  );
+  const onSubmit = (data) => {
+   
+    axios({
+      method: "post",
+      url: `${FRONTDESK_API}/login/`,
+      data: {
+        "username": data.username,
+    "password": data.password,
+
+      },
+    
     })
-      .then((res) => {
-        console.log();
+      .then((data) => {
+        setLoading(<LinearProgress />);
+        console.log(data.data.key)
+        localStorage.setItem("token", data.data.key)
+        console.log("vous allez être redigrié")
+        setTimeout(() => { history.push("/dashboard/default", console.log("c'est bon")); document.location.reload(); }, 3000);
+        
         
       })
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          //console.log(error.response.data.detail);
 
-              
+          console.log(error.response.data.non_field_errors[0]);
+          console.log(error.response.headers);
+          setError(true);
+        }
+         else if (error.request) {
+        /*
+         * The request was made but no response was received, `error.request`
+         * is an instance of XMLHttpRequest in the browser and an instance
+         * of http.ClientRequest in Node.js
+         */
+        console.log("dzdz",error.request);
+    } else {
+        // Something happened in setting up the request and triggered an Error
+        console.log('Error', error.message);
+    }
+    console.log("ddzdz",error);
 
-  });*/
+      });
+  };
+
+  useEffect(() => {
+    displayUser();
+  }, []);
+
+
   return (
     <Wrapper>
       <Helmet title="Se connecter" />
@@ -69,99 +162,53 @@ function SignIn() {
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Connectez-vous pour continuer
+        {errorCard}
       </Typography>
-
-      <Formik
-        initialValues={{
-          email: "demo@bootlab.io",
-          password: "unsafepassword",
-          submit: false,
-        }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().max(255).required("L'email est requis"),
-          password: Yup.string()
-            .max(255)
-            .required("Le mot de passe est requis"),
-        })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            await dispatch(
-              signIn({ email: values.email, password: values.password }
-              )
-            );
-            history.push("/dashboard/default");
-          } catch (error) {
-            const message = error.message || "Something went wrong";
-
-            setStatus({ success: false });
-            setErrors({ submit: message });
-            setSubmitting(false);
-          }
-        }}
-      >
-        {({
-          errors,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          values,
-        }) => (
-          <form noValidate onSubmit={handleSubmit}>
-            {errors.submit && (
-              <Alert mt={2} mb={1} severity="warning">
-                {errors.submit}
-              </Alert>
-            )}
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Option 1: pass a component to the Controller. */}
+        <Controller
+          as={
             <TextField
-              type="email"
-              name="email"
+              id="username"
               label="Pseudo"
-              value={values.email}
-              error={Boolean(touched.email && errors.email)}
+              InputLabelProps={{ shrink: true }}
               fullWidth
-              helperText={touched.email && errors.email}
-              onBlur={handleBlur}
-              onChange={handleChange}
+              helperText={<p>{errors.username?.message}</p>}
               my={2}
             />
+          }
+          name="username"
+          label="Pseudo"
+          control={control}
+          defaultValue=""
+        />
+
+        <Controller
+          as={
             <TextField
+              id="title"
               type="password"
-              name="password"
               label="Mot de passe"
-              value={values.password}
-              error={Boolean(touched.password && errors.password)}
+              InputLabelProps={{ shrink: true }}
               fullWidth
-              helperText={touched.password && errors.password}
-              onBlur={handleBlur}
-              onChange={handleChange}
               my={2}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Se rappeler de moi"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-            >
-              Se connecter
-            </Button>
-            <Button
-              component={Link}
-              to="/auth/reset-password"
-              fullWidth
-              color="primary"
-            >
-              Mot de passe oublié
-            </Button>
-          </form>
-        )}
-      </Formik>
+          }
+          defaultValue="password"
+          name="password"
+          control={control}
+        />
+
+        <Button
+          fullWidth
+          onClick={handleSubmit(onSubmit)}
+          variant="contained"
+          color="primary"
+        >
+          Sauvegarder les changements
+        </Button>
+      </form>
+      {loading}
     </Wrapper>
   );
 }

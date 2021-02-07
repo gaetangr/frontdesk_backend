@@ -4,6 +4,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Helmet } from "react-helmet";
 import * as Yup from "yup";
+import { FRONTDESK_API, TOKEN } from "../../constants/";
+import { useForm, Controller } from "react-hook-form";
 import { Formik } from "formik";
 import { signUp } from "../../redux/actions/authActions";
 import axios from "axios";
@@ -15,6 +17,7 @@ import {
   Checkbox,
   Divider,
   Paper,
+  CircularProgress,
   TextField as MuiTextField,
   Typography,
 } from "@material-ui/core";
@@ -37,7 +40,83 @@ const Wrapper = styled(Paper)`
 function SignUp() {
   const dispatch = useDispatch();
   const history = useHistory();
+  
+  const methods = useForm();
+  const { register, handleSubmit, control, reset } = methods;
 
+  const [key, setKey] = useState("");
+  const [error, setError] = useState(false);
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState();
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setError(false);
+  };
+  function displayUser() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+
+  const onSubmit = (data) => {
+    axios({
+      method: "post",
+      url: `${FRONTDESK_API}/auth/registration/`,
+      data: {
+        username: data.username,
+        email: data.email,
+        password1: data.password,
+        password2: data.password,
+      },
+    })
+      .then((data) => {
+        setLoading(<CircularProgress size={20} color="green" />);
+        console.log(data.data.key);
+        localStorage.setItem("token", data.data.key);
+        console.log("vous allez être redigrié");
+        setTimeout(() => {
+          history.push("/dashboard/default", console.log("c'est bon"));
+        }, 443000);
+      })
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          //console.log(error.response.data.detail);
+
+          console.log(error.response.data);
+          console.log(error.response.headers);
+          setError(true);
+        } else if (error.request) {
+          /*
+           * The request was made but no response was received, `error.request`
+           * is an instance of XMLHttpRequest in the browser and an instance
+           * of http.ClientRequest in Node.js
+           */
+          console.log("dzdz", error.request);
+        } else {
+          // Something happened in setting up the request and triggered an Error
+          console.log("Error", error.message);
+        }
+        console.log("ddzdz", error);
+      });
+  };
+
+  useEffect(() => {
+    displayUser();
+  }, []);
   
   return (
     <Wrapper>
@@ -53,180 +132,71 @@ function SignUp() {
         <AlertTitle>Information</AlertTitle>
         Les inscriptions sont ouvertes pour les propriétaires <u>
           uniquement
-        </u> <Link href="/documentation/account-manager">En savoir plus</Link>
+        </u>{" "}
+        <Link href="/documentation/account-manager">En savoir plus</Link>
       </Alert>
 
-      <Formik
-        initialValues={{
-          name: "",
-          property_name: "",
-          email: "",
-          password: "",
-          confirmPassword: "",
-          submit: false,
-        }}
-        validationSchema={Yup.object().shape({
-          name: Yup.string()
-            .min(4, "Trop court")
-            .max(50, "Trop long")
-            .required("Le nom est requis"),
-          property_name: Yup.string()
-            .min(4, "Trop court")
-            .max(90, "Trop long")
-            .required("Le nom de votre établissement est requis"),
-          email: Yup.string()
-            .email("L'email n'est pas valide")
-            .max(255)
-            .required("L'email est requis"),
-          password: Yup.string()
-            .min(8, "Au moins 8 charactères ")
-            .max(255)
-            .required("Requis"),
-          confirmPassword: Yup.string().when("password", {
-            is: (val) => (val && val.length > 0 ? true : false),
-            then: Yup.string().oneOf(
-              [Yup.ref("password")],
-              "Les mots de passe ne correspondent pas"
-            ),
-          }),
-        })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const name = values.name;
-          const property_name = values.property_name;
-          const email = values.email;
-          const password = values.password;
-          try {
-            await dispatch(
-              signUp(
-                axios({
-                  method: "post",
-                  url: "http://127.0.0.1:8000/api/v1/auth/registration/",
-                  data: {
-                    username: name,
-                    email: email,
-                    password1: password,
-                    password2: password,
-                  },
-                })
-                  .then((res) => {
-                    console.log(res);
-                    console.log(res.data.key);
-                    localStorage.setItem("token", res.data.key);
-                  })
-                  .catch((error) => {
-                    if (error.response) {
-                    }
-                  })
-              )
-            );
-            //history.push("/auth/sign-in");
-          } catch (error) {
-            const message = error.message || "Something went wrong";
-
-            setStatus({ success: false });
-            setErrors({ submit: message });
-            setSubmitting(false);
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {/* Option 1: pass a component to the Controller. */}
+        <Controller
+          as={
+            <TextField
+              id="username"
+              label="Pseudo"
+              InputLabelProps={{ shrink: true }}
+              fullWidth
+              my={2}
+            />
           }
-        }}
-      >
-        {({
-          errors,
-          handleBlur,
-          handleChange,
-          handleSubmit,
-          isSubmitting,
-          touched,
-          values,
-        }) => (
-          <form noValidate onSubmit={handleSubmit}>
-            {errors.submit && (
-              <Alert mt={2} mb={1} severity="warning">
-                {errors.submit}
-              </Alert>
-            )}
+          name="username"
+          label="Pseudo"
+          control={control}
+          defaultValue="admin22"
+        />
 
+        <Controller
+          as={
             <TextField
-              type="text"
-              name="name"
-              required
-              label="Prénom"
-              placeholder="Ce prénom sera utilisé pour vous identifier entre collaborateurs"
-              value={values.name}
-              error={Boolean(touched.name && errors.name)}
-              fullWidth
-              helperText={touched.name && errors.name}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              my={3}
-            />
-            <TextField
-              type="text"
-              name="property_name"
-              required
-              placeholder="Choississez le nom de votre établissement, les différents outils y seront rattachés"
-              label="Nom de votre établissement"
-              value={values.property_name}
-              error={Boolean(touched.property_name && errors.property_name)}
-              fullWidth
-              helperText={touched.property_name && errors.property_name}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              my={3}
-            />
-            <TextField
-              type="email"
-              required
-              name="email"
-              label="Email"
-              value={values.email}
-              error={Boolean(touched.email && errors.email)}
-              fullWidth
-              helperText={touched.email && errors.email}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              my={3}
-            />
-            <TextField
+              id="password"
               type="password"
-              name="password"
-              required
               label="Mot de passe"
-              value={values.password}
-              error={Boolean(touched.password && errors.password)}
+              InputLabelProps={{ shrink: true }}
+              placeholder="Ex: réceptionniste, directeur, gouvernante"
               fullWidth
-              helperText={touched.password && errors.password}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              my={3}
+              my={2}
             />
+          }
+          defaultValue="passwzdpldpzl$$ùpùùord"
+          name="password"
+          control={control}
+        />
+
+        <Controller
+          as={
             <TextField
-              type="password"
-              required
-              name="confirmPassword"
-              label="Confirmer le mot de passe"
-              value={values.confirmPassword}
-              error={Boolean(touched.confirmPassword && errors.confirmPassword)}
+              id="email"
+             
+              label="email"
+              InputLabelProps={{ shrink: true }}
+              placeholder="Ex: réceptionniste, directeur, gouvernante"
               fullWidth
-              helperText={touched.confirmPassword && errors.confirmPassword}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              my={3}
+              my={2}
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              disabled={isSubmitting}
-            >
-              Créer un compte propriétaire
-            </Button>
-            <Typography color="textSecondary" variant="caption">
-              Vous pourrez changer les informations plus tard
-            </Typography>
-          </form>
-        )}
-      </Formik>
+          }
+          defaultValue="a@gk.fr"
+          name="email"
+          control={control}
+        />
+
+        <Button
+          fullWidth
+          onClick={handleSubmit(onSubmit)}
+          variant="contained"
+          color="primary"
+        >
+          Sauvegarder les changements {loading}
+        </Button>
+      </form>
     </Wrapper>
   );
 }

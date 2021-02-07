@@ -11,7 +11,7 @@ class Profile(models.Model):
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=200, null=True, blank=True, help_text="Job title to identify which departement the user belongs to")
-    phone_number = models.IntegerField(null=True, blank=True)
+    phone_number = models.CharField(max_length=200, null=True, blank=True)
     bio = models.TextField(null=True, blank=True, help_text="Short description use in member card")
     note = models.TextField(null=True, blank=True, help_text="Privates notes shown on the dashboard")
     image = models.ImageField(upload_to="media", max_length=254, null=True, blank=True)

@@ -4,10 +4,10 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import User
+from frontdesk.users.models import User, Profile
 
 from .permissions import IsRequestUser
-from .serializers import CollaboratorSerializer, UserSerializer
+from .serializers import CollaboratorSerializer, UserSerializer, ProfileSerializer
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------
@@ -71,3 +71,21 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 user_detail_view = UserDetail.as_view()
+
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Api View that allow user to update, delete or retrieve a user object"""
+
+    serializer_class = ProfileSerializer
+   
+
+    def get_queryset(self):
+        """
+        This view should return the user detail only
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Profile.objects.filter(user=user)
+
+
+profile_detail_view = ProfileDetail.as_view()

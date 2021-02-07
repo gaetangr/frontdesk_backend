@@ -37,6 +37,7 @@ function UserDropdown() {
     await dispatch(signOut());
     history.push("/auth/sign-in");
     localStorage.removeItem("token");
+    document.location.reload();
 
   };
 

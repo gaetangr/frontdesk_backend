@@ -11,7 +11,7 @@ import "../vendor/perfect-scrollbar.css";
 import axios from "axios";
 import { spacing } from "@material-ui/system";
 import { FRONTDESK_API, TOKEN } from "../constants";
-
+import firstLetter from "../utils/utils";
 import {
   Badge,
   Box as MuiBox,
@@ -410,8 +410,9 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
           <Grid item>
             <SidebarFooterBadge></SidebarFooterBadge>
           </Grid>
-          <Avatar size="small" src={items.image}>
-      
+          <Avatar size="small">
+            {firstLetter(`${items.first_name}`)}
+            {firstLetter(`${items.first_name}`)}
           </Avatar>
           <Grid item>
             <SidebarFooterText variant="body2">

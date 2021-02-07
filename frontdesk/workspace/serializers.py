@@ -21,6 +21,7 @@ class NotebookSerializer(serializers.ModelSerializer):
 
     username = serializers.SerializerMethodField("username_field")
     username_title = serializers.SerializerMethodField("username_title_field")
+    date = serializers.SerializerMethodField("date_field")
 
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
@@ -31,6 +32,13 @@ class NotebookSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the username of user """
         user = User.objects.get(pk=obj.author.pk)
         return user.first_name
+    
+    def date_field(self, obj):
+        now = str(obj.created)
+        year = now[0:4]
+        month = now[5:7]
+        day = now[8:10]
+        return f"{day}-{month}-{year}"
 
     class Meta:
         model = Notebook
@@ -45,6 +53,7 @@ class NotebookSerializer(serializers.ModelSerializer):
             "modified",
             "username",
             "username_title",
+            "date"
         ]
 
 

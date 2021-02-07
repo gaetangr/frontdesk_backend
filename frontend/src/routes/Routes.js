@@ -12,6 +12,8 @@ import AuthLayout from "../layouts/Auth";
 import PresentationLayout from "../layouts/Presentation";
 import Page404 from "../pages/auth/Page404";
 
+const token = localStorage.getItem("token")
+
 const childRoutes = (Layout, routes) =>
   routes.map(({ component: Component, guard, children, path }, index) => {
     const Guard = guard || React.Fragment;

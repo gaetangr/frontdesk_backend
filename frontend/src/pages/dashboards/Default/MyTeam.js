@@ -120,7 +120,13 @@ function TrafficTable() {
   const handleClickOpenSnack = () => {
     setOpen1(true);
   };
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setOpen(false);
+  };
 
   return (
     <Card mb={3}>
@@ -190,6 +196,8 @@ function TrafficTable() {
             par défault et le contenu, le collaborateur recevra une notification
             instantément.
           </DialogContentText>
+
+          
           <TextField
             defaultValue="Vous avez un nouveau message privé"
             margin="dense"

@@ -21,6 +21,8 @@ import {
   Users,
 } from "react-feather";
 
+
+
 // Guards
 const AuthGuard = async(() => import("../components/AuthGuard"));
 
@@ -63,10 +65,13 @@ const ProtectedPage = async(() => import("../pages/protected/ProtectedPage"));
 
 // Dashboard routes 
 //------------------
+
+
 const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
   header: "Outils",
+  
 
   icon: <Sliders />,
   containsHome: true,
@@ -136,6 +141,7 @@ const ProfileRoutes = {
   icon: <Users />,
   children: null,
   component: Profile,
+  
 };
 
 // Auth routes 

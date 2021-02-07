@@ -8,8 +8,14 @@ import React, { isValidElement, useEffect, useState } from "react";
 import styled from "styled-components/macro";
 import Countdown from "react-countdown";
 import { useHistory } from "react-router-dom";
+import { useForm, Controller } from "react-hook-form";
 import { useIdleTimer } from "react-idle-timer";
 import Helmet from "react-helmet";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import parse from "autosuggest-highlight/parse";
+import match from "autosuggest-highlight/match";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import Box from "@material-ui/core/Box";
@@ -344,6 +350,7 @@ function Workspace() {
   
   const handleClickOpen = () => {
     setIdle(true);
+    
   };
 
   const handleClose = () => {
@@ -351,13 +358,17 @@ function Workspace() {
   };
   const handleOnIdle = (event) => {
     setIdle(true);
-    //history.go("/auth/sign-in");
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 30000);
   };
 
-  const { getRemainingTime, getLastActiveTime, getTotalIdleTime } = useIdleTimer({
+  const {
+    
+  } = useIdleTimer({
     onIdle: handleOnIdle,
     debounce: 500,
-    timeout: 3330000,
+    timeout: 1000000, // if user is idle for 15mn display a
   });
 
   const displayNotebook = async () => {
@@ -376,50 +387,71 @@ function Workspace() {
   }
 
   const [progress, setProgress] = React.useState("");
-
-
+const [loading, setLoading] = useState("");
+  const [value, setValue] = React.useState("");
 
   useEffect(() => {
     displayNotebook();
-    console.log("koko");
+    console.log("Loading state");
   }, []);
 
-  async function createNotebook() {
-    const reponse = await axios({
-      method: "post",
-      url: `${FRONTDESK_API}/notebook/create/`,
-      data: {
-        id: 35,
-        workspace: 1,
-        author: 1,
-        content: "fffzdzdzdzdzdf",
-        is_done: false,
-        is_pinned: false,
-      },
-      headers: {
-        Authorization: `Token ${TOKEN}`,
-      },
-    })
-      .then(
-        setProgress(<LinearProgress />),
-        setTimeout(displayNotebook, 2000),
-        setProgress(<LinearProgress />)
-      )
-      .catch((error) => {
-        if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
 
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-  }
+const schema = yup.object().shape({
+  TextField: yup
+    .string()
+    .required("Vous n'avez rien renseigné")
+    .min(10, "Trop court ").max(1000),
+});
 
+  const methods = useForm({
+    resolver: yupResolver(schema),
+  });
 
+    const {register, handleSubmit, errors, control, reset } = methods;
+  const onSubmit = (data) => {
+    console.log(data.TextField)
+    axios({
+  
+    method: "post",
+    url: `${FRONTDESK_API}/notebook/create/`,
+    data: {
+      id: 35,
+      workspace: 1,
+      author: 1,
+      content: data.TextField,
+      is_done: false,
+      is_pinned: false,
+    },
+    headers: {
+      Authorization: `Token ${TOKEN}`,
+    },
+  })
+    .then(
+      
+
+      setLoading(<LinearProgress variant="query" />),
+              // set timeout
+              setTimeout(() => {
+                  setLoading("");
+                  displayNotebook();
+              }, 2500),
+   
+   
+    )
+    .catch((error) => {
+      if (error.response) {
+        /*
+         * The request was made and the server responded with a
+         * status code that falls out of the range of 2xx
+         */
+        console.log(error.response.data.detail);
+
+        console.log(error.response.status);
+        console.log(error.response.headers);
+      }
+    });};
+  
+  
   const workspaceCard = items.map((msg) => (
 
     <WorkspaceContent
@@ -442,13 +474,10 @@ function Workspace() {
       <Typography variant="h3" gutterBottom display="inline">
         <Grid container spacing={6}>
           <Grid item xs={8}>
-            {" "}
-            Cahier de consignes{" "}
+            Cahier de consignes
           </Grid>
-
           <Grid item>
             <Button>
-              {" "}
               <Loop onClick={displayNotebook} />
             </Button>
           </Grid>
@@ -457,54 +486,41 @@ function Workspace() {
 
       <Divider my={6} />
 
-      <Dialog
-        open={idle}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Êtes-vous toujours là 🧐  ?"}
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Afin de protéger vos données nous allons vous déconnecter dans
-            <Countdown
-              intervalDelay={0}
-              precision={0}
-              renderer={(props) => <div>{props.total / 1000} secondes </div>}
-              date={Date.now() + 30000}
-            />
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
-            Gardez-moi en ligne
-          </Button>
-        </DialogActions>
-      </Dialog>
       <Grid container spacing={6}>
         <Grid item xs={9}>
-          
-          <TextField
-            multiline
-            rows={4}
-            value="CONSIGNE"
-            variant="outlined"
-            label="Votre consigne"
-            placeholder="Ajouter votre consigne"
-            fullWidth
-          />
+          {loading}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Option 1: pass a component to the Controller. */}
+            <Controller
+              as={
+                <TextField
+                  multiline
+                  onSubmit
+                  rows={4}
+                  value=""
+                  error={errors.TextField ? true : false}
+                  helperText={errors.TextField?.message}
+                  variant="outlined"
+                  label="Votre consigne"
+                  placeholder="Ajouter votre consigne"
+                  fullWidth
+                />
+              }
+              name="TextField"
+              control={control}
+              defaultValue=""
+            />
+          </form>
+         
           <Button
-            onClick={createNotebook}
+            onClick={handleSubmit(onSubmit)}
             fullWidth
             variant="contained"
             color="primary"
           >
             Ajouter la consigne
+            {value}
           </Button>
-       
           {progress}
           <Divider my={6} />
           {workspaceCard}
@@ -515,54 +531,6 @@ function Workspace() {
           ) : (
             ""
           )}
-        </Grid>
-        <Grid container item xs={3}>
-          <li Style="list-style-type:none;">
-            {" "}
-            <ul>
-              <Chip
-                size="small"
-                color="primary"
-                label="Tous"
-                icon={<Group />}
-              />
-            </ul>
-            <ul>
-              <Chip
-                size="small"
-                color="primary"
-                label="Réception"
-                icon={<RoomService />}
-              />
-            </ul>
-            <ul>
-              {" "}
-              <Chip
-                size="small"
-                color="secondary"
-                label="Maintenance"
-                icon={<Build />}
-              />
-            </ul>
-            <ul>
-              {" "}
-              <Chip
-                size="small"
-                color="secondary"
-                label="Etage"
-                icon={<SingleBed />}
-              />
-            </ul>
-            <ul>
-              {" "}
-              <Chip
-                size="small"
-                color="secondary"
-                label="Manager"
-                icon={<Group />}
-              />
-            </ul>
-          </li>
         </Grid>
       </Grid>
     </React.Fragment>
