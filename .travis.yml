@@ -7,6 +7,9 @@ python:
 
 env: DJANGO_SETTINGS_MODULE="config.settings.test"
 
+before_script:
+  - psql -c "CREATE USER gaetan WITH PASSWORD 'password';" -U postgres
+  
 # Update PIP
 before_install:
   - python -m pip install --upgrade pip
