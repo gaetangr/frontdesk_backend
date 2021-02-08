@@ -6,13 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('notification', '0003_notification_category'),
+        ("notification", "0003_notification_category"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notification',
-            name='category',
-            field=models.CharField(choices=[('Bell', 'Notification'), ('AtSign', 'Tag'), ('Mail', 'message'), ('Flag', 'Pinned'), ('AlertTriangle', 'System')], default='Bell', max_length=20, verbose_name='Category'),
+            model_name="notification",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("Bell", "Notification"),
+                    ("AtSign", "Tag"),
+                    ("Mail", "message"),
+                    ("Flag", "Pinned"),
+                    ("AlertTriangle", "System"),
+                ],
+                default="Bell",
+                max_length=20,
+                verbose_name="Category",
+            ),
         ),
     ]

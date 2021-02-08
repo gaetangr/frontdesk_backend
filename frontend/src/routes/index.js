@@ -21,6 +21,8 @@ import {
   Users,
 } from "react-feather";
 
+
+
 // Guards
 const AuthGuard = async(() => import("../components/AuthGuard"));
 
@@ -40,20 +42,19 @@ const Manager = async(() => import("../pages/dashboards/Manager"));
 
 // Pages components
 const Workspace = async(() => import("../pages/pages/Workspace"));
-const Logbook = async(() => import("../pages/pages/Logbook"));
 const Tasks = async(() => import("../pages/pages/Tasks"));
 const Profile = async(() => import("../pages/pages/Profile"));
+const Pricing = async(() => import("../pages/pages/Pricing"));
+const Team = async(() => import("../pages/pages/Team"));
+
 
 // Documentation
-const Welcome = async(() => import("../pages/docs/Welcome"));
 const GettingStarted = async(() => import("../pages/docs/GettingStarted"));
-const EnvironmentVariables = async(() =>
-  import("../pages/docs/EnvironmentVariables")
+const AccountManager = async(() =>
+  import("../pages/docs/AccountManager")
 );
-const Deployment = async(() => import("../pages/docs/Deployment"));
-const Theming = async(() => import("../pages/docs/Theming"));
-const StateManagement = async(() => import("../pages/docs/StateManagement"));
-
+const Support = async(() => import("../pages/docs/Support"));
+const WorkspaceDoc = async(() => import("../pages/docs/Workspace"));
 const Changelog = async(() => import("../pages/docs/Changelog"));
 
 // Landing
@@ -64,10 +65,13 @@ const ProtectedPage = async(() => import("../pages/protected/ProtectedPage"));
 
 // Dashboard routes 
 //------------------
+
+
 const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
   header: "Outils",
+  
 
   icon: <Sliders />,
   containsHome: true,
@@ -76,11 +80,13 @@ const dashboardsRoutes = {
       path: "/dashboard/default",
       name: "Mon espace",
       component: Default,
+    
     },
     {
       path: "/dashboard/manager",
       name: "Mon espace manager",
       component: Manager,
+     
     },
   ],
   component: null,
@@ -90,33 +96,15 @@ const dashboardsRoutes = {
 //------------------
 const workspaceRoutes = {
   id: "Espaces de travail",
-  path: "/pages",
+  path: "/pages/workspace",
+  name: "Réception",
+ 
+  component: Workspace,
   icon: <Monitor />,
-  children: [
-    {
-      path: "/pages/workspace",
-      name: "Réception",
-      component: Workspace,
-    }
-  ],
-  component: null,
+  children: null,
 };
 
-// Logbook routes 
-//------------------
-const logbookRoutes = {
-  id: "Registres",
-  path: "/pages",
-  icon: <Book />,
-  children: [,
-    {
-      path: "/pages/logbook",
-      name: "Registre de maintenance",
-      component: Logbook,
-    },
-  ],
-  component: null,
-};
+
 
 // Checklist routes 
 //------------------
@@ -153,6 +141,7 @@ const ProfileRoutes = {
   icon: <Users />,
   children: null,
   component: Profile,
+  
 };
 
 // Auth routes 
@@ -198,30 +187,25 @@ const documentationRoutes = {
   path: "/documentation",
   icon: <BookOpen />,
   children: [
-    {
+ /*    {
       path: "/documentation/getting-started",
       name: "Démarrer sur Front Desk",
       component: GettingStarted,
-    },
+    }, */
     {
-      path: "/documentation/environment-variables",
-      name: "Votre compte",
-      component: EnvironmentVariables,
+      path: "/documentation/account-manager",
+      name: "Compte propriétaire",
+      component: AccountManager,
     },
-    {
-      path: "/documentation/deployment",
+    /* {
+      path: "/documentation/workspace",
       name: "Espace de travail",
-      component: Deployment,
-    },
+      component: WorkspaceDoc,
+    }, */
     {
-      path: "/documentation/theming",
-      name: "Registre de maintenance",
-      component: Theming,
-    },
-    {
-      path: "/documentation/state-management",
-      name: "J'ai un problème",
-      component: StateManagement,
+      path: "/documentation/support",
+      name: "Support et assistance",
+      component: Support,
     },
   ],
   component: null,
@@ -257,13 +241,30 @@ const TermRoutes = {
   children: null,
 };
 
+// Routes for temrs, CGU and legals ...
+const PricingRoutes = {
+  id: "Pricing",
+  path: "/pricing",
+  component: Pricing,
+  children: null,
+};
+
+// Routes for temrs, CGU and legals ...
+const TeamRoutes = {
+  id: "Team",
+  path: "/team",
+  component: Team,
+  children: null,
+};
+
 // Routes using the Dashboard layout
 export const dashboardLayoutRoutes = [
   dashboardsRoutes,
   workspaceRoutes,
-  logbookRoutes,
   checklistRoutes,
   ProfileRoutes,
+  TeamRoutes,
+  PricingRoutes,
   TermRoutes,
   tasksRoutes,
   authRoutes,

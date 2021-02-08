@@ -10,16 +10,26 @@ class Notification(TimeStampedModel):
 
     title = models.CharField(max_length=50, verbose_name="Titre")
     content = models.CharField(max_length=300, verbose_name="Contenu")
-    is_system = models.BooleanField(default=False, help_text="If set to true the notification is highlighted in the notification dropdown")
+    is_system = models.BooleanField(
+        default=False,
+        help_text="If set to true the notification is highlighted in the notification dropdown",
+    )
     is_read = models.BooleanField(default=False)
     sender = models.ForeignKey(
-        User, related_name="sender", blank=True, null=True, on_delete=models.CASCADE,
-        help_text="The user who taggued or send the notificiation to the receiver, can be null"
+        User,
+        related_name="sender",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        help_text="The user who taggued or send the notificiation to the receiver, can be null",
     )
     receiver = models.ForeignKey(
-        User, related_name="reveiver", on_delete=models.CASCADE,
-        help_text="The user who is receiving the notification"
+        User,
+        related_name="reveiver",
+        on_delete=models.CASCADE,
+        help_text="The user who is receiving the notification",
     )
+
     class Category(models.TextChoices):
         DEFAULT = "notification", "Notification"
         TAG = "tag", "Tag"
@@ -32,7 +42,7 @@ class Notification(TimeStampedModel):
         max_length=20,
         choices=Category.choices,
         default=Category.DEFAULT,
-        help_text="Use for categorize notifications"
+        help_text="Use for categorize notifications",
     )
 
     class Meta:

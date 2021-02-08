@@ -35,30 +35,36 @@ class Notebook(TimeStampedModel):
     """
 
     workspace = models.ForeignKey(
-        Workspace, on_delete=models.CASCADE, related_name="notes",
-        help_text="Workspace is linked to a property, the workspace is where users exchange informations"
+        Workspace,
+        on_delete=models.CASCADE,
+        related_name="notes",
+        help_text="Workspace is linked to a property, the workspace is where users exchange informations",
     )
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, related_name="author"
     )
 
-    tag_user = models.ManyToManyField(User, blank=True, help_text="Users who are selected will be notified with the message content")
-    
+    tag_user = models.ManyToManyField(
+        User,
+        blank=True,
+        help_text="Users who are selected will be notified with the message content",
+    )
+
     class Category(models.TextChoices):
         """ Define categories for the workspace """
+
         DEFAULT = "equipe", "Equipe"
         MAINTENANCE = "maintenance", "Maintenance"
         HOUSEKEEPING = "housekeeping", "Etage"
         STAFF = "staff", "Staff"
         MANAGER = "manager", "Manager"
 
-
     category = models.CharField(
         "Category",
         max_length=20,
         choices=Category.choices,
         default=Category.DEFAULT,
-        help_text="Use to display certains notes for a specific group of users, by default messages are shown to everyone"
+        help_text="Use to display certains notes for a specific group of users, by default messages are shown to everyone",
     )
     content = models.CharField(
         max_length=3000, null=True, blank=True, verbose_name="Contenu du message"

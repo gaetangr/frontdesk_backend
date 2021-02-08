@@ -8,13 +8,13 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('workspace', '0008_auto_20210203_1359'),
+        ("workspace", "0008_auto_20210203_1359"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='notebook',
-            name='tag_user',
+            model_name="notebook",
+            name="tag_user",
             field=models.ManyToManyField(blank=True, to=settings.AUTH_USER_MODEL),
         ),
     ]

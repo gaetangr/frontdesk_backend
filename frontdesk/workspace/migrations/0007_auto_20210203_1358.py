@@ -8,18 +8,30 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('workspace', '0006_notebook_is_pinned'),
+        ("workspace", "0006_notebook_is_pinned"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='notebook',
-            name='tag_user',
+            model_name="notebook",
+            name="tag_user",
             field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
-            model_name='workspace',
-            name='category',
-            field=models.CharField(choices=[('equipe', 'Equipe'), ('maintenance', 'Maintenance'), ('housekeeping', 'Etage'), ('staff', 'Staff'), ('manager', 'Manager')], default='equipe', help_text='Use to display certains notes to a specific group of users', max_length=20, verbose_name='Category'),
+            model_name="workspace",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("equipe", "Equipe"),
+                    ("maintenance", "Maintenance"),
+                    ("housekeeping", "Etage"),
+                    ("staff", "Staff"),
+                    ("manager", "Manager"),
+                ],
+                default="equipe",
+                help_text="Use to display certains notes to a specific group of users",
+                max_length=20,
+                verbose_name="Category",
+            ),
         ),
     ]

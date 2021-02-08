@@ -21,7 +21,7 @@ import {
   Tooltip,
   Typography,
 } from "@material-ui/core";
-import { Bell, Home, Mail, AlertTriangle, Flag, UserPlus, Server, AtSign, MessageCircle } from "react-feather";
+import { Bell, Home, Mail, AlertTriangle, Flag, UserPlus, Server, AtSign, MessageCircle, X } from "react-feather";
 import axios from "axios";
 
 const Popover = styled(MuiPopover)`
@@ -48,16 +48,18 @@ const NotificationHeader = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
-function Notification({ title, description, Icon }) {
+   
+
+
+function Notification({ title, description, Icon, deleteAction }) {
   return (
     <ListItem divider component={Link} to="#">
       <ListItemAvatar>
         <Avatar>
-          <SvgIcon fontSize="small">
-            {Icon}
-          </SvgIcon>
+          <SvgIcon fontSize="small">{Icon}</SvgIcon>
         </Avatar>
       </ListItemAvatar>
+
       <ListItemText
         primary={title}
         primaryTypographyProps={{
@@ -66,14 +68,17 @@ function Notification({ title, description, Icon }) {
         }}
         secondary={description}
       />
-      <Typography variant="caption">Voir</Typography>
+      <Typography variant="caption">
+        <X size={16} />
+      </Typography>
     </ListItem>
   );
 }
+  
 
 function NotificationsDropdown() {
     const [items, setItems] = useState([]);
-
+    const [id, setId] = useState("")
     async function displayNotification() {
       const reponse = await axios({
         method: "get",
@@ -85,10 +90,23 @@ function NotificationsDropdown() {
       setItems(reponse.data);
   }
 
+  async function deleteNotification(id) {
+    const reponse = await axios({
+      method: "delete",
+      url: `${FRONTDESK_API}/notification/delete/${id}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+  }
+ 
+console.log(items);
 const categories = ["message", "system", "tag" , "pinned"]
   const notificationCard = items.map((msg) => (
     <Notification
       title={msg.title}
+      key={msg.id}
+      deleteAction={msg.id}
       description={msg.content}
       Icon={
         msg.category == "tag" ? (
@@ -109,9 +127,9 @@ useEffect(() => {
   
 setTimeout(() => {
   displayNotification();
-}, TIMEOUT_VALUE); 
+}, 10000); 
 
-}, );
+},  );
 
 
   const ref = useRef(null);

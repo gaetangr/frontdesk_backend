@@ -67,6 +67,33 @@ class NotebookList(generics.ListAPIView):
 notebook_list_view = NotebookList.as_view()
 
 
+class NotebookListPinned(generics.ListAPIView):
+    """Api View that allow user to update, delete or retrieve a notebook object"""
+
+    serializer_class = NotebookSerializer
+    permission_classes = (IsAuthor,)
+
+    def get_queryset(self):
+        """
+        This view should return a list of all the notebooks
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        property = Property.objects.all().filter(collaborator=user).first()
+        workspace = Workspace.objects.all().filter(property=property).first()
+        return (
+            Notebook.objects.all()
+            .order_by("-id")
+            .filter(
+                workspace=workspace,
+                is_pinned=True,
+            )
+        )
+
+
+notebook_list_view_pinned = NotebookListPinned.as_view()
+
+
 class NotebookDetail(generics.RetrieveUpdateDestroyAPIView):
     """Api View that allow user to update, delete or retrieve a notebook object"""
 

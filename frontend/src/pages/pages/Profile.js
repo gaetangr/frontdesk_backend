@@ -5,6 +5,7 @@ import React, {useState, useEffect} from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
 import Zoom from "@material-ui/core/Zoom";
+import { useForm, Controller } from "react-hook-form";
 import Helmet from "react-helmet";
 import {FRONTDESK_API, TOKEN} from "../../constants/"
 import {
@@ -21,6 +22,8 @@ import {
   TextField as MuiTextField,
   Typography,
 } from "@material-ui/core";
+
+import firstLetter from "../../utils/utils"
 
 import { Info } from "react-feather";
 import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
@@ -66,9 +69,42 @@ function Public() {
       setItems(res.data[0]);
     });
   }
+
+
+
+  const methods = useForm();
+  const { register, handleSubmit, control, reset } = methods;
+  const onSubmit = (data) => {
+    console.log(data.username);
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/users/${items.id}/`,
+      data: {
+           "username": data.username
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(displayUser)
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  };
+
   useEffect(() => {
     displayUser();
   }, []);
+
   return (
     <Card mb={6}>
       <CardContent>
@@ -86,75 +122,65 @@ function Public() {
 
         <Grid container spacing={6}>
           <Grid item md={8}>
-            <TextField
-              id="username"
-              label="Pseudo"
-              value={items.username}
-              
-              fullWidth
-              my={2}
-            />
-            <TextField
-              id="title"
-              label="Titre"
-              placeholder="Ex: réceptionniste, directeur, gouvernante"
-              value={items.title}
-              
-              fullWidth
-              my={2}
-            />
-            <TextField
-              id="linkedin"
-              label="Linkedin"
-              value={items.linkedin}
-              
-              fullWidth
-              my={2}
-            />
-
-            <FormControl fullWidth my={2} >
-              <TextField
-                label="Biographie"
-                id="biographie"
-                multiline={true}
-                rows={3}
-                rowsMax={4}
-                variant="outlined"
-                placeholder="Ex: Je travaille comme réceptionniste à l'hôtel Overlook hôtel"
-                value={items.bio}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* Option 1: pass a component to the Controller. */}
+              <Controller
+                as={
+                  <TextField
+                    id="username"
+                    disabled
+                    helperText="Veuillez contacter votre administrateur pour modifier votre pseudo"
+                    label="Pseudo"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    my={2}
+                  />
+                }
+                name="username"
+                control={control}
+                defaultValue={items.username}
               />
-            </FormControl>
+
+              <Controller
+                as={
+                  <TextField
+                    disabled
+                    helperText="Veuillez contacter votre administrateur pour modifier votre titre"
+                    id="title"
+                    label="Titre"
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="Ex: réceptionniste, directeur, gouvernante"
+                    fullWidth
+                    my={2}
+                  />
+                }
+                defaultValue={items.title}
+                name="title"
+                control={control}
+              />
+
+              <Button
+                onClick={handleSubmit(onSubmit)}
+                variant="contained"
+                color="primary"
+              >
+                Sauvegarder les changements
+              </Button>
+            </form>
           </Grid>
           <Grid item md={4}>
             <CenteredContent>
-              <BigAvatar
-                alt="Remy Sharp"
-               
-              />
-              <input
-                accept="image/*"
-                style={{ display: "none" }}
-                id="raised-button-file"
-                multiple
-                type="file"
-              />
-              <label htmlFor="raised-button-file">
-                <Button variant="contained" color="primary" component="span">
-                  <CloudUpload mr={2} /> Télécharger
-                </Button>
-
-                <Typography variant="caption" display="block" gutterBottom>
-                  Pour un résultat optimal, veuillez utiliser une image au
-                  format .jpg
-                </Typography>
-              </label>
+              <BigAvatar alt="Remy Sharp">
+                {firstLetter(`${items.first_name}`)}
+                {firstLetter(`${items.last_name}`)}
+              </BigAvatar>
+              <label htmlFor="raised-button-file"></label>
+              <Typography variant="caption">
+                Votre avatar utilise votre prénom/nom
+              </Typography>
             </CenteredContent>
           </Grid>
         </Grid>
-
-        <Button variant="contained" color="primary">
-          Sauvegarder les changements
-        </Button>
       </CardContent>
     </Card>
   );
@@ -163,6 +189,35 @@ function Public() {
 function Private() {
     const [items, setItems] = useState([]);
 
+  const onSubmit = (data) => {
+    console.log(data.username);
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/users/${items.id}/`,
+      data: {
+        first_name: data.first_name,
+        last_name: data.last_name,
+
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(displayUser)
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  };
+  
     function displayUser() {
       axios({
         method: "get",
@@ -181,23 +236,26 @@ function Private() {
     <Card mb={6}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Informations privées{" "}
+          Fiche collaborateur{" "}
           <Tooltip
             enterDelay={1}
             leaveDelay={300}
             TransitionComponent={Zoom}
-            title="Visible par vous et l'administrateur de votre propriété"
+            title="Visible par vos collègues"
           >
             <Info size={16} />
           </Tooltip>
+          <Typography variant="subtitle1"  gutterBottom>
+            Votre fiche vous permet de renseigner des informations disponibles pour votre équipe 
+          </Typography>
         </Typography>
 
         <Grid container spacing={6}>
           <Grid item md={6}>
             <TextField
               id="first-name"
+              InputLabelProps={{ shrink: true }}
               label="Prénom"
-              
               value={items.first_name}
               fullWidth
               my={2}
@@ -206,8 +264,8 @@ function Private() {
           <Grid item md={6}>
             <TextField
               id="last-name"
+              InputLabelProps={{ shrink: true }}
               label="Nom"
-              
               value={items.last_name}
               fullWidth
               my={2}
@@ -218,13 +276,21 @@ function Private() {
         <TextField
           id="email"
           label="Email"
-          
           type="email"
+          InputLabelProps={{ shrink: true }}
           value={items.email}
           fullWidth
           my={2}
         />
-
+        <TextField
+          id="phone_number"
+          label="Numéro de téléphone"
+          InputLabelProps={{ shrink: true }}
+          type="number"
+          value={items.phone_number}
+          fullWidth
+          my={2}
+        />
         <Button variant="contained" color="primary" mt={3}>
           Sauvegarder les changements
         </Button>

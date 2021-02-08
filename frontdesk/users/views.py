@@ -4,16 +4,17 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import User
+from frontdesk.users.models import Profile, User
 
 from .permissions import IsRequestUser
-from .serializers import CollaboratorSerializer, UserSerializer
+from .serializers import (CollaboratorSerializer, ProfileSerializer,
+                          UserSerializer)
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------
 
 
-class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+class CollaboratorRetrieveUpdateDestroy(generics.ListAPIView):
     """ Api view that allow user to retrieve, update, or destroy an instance of a collaborator"""
 
     serializer_class = CollaboratorSerializer
@@ -27,7 +28,7 @@ class CollaboratorRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
         user = self.request.user
         property = Property.objects.filter(collaborator=user).first().pk
 
-        return User.objects.filter()
+        return User.objects.filter(property=property)
 
 
 collaborator_retrieve_update_destroy = CollaboratorRetrieveUpdateDestroy.as_view()
@@ -40,7 +41,7 @@ class UserListCreate(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
-        
+
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
@@ -71,3 +72,20 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 user_detail_view = UserDetail.as_view()
+
+
+class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
+    """Api View that allow user to update, delete or retrieve a user object"""
+
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        """
+        This view should return the user detail only
+        for the currently authenticated user.
+        """
+        user = self.request.user
+        return Profile.objects.filter(user=user)
+
+
+profile_detail_view = ProfileDetail.as_view()

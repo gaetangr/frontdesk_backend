@@ -30,14 +30,16 @@ function UserDropdown() {
   };
 
   const closeMenu = () => {
+    history.push("/profile");
     setAnchorMenu(null);
   };
 
   const handleSignOut = async () => {
     await dispatch(signOut());
     history.push("/auth/sign-in");
-    localStorage.removeItem("name-property");
-    localStorage.removeItem("username");
+    localStorage.removeItem("token");
+    document.location.reload();
+
   };
 
   return (

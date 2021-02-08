@@ -12,8 +12,8 @@ class UserSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField("title_field")
     bio = serializers.SerializerMethodField("bio_field")
     linkedin = serializers.SerializerMethodField("linkedin_field")
-    image = serializers.SerializerMethodField("image_field")
     note = serializers.SerializerMethodField("note_field")
+    phone_number = serializers.SerializerMethodField("phone_field")
 
     def bio_field(self, obj):
         """ Add a custom field serializer that return the biography of user """
@@ -30,15 +30,15 @@ class UserSerializer(serializers.ModelSerializer):
         user = Profile.objects.get(pk=obj.pk)
         return user.linkedin
 
-    def image_field(self, obj):
-        """ Add a custom field serializer that return the image url of user """
-        user = Profile.objects.get(pk=obj.pk)
-        return user.image.url
-
     def note_field(self, obj):
         """ Add a custom field serializer that return the private notes of user """
         user = Profile.objects.get(pk=obj.pk)
         return user.note
+
+    def phone_field(self, obj):
+        """ Add a custom field serializer that return the private notes of user """
+        user = Profile.objects.get(pk=obj.pk)
+        return user.phone_number
 
     class Meta:
         model = User
@@ -46,11 +46,12 @@ class UserSerializer(serializers.ModelSerializer):
             "id",
             "username",
             "first_name",
+            "email",
+            "phone_number",
             "last_name",
             "title",
             "bio",
             "linkedin",
-            "image",
             "note",
         )
 
@@ -58,6 +59,42 @@ class UserSerializer(serializers.ModelSerializer):
 class CollaboratorSerializer(serializers.ModelSerializer):
     """ UserSerialize that return JSON content  """
 
+    # Custom serializers
+    title = serializers.SerializerMethodField("title_field")
+    phone_number = serializers.SerializerMethodField("phone_number_field")
+    request = serializers.SerializerMethodField("request_field")
+
+    def phone_number_field(self, obj):
+        """ Add a custom field serializer that return the phone number of user """
+        user = Profile.objects.get(pk=obj.pk)
+        return user.phone_number
+
+    def title_field(self, obj):
+        """ Add a custom field serializer that return the title of user """
+        user = Profile.objects.get(pk=obj.pk)
+        return user.title
+
+    def request_field(self, obj):
+        """ Add a custom field serializer that return the linkeidn url of user """
+        user = Profile.objects.get(pk=obj.pk)
+        return user.request
+
     class Meta:
         model = User
-        fields = ("username", "email", "password", "profile.is_staff")
+        fields = (
+            "first_name",
+            "email",
+            "title",
+            "request",
+            "phone_number",
+            "last_login",
+            "id",
+        )
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    """ UserSerialize that return JSON content  """
+
+    class Meta:
+        model = Profile
+        fields = "__all__"

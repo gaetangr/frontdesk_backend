@@ -5,6 +5,7 @@
 import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { darken } from "polished";
+import { useIdleTimer } from 'react-idle-timer'
 import { Search as SearchIcon } from "react-feather";
 
 import {
@@ -17,11 +18,9 @@ import {
   Typography,
 } from "@material-ui/core";
 
-import { Menu as MenuIcon } from "@material-ui/icons";
+import { Menu as MenuIcon, Loop } from "@material-ui/icons";
 
 import NotificationsDropdown from "./NotificationsDropdown";
-import MessagesDropdown from "./MessagesDropdown";
-import LanguagesDropdown from "./LanguagesDropdown";
 import UserDropdown from "./UserDropdown";
 
 const AppBar = styled(MuiAppBar)`
@@ -94,14 +93,11 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-           Overlook Hôtel
+         
           </Grid>
           <Grid item xs />
           <Grid item>
-            
-{/*             <MessagesDropdown /> */}
              <NotificationsDropdown />
-
             <UserDropdown />
           </Grid>
         </Grid>

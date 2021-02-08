@@ -6,17 +6,29 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('workspace', '0007_auto_20210203_1358'),
+        ("workspace", "0007_auto_20210203_1358"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='workspace',
-            name='category',
+            model_name="workspace",
+            name="category",
         ),
         migrations.AddField(
-            model_name='notebook',
-            name='category',
-            field=models.CharField(choices=[('equipe', 'Equipe'), ('maintenance', 'Maintenance'), ('housekeeping', 'Etage'), ('staff', 'Staff'), ('manager', 'Manager')], default='equipe', help_text='Use to display certains notes to a specific group of users', max_length=20, verbose_name='Category'),
+            model_name="notebook",
+            name="category",
+            field=models.CharField(
+                choices=[
+                    ("equipe", "Equipe"),
+                    ("maintenance", "Maintenance"),
+                    ("housekeeping", "Etage"),
+                    ("staff", "Staff"),
+                    ("manager", "Manager"),
+                ],
+                default="equipe",
+                help_text="Use to display certains notes to a specific group of users",
+                max_length=20,
+                verbose_name="Category",
+            ),
         ),
     ]

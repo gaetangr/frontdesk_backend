@@ -63,8 +63,6 @@ const MainContent = styled(Paper)`
     flex: none;
   }
 
-
-
   .MuiPaper-root .MuiPaper-root {
     box-shadow: none;
   }

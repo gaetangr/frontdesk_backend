@@ -15,7 +15,6 @@ import {
 
 import { spacing } from "@material-ui/system";
 
-import Code from "../../components/Code";
 import { Alert as MuiAlert } from "@material-ui/lab";
 
 const Alert = styled(MuiAlert)(spacing);
@@ -27,40 +26,7 @@ const Typography = styled(MuiTypography)(spacing);
 
 function Contents() {
   return (
-    <Box mb={10}>
-      <Alert mt={3} mb={1} severity="info">
-        Utilisez <strong>demo@frontdesk.fr</strong> and{" "}
-        <strong>frontdesk2021</strong> pour essayer la plateforme
-      </Alert>
-      <Typography variant="h3" gutterBottom>
-        Contents
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom my={4}>
-        Inside the zip-file you'll find the following directories and files.
-        Both compiled and minified distrubution files, as well as the source
-        files are included in the package.
-      </Typography>
-
-      <Code>{`theme/
-  ├── .gitignore
-  ├── package.json
-  ├── package-lock.json
-  ├── README.md
-  ├── build/
-  ├── public/
-  │   ├── index.html
-  │   └── manifest.json
-  └── src/
-      ├── components/
-      ├── layouts/
-      ├── pages/
-      ├── redux/
-      ├── routes/
-      ├── vendor/
-      ├── App.js
-      ├── index.js
-      └── theme.js`}</Code>
-    </Box>
+<div></div>
   );
 }
 
@@ -100,21 +66,7 @@ function QuickStart() {
 function BuildTools() {
   return (
     <Box mb={10}>
-      <Typography variant="h3" gutterBottom>
-        Build tools
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom my={4}>
-        Start a local webserver at <code>http://localhost:3000</code> and detect
-        file changes:
-        <br />
-        <Code>npm start</Code>
-      </Typography>
 
-      <Typography variant="subtitle1" gutterBottom my={4}>
-        Compile, optimize, minify and uglify all source files to build/:
-        <br />
-        <Code>npm run build</Code>
-      </Typography>
     </Box>
   );
 }
