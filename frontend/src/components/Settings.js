@@ -158,11 +158,11 @@ function Settings() {
         size="small"
         color="primary"
         aria-label="Edit"
-     
+
         onClick={toggleDrawer(true)}
       >
         <SettingsIcon />
-        
+
       </Fab>
       <Drawer anchor="right" open={state.isOpen} onClose={toggleDrawer(false)}>
         <Demos />

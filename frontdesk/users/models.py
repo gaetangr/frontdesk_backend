@@ -16,17 +16,8 @@ class Profile(models.Model):
         blank=True,
         help_text="Job title to identify which departement the user belongs to",
     )
-    phone_number = models.CharField(max_length=200, null=True, blank=True)
-    bio = models.TextField(
-        null=True, blank=True, help_text="Short description use in member card"
-    )
     note = models.TextField(
         null=True, blank=True, help_text="Privates notes shown on the dashboard"
-    )
-    request = models.TextField(
-        null=True,
-        blank=True,
-        help_text="Can be used to specify request to the manager, holiday, specific work days ...",
     )
 
     def __str__(self):

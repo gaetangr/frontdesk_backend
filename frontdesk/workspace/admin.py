@@ -9,6 +9,7 @@ from .models import Workspace
 def nbr_message(obj):
     return format_html(f"<strong>{obj.notes.all().count()}</strong>")
 
+
 nbr_message.short_description = "Nombre de messages"
 
 

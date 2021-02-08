@@ -29,12 +29,13 @@ class NotebookSerializer(serializers.ModelSerializer):
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
         user = Profile.objects.get(pk=obj.author.pk)
-        return user.title
+        return user.title if user.title else ""
 
     def username_field(self, obj):
         """ Add a custom field serializer that return the username of user """
         user = User.objects.get(pk=obj.author.pk)
-        return user.first_name
+
+        return user.first_name if user.first_name else ""
 
     def date_field(self, obj):
         now = str(obj.created)

@@ -42,7 +42,7 @@ function Actions() {
       <SmallButton size="small" mr={2}>
         <LoopIcon />
       </SmallButton>
-     
+
     </React.Fragment>
   );
 }

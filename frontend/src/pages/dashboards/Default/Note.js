@@ -82,7 +82,7 @@ function Note(props) {
                   setLoading("");
                   displayUser();
               }, 3332),
-              
+
       ).catch((error) => {
         if (error.response) {
           /*

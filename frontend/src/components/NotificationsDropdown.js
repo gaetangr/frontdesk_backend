@@ -48,7 +48,7 @@ const NotificationHeader = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider};
 `;
 
-   
+
 
 
 function Notification({ title, description, Icon, deleteAction }) {
@@ -74,7 +74,7 @@ function Notification({ title, description, Icon, deleteAction }) {
     </ListItem>
   );
 }
-  
+
 
 function NotificationsDropdown() {
     const [items, setItems] = useState([]);
@@ -99,7 +99,7 @@ function NotificationsDropdown() {
       },
     });
   }
- 
+
 console.log(items);
 const categories = ["message", "system", "tag" , "pinned"]
   const notificationCard = items.map((msg) => (
@@ -124,10 +124,10 @@ const categories = ["message", "system", "tag" , "pinned"]
     />
   ));
 useEffect(() => {
-  
+
 setTimeout(() => {
   displayNotification();
-}, 10000); 
+}, 10000);
 
 },  );
 

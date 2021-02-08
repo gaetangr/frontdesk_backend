@@ -11,29 +11,17 @@ class UserSerializer(serializers.ModelSerializer):
 
     # Custom serializers
     title = serializers.SerializerMethodField("title_field")
-    bio = serializers.SerializerMethodField("bio_field")
     note = serializers.SerializerMethodField("note_field")
-    phone_number = serializers.SerializerMethodField("phone_field")
-
-    def bio_field(self, obj):
-        """ Add a custom field serializer that return the biography of user """
-        user = Profile.objects.get(pk=obj.pk)
-        return user.bio
 
     def title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
-        user = Profile.objects.get(pk=obj.pk)
+        user = Profile.objects.get(user=obj.pk)
         return user.title
 
     def note_field(self, obj):
         """ Add a custom field serializer that return the private notes of user """
-        user = Profile.objects.get(pk=obj.pk)
+        user = Profile.objects.get(user=obj.pk)
         return user.note
-
-    def phone_field(self, obj):
-        """ Add a custom field serializer that return the private notes of user """
-        user = Profile.objects.get(pk=obj.pk)
-        return user.phone_number
 
     class Meta:
         model = User
@@ -42,10 +30,8 @@ class UserSerializer(serializers.ModelSerializer):
             "username",
             "first_name",
             "email",
-            "phone_number",
             "last_name",
             "title",
-            "bio",
             "note",
         )
 

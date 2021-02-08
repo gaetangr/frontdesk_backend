@@ -93,7 +93,7 @@ const AppBarComponent = ({ onDrawerToggle }) => (
             </Grid>
           </Hidden>
           <Grid item>
-         
+
           </Grid>
           <Grid item xs />
           <Grid item>

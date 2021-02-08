@@ -56,7 +56,7 @@ const rows = [
 
 function TrafficTable() {
 
-  
+
   const [items, setItems] = useState([]);
     const displayNotebook = async () => {
       const reponse = await axios({
@@ -66,7 +66,7 @@ function TrafficTable() {
           Authorization: `Token ${TOKEN}`,
         },
       });
-      setItems(reponse.data); 
+      setItems(reponse.data);
       console.log(reponse)
   };
    useEffect(() => {
@@ -74,7 +74,7 @@ function TrafficTable() {
      displayNotebook();
    }, []);
   const workspaceCard = items.map((msg) => (
-     
+
      <TableRow key={msg.id}>
       <TableCell component="th" scope="row">
         {msg.content}
@@ -82,8 +82,8 @@ function TrafficTable() {
       <TableCell align="right">23 février</TableCell>
       <TableCell align="right"> <Trash2 size="19"  /></TableCell>
   </TableRow>
-  
-  
+
+
   ));
   return (
     <Card mb={3}>
@@ -99,9 +99,9 @@ function TrafficTable() {
       />
 
       <Paper>
-        
+
         <TableWrapper>
-          
+
               <Table>
       <TableHead>
         <TableRow>
@@ -115,7 +115,7 @@ function TrafficTable() {
         {workspaceCard}
       </TableBody>
     </Table>
-        
+
         </TableWrapper>
       </Paper>
     </Card>

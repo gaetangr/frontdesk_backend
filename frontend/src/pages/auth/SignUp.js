@@ -38,17 +38,21 @@ const Wrapper = styled(Paper)`
   }
 `;
 
+
+  /**
+   * Unique component to 
+   * handle the user registration view 
+   */
 function SignUp() {
-  const dispatch = useDispatch();
   const history = useHistory();
-  
+
   const methods = useForm();
   const { register, handleSubmit, control, reset } = methods;
 
-  const [key, setKey] = useState("");
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [items, setItems] = useState([]);
+
+  const [user, setUser] = useState();
   const [loading, setLoading] = useState();
 
   const handleClose = (event, reason) => {
@@ -58,33 +62,62 @@ function SignUp() {
 
     setError(false);
   };
-  function displayUser() {
+
+  const errorCard = (
+    <Snackbar
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={error}
+      autoHideDuration={3000}
+      onClose={handleClose}
+    >
+      <Alert onClose={handleClose} variant="filled" severity="error">
+        {errorMessage}
+      </Alert>
+    </Snackbar>
+  );
+
+  /**
+   * Get user ID from the user endpoint
+   * end create a new property with
+   * the id of the user
+   *
+   * @param {integer} token - Token to indentify the user
+   * @param {integer} id - Primary key for the user
+   */
+  function getUser(token, id) {
     axios({
       method: "get",
       url: `${FRONTDESK_API}/users/`,
       headers: {
-        Authorization: `Token ${TOKEN}`,
+        Authorization: `Token ${token}`,
       },
     }).then((res) => {
-      setItems(res.data[0]);
+      axios({
+        method: "post",
+        url: `${FRONTDESK_API}/property/`,
+        data: {
+          name: "Mon établissement",
+          collaborator: [res.data[0].id],
+        },
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
     });
   }
-const errorCard = (
-  <Snackbar
-    anchorOrigin={{
-      vertical: "top",
-      horizontal: "right",
-    }}
-    open={error}
-    autoHideDuration={3000}
-    onClose={handleClose}
-  >
-    <Alert onClose={handleClose} variant="filled" severity="error">
-      {errorMessage}
-    </Alert>
-  </Snackbar>
-);
+
+  /**
+   * Handle logic when user click the submit button
+   *
+   * @param {string} data - Data from the user input
+   *
+   */
   const onSubmit = (data) => {
+    setUser(data.property);
+    console.log(user);
     axios({
       method: "post",
       url: `${FRONTDESK_API}/auth/registration/`,
@@ -96,55 +129,35 @@ const errorCard = (
       },
     })
       .then((data) => {
+        console.log("ID:", data.data.key);
         setLoading(<CircularProgress size={20} color="green" />);
-        console.log(data.data.key);
         localStorage.setItem("token", data.data.key);
-        console.log("vous allez être redigrié");
+        getUser(data.data.key, 1);
         setTimeout(() => {
-
-          history.push("/dashboard/default", console.log("c'est bon"));
-          document.location.reload();
+          // history.push("/dashboard/default",);
+          //document.location.reload();
         }, 3333);
       })
       .catch((error) => {
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          //console.log(error.response.data.detail);
-           console.log("dzdz", error);
+          console.log("dzdz", error);
           if (error.response.data.username) {
             setErrorMessage(error.response.data.username[0]);
-          }
-          
-          else if (error.response.data.email) 
-            {setErrorMessage(error.response.data.email[0]);}
-          else {
+          } else if (error.response.data.email) {
+            setErrorMessage(error.response.data.email[0]);
+          } else {
             setErrorMessage("Une erreur est survenue");
-           }
-          
-        
+          }
           setError(true);
         } else if (error.request) {
-          /*
-           * The request was made but no response was received, `error.request`
-           * is an instance of XMLHttpRequest in the browser and an instance
-           * of http.ClientRequest in Node.js
-           */
           console.log("dzdz", error);
         } else {
-          // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
         }
         console.log("ddzdz", error);
       });
   };
 
-  useEffect(() => {
-    displayUser();
-  }, []);
-  
   return (
     <Wrapper>
       <Helmet title="Inscription" />
@@ -156,10 +169,11 @@ const errorCard = (
         Créez votre compte en quelques secondes !{errorCard}
       </Typography>
       <Alert mt={3} mb={2} severity="warning">
-        <AlertTitle>Information</AlertTitle>
-        Les inscriptions sont ouvertes pour les propriétaires <u>
-          uniquement
-        </u>{" "}
+        <AlertTitle>Attention</AlertTitle>
+        Vous allez inscrire votre hôtel sur Front Desk, ce formulaire est
+        réservé aux propriétaires ou un représentant de l'établissement
+        <br />
+        <br />
         <Link href="/documentation/account-manager">En savoir plus</Link>
       </Alert>
 
@@ -168,11 +182,12 @@ const errorCard = (
         <Controller
           as={
             <TextField
-              autoComplete={false}
+              required
               id="username"
               autoFocus="true"
               label="Pseudo"
-              placeholder="Identifiant utilisé pour l'authentification"
+              helperText="L'identifiant sera lié à votre établissement"
+              placeholder="Ex: H0827, DIRECTION..."
               fullWidth
               my={2}
             />
@@ -182,13 +197,30 @@ const errorCard = (
           control={control}
           defaultValue=""
         />
-
         <Controller
           as={
             <TextField
+              id="property"
+              required
+              placeholder="Ex:  Ibis Tour Eiffel"
+              helperText="Le nom de votre établissement, par défault le nom de votre hôtel"
+              label="Nom de votre établissement"
+              fullWidth
+              my={2}
+            />
+          }
+          defaultValue=""
+          name="property"
+          control={control}
+        />
+        <Controller
+          as={
+            <TextField
+              required
               id="password"
               type="password"
               label="Mot de passe"
+              helperText="Choisissez un bon mot de passe, il sera utilisé pour vous identifier"
               fullWidth
               my={2}
             />
@@ -202,6 +234,8 @@ const errorCard = (
           as={<TextField id="email" label="Email" fullWidth my={2} />}
           defaultValue=""
           name="email"
+          required
+          helperText="L'email sera utilisé pour envoyer un nouveau mot de passe"
           control={control}
         />
 
@@ -211,7 +245,7 @@ const errorCard = (
           variant="contained"
           color="primary"
         >
-          S'inscrire {loading}
+          Créer un compte propriétaire {loading}
         </Button>
       </form>
     </Wrapper>

@@ -63,7 +63,7 @@ const Landing = async(() => import("../pages/presentation/Landing"));
 // Protected routes
 const ProtectedPage = async(() => import("../pages/protected/ProtectedPage"));
 
-// Dashboard routes 
+// Dashboard routes
 //------------------
 
 
@@ -71,7 +71,7 @@ const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
   header: "Outils",
-  
+
 
   icon: <Sliders />,
   containsHome: true,
@@ -80,25 +80,25 @@ const dashboardsRoutes = {
       path: "/dashboard/default",
       name: "Mon espace",
       component: Default,
-    
+
     },
     {
       path: "/dashboard/manager",
       name: "Mon espace manager",
       component: Manager,
-     
+
     },
   ],
   component: null,
 };
 
-// Workspace routes 
+// Workspace routes
 //------------------
 const workspaceRoutes = {
   id: "Espaces de travail",
   path: "/pages/workspace",
   name: "Réception",
- 
+
   component: Workspace,
   icon: <Monitor />,
   children: null,
@@ -106,7 +106,7 @@ const workspaceRoutes = {
 
 
 
-// Checklist routes 
+// Checklist routes
 //------------------
 const checklistRoutes = {
   id: "Check-list",
@@ -122,7 +122,7 @@ const checklistRoutes = {
   component: null,
 };
 
-// Tasks routes 
+// Tasks routes
 //------------------
 const tasksRoutes = {
   id: "Tâches",
@@ -133,7 +133,7 @@ const tasksRoutes = {
   children: null,
 };
 
-// Profil routes 
+// Profil routes
 //------------------
 const ProfileRoutes = {
   id: "Mon compte",
@@ -141,10 +141,10 @@ const ProfileRoutes = {
   icon: <Users />,
   children: null,
   component: Profile,
-  
+
 };
 
-// Auth routes 
+// Auth routes
 //------------------
 const authRoutes = {
   id: "Authentification",
@@ -171,7 +171,7 @@ const authRoutes = {
   component: null,
 };
 
-// Documentations routes 
+// Documentations routes
 //------------------
 const landingRoutes = {
   id: "Landing Page",
@@ -212,13 +212,13 @@ const documentationRoutes = {
 };
 
 
-// Changelog routes 
+// Changelog routes
 //------------------
 const changelogRoutes = {
   id: "Changelog",
   path: "/changelog",
   badge: "v2.0.0",
-  
+
   icon: <List />,
   component: Changelog,
   children: null,

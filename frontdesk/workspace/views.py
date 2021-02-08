@@ -50,7 +50,6 @@ class WorkspaceDetail(generics.RetrieveUpdateDestroyAPIView):
 
     """
 
-
     queryset = Workspace.objects.all()
     serializer_class = WorkspaceSerializer
     permission_classes = (IsPropertyMember,)
