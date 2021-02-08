@@ -81,10 +81,18 @@ class NotebookListPinned(generics.ListAPIView):
         user = self.request.user
         property = Property.objects.all().filter(collaborator=user).first()
         workspace = Workspace.objects.all().filter(property=property).first()
-        return Notebook.objects.all().order_by("-id").filter(workspace=workspace, is_pinned=True,)
+        return (
+            Notebook.objects.all()
+            .order_by("-id")
+            .filter(
+                workspace=workspace,
+                is_pinned=True,
+            )
+        )
 
 
 notebook_list_view_pinned = NotebookListPinned.as_view()
+
 
 class NotebookDetail(generics.RetrieveUpdateDestroyAPIView):
     """Api View that allow user to update, delete or retrieve a notebook object"""

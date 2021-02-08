@@ -4,10 +4,11 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import User, Profile
+from frontdesk.users.models import Profile, User
 
 from .permissions import IsRequestUser
-from .serializers import CollaboratorSerializer, UserSerializer, ProfileSerializer
+from .serializers import (CollaboratorSerializer, ProfileSerializer,
+                          UserSerializer)
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------
@@ -40,7 +41,7 @@ class UserListCreate(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
-        
+
         serializer.save(user=self.request.user)
 
     def get_queryset(self):
@@ -77,7 +78,6 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
     """Api View that allow user to update, delete or retrieve a user object"""
 
     serializer_class = ProfileSerializer
-   
 
     def get_queryset(self):
         """

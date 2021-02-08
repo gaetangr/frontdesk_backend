@@ -26,4 +26,3 @@ def create_welcome_datas(sender, instance, created, **kwargs):
 
         # Logging new property so it's send to sentry logging
         logging.info(f"The {instance.name} property has been created ! ✨")
-

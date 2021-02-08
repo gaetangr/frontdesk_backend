@@ -34,7 +34,7 @@ class UserSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the private notes of user """
         user = Profile.objects.get(pk=obj.pk)
         return user.note
-    
+
     def phone_field(self, obj):
         """ Add a custom field serializer that return the private notes of user """
         user = Profile.objects.get(pk=obj.pk)
@@ -58,11 +58,11 @@ class UserSerializer(serializers.ModelSerializer):
 
 class CollaboratorSerializer(serializers.ModelSerializer):
     """ UserSerialize that return JSON content  """
-     # Custom serializers
+
+    # Custom serializers
     title = serializers.SerializerMethodField("title_field")
     phone_number = serializers.SerializerMethodField("phone_number_field")
     request = serializers.SerializerMethodField("request_field")
-  
 
     def phone_number_field(self, obj):
         """ Add a custom field serializer that return the phone number of user """
@@ -79,10 +79,17 @@ class CollaboratorSerializer(serializers.ModelSerializer):
         user = Profile.objects.get(pk=obj.pk)
         return user.request
 
-
     class Meta:
         model = User
-        fields = ("first_name", "email", "title", "request", "phone_number", "last_login", "id")
+        fields = (
+            "first_name",
+            "email",
+            "title",
+            "request",
+            "phone_number",
+            "last_login",
+            "id",
+        )
 
 
 class ProfileSerializer(serializers.ModelSerializer):

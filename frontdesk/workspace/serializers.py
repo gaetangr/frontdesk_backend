@@ -32,7 +32,7 @@ class NotebookSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the username of user """
         user = User.objects.get(pk=obj.author.pk)
         return user.first_name
-    
+
     def date_field(self, obj):
         now = str(obj.created)
         year = now[0:4]
@@ -53,14 +53,12 @@ class NotebookSerializer(serializers.ModelSerializer):
             "modified",
             "username",
             "username_title",
-            "date"
+            "date",
         ]
 
 
 class CommentSerializer(serializers.ModelSerializer):
     """ CommentSerialize that return JSON content  """
-
-    author = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
         model = Comment

@@ -32,7 +32,7 @@ urlpatterns = [
     # ----------------------------------
     path(
         "api/v1/", include("frontdesk.api.urls")
-    ),# ^^^^^^ We are using the path "api/v1"to specify that those endpoints are
+    ),  # ^^^^^^ We are using the path "api/v1"to specify that those endpoints are
     # related to first version of the API.
     # Third party apps
     # ----------------------------

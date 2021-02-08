@@ -1,12 +1,12 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
 import pytest
-from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
 from frontdesk.property.models import Property
+from frontdesk.users.models import Profile, User
 
 
 @pytest.fixture
@@ -27,7 +27,8 @@ def test_user_detail_request_is_successfull(api_client):
     )  # pass token to http header
     url = reverse("users-detail", kwargs={"pk": user.pk})
     response = api_client.get(url)
-    assert response.data == {"id": user.pk, "username": user.username, "email": ""}
+    assert response.data["id"] == user.pk
+    assert response.data["username"] == user.username
     assert response.status_code == 200
 
 

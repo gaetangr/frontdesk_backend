@@ -6,33 +6,46 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('users', '0005_profile_note'),
+        ("users", "0005_profile_note"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='profile',
-            name='phone_number',
+            model_name="profile",
+            name="phone_number",
             field=models.IntegerField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='profile',
-            name='request',
-            field=models.TextField(blank=True, help_text='Can be used to specify request to the manager, holiday, specifi work days ...', null=True),
+            model_name="profile",
+            name="request",
+            field=models.TextField(
+                blank=True,
+                help_text="Can be used to specify request to the manager, holiday, specifi work days ...",
+                null=True,
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='bio',
-            field=models.TextField(blank=True, help_text='Short description use in member card', null=True),
+            model_name="profile",
+            name="bio",
+            field=models.TextField(
+                blank=True, help_text="Short description use in member card", null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='note',
-            field=models.TextField(blank=True, help_text='Privates notes shown on the dashboard', null=True),
+            model_name="profile",
+            name="note",
+            field=models.TextField(
+                blank=True, help_text="Privates notes shown on the dashboard", null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='profile',
-            name='title',
-            field=models.CharField(blank=True, help_text='Job title to identify which departement the user belongs to', max_length=200, null=True),
+            model_name="profile",
+            name="title",
+            field=models.CharField(
+                blank=True,
+                help_text="Job title to identify which departement the user belongs to",
+                max_length=200,
+                null=True,
+            ),
         ),
     ]
