@@ -122,8 +122,8 @@ function Note(props) {
               {" "}
               <ReactMarkdown source={items.note} />{" "}
             </Paper>
-                    
-                    {loading}
+
+            {loading}
           </Card>
         </Grid>
         <Grid item xs={12} lg={7}>
@@ -134,6 +134,7 @@ function Note(props) {
                 <TextField
                   multiline
                   rows={10}
+                  autoFocus="true"
                   rowsMax={15}
                   variant="outlined"
                   label="Votre note"

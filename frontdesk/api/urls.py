@@ -14,7 +14,7 @@ from frontdesk.workspace.views import (comment_detail_view,
                                        notebook_list_view_pinned,
                                        workspace_detail_view,
                                        workspace_list_create_view)
-from frontdesk.notification.views import notification_list_view, notification_create_view
+from frontdesk.notification.views import notification_list_view,notification_delete_view, notification_create_view
 from . import views
 
 urlpatterns = [
@@ -69,6 +69,7 @@ urlpatterns = [
     # NOTIFICATION ROUTES
     # ------------------------------------------------------------------------------
     path("notification/", view=notification_list_view, name="notification-list"),
+    path("notification/delete/<int:pk>/", view=notification_delete_view, name="notification-delete"),
     path("notification/create", view=notification_create_view, name="notification-create"),
 
 ]

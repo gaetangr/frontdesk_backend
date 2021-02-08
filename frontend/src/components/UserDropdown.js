@@ -30,6 +30,7 @@ function UserDropdown() {
   };
 
   const closeMenu = () => {
+    history.push("/profile");
     setAnchorMenu(null);
   };
 

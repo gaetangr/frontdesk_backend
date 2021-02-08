@@ -205,7 +205,7 @@ function WorkspaceContent(props) {
    * Delete an instance of a notebook
    */
   function handleDelete() {
-    handleAction("delete", "message supprimé");
+    handleAction("delete", "Consigne supprimée");
   }
 
   /**
@@ -310,7 +310,7 @@ function WorkspaceContent(props) {
         <Grid container justify="flex-end">
           <Grid item xl="auto">
             {" "}
-            <Button size="small" color="primary">
+            <Button onClick={props.edit} size="small" color="primary">
               <Link href={props.editLink}>Editer</Link>
             </Button>
             <Button onClick={handleDelete} size="small" color="secondary">
@@ -340,36 +340,26 @@ function WorkspaceContent(props) {
 
 function Workspace() {
 
-  
 
-  const [items, setItems] = useState([]);
-  const [error, setError] = useState();
-  const [idle, setIdle] = useState(false);
-  const [idleTime, setIdleTime] = useState(0);
+const [items, setItems] = useState([]);
+const [error, setError] = useState();
+const [open, setOpen] = React.useState(false);
 
-  
-  const handleClickOpen = () => {
-    setIdle(true);
-    
-  };
+
 
   const handleClose = () => {
-    setIdle(false);
+    setOpen(false);
   };
-  const handleOnIdle = (event) => {
-    setIdle(true);
-    setTimeout(() => {
-      window.location.href = "/";
-    }, 30000);
+  const handleClickOpen = () => {
+    
+     setOpen(true);
+    
   };
 
-  const {
-    
-  } = useIdleTimer({
-    onIdle: handleOnIdle,
-    debounce: 500,
-    timeout: 1000000, // if user is idle for 15mn display a
-  });
+  const handleEdit = () => {
+    setOpen(false);
+  };
+
 
   const displayNotebook = async () => {
     const reponse = await axios({
@@ -381,10 +371,6 @@ function Workspace() {
     });
     setItems(reponse.data);
   };
-
-  function refreshPage() {
-    window.location.reload(false);
-  }
 
   const [progress, setProgress] = React.useState("");
 const [loading, setLoading] = useState("");
@@ -452,6 +438,8 @@ const schema = yup.object().shape({
     });};
   
   
+  
+  
   const workspaceCard = items.map((msg) => (
 
     <WorkspaceContent
@@ -463,6 +451,7 @@ const schema = yup.object().shape({
       message={msg.content}
       notebookId={msg.id}
       created={msg.created.slice(0, 10)}
+      edit={handleClickOpen}
       
     />
   ));
@@ -471,6 +460,47 @@ const schema = yup.object().shape({
     <React.Fragment>
       <Helmet title="Espace de travail" />
 
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">Modifier la consigne</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            To subscribe to this website, please enter your email address here.
+            We will send updates occasionally.
+          </DialogContentText>
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Option 1: pass a component to the Controller. */}
+            <Controller
+              as={
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="consigne"
+                  label="Consigne"
+                  rows={5}
+                  multiline
+                  fullWidth
+                />
+              }
+              name="Note"
+              control={control}
+              defaultValue=""
+            />
+          </form>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button  color="primary">
+            Modifier
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Typography variant="h3" gutterBottom display="inline">
         <Grid container spacing={6}>
           <Grid item xs={8}>
@@ -497,6 +527,7 @@ const schema = yup.object().shape({
                   multiline
                   onSubmit
                   rows={4}
+                  autoFocus="true"
                   value=""
                   error={errors.TextField ? true : false}
                   helperText={errors.TextField?.message}
@@ -511,7 +542,7 @@ const schema = yup.object().shape({
               defaultValue=""
             />
           </form>
-         
+
           <Button
             onClick={handleSubmit(onSubmit)}
             fullWidth

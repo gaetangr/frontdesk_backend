@@ -14,6 +14,7 @@ import {
   Button,
   Tooltip,
   Link,
+  Snackbar,
   Checkbox,
   Divider,
   Paper,
@@ -46,6 +47,7 @@ function SignUp() {
 
   const [key, setKey] = useState("");
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState();
 
@@ -67,7 +69,21 @@ function SignUp() {
       setItems(res.data[0]);
     });
   }
-
+const errorCard = (
+  <Snackbar
+    anchorOrigin={{
+      vertical: "top",
+      horizontal: "right",
+    }}
+    open={error}
+    autoHideDuration={3000}
+    onClose={handleClose}
+  >
+    <Alert onClose={handleClose} variant="filled" severity="error">
+      {errorMessage}
+    </Alert>
+  </Snackbar>
+);
   const onSubmit = (data) => {
     axios({
       method: "post",
@@ -85,8 +101,10 @@ function SignUp() {
         localStorage.setItem("token", data.data.key);
         console.log("vous allez être redigrié");
         setTimeout(() => {
+
           history.push("/dashboard/default", console.log("c'est bon"));
-        }, 443000);
+          document.location.reload();
+        }, 3333);
       })
       .catch((error) => {
         if (error.response) {
@@ -95,9 +113,18 @@ function SignUp() {
            * status code that falls out of the range of 2xx
            */
           //console.log(error.response.data.detail);
-
-          console.log(error.response.data);
-          console.log(error.response.headers);
+           console.log("dzdz", error);
+          if (error.response.data.username) {
+            setErrorMessage(error.response.data.username[0]);
+          }
+          
+          else if (error.response.data.email) 
+            {setErrorMessage(error.response.data.email[0]);}
+          else {
+            setErrorMessage("Une erreur est survenue");
+           }
+          
+        
           setError(true);
         } else if (error.request) {
           /*
@@ -105,7 +132,7 @@ function SignUp() {
            * is an instance of XMLHttpRequest in the browser and an instance
            * of http.ClientRequest in Node.js
            */
-          console.log("dzdz", error.request);
+          console.log("dzdz", error);
         } else {
           // Something happened in setting up the request and triggered an Error
           console.log("Error", error.message);
@@ -126,7 +153,7 @@ function SignUp() {
         Rejoignez-nous
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Créez votre compte en quelques secondes !
+        Créez votre compte en quelques secondes !{errorCard}
       </Typography>
       <Alert mt={3} mb={2} severity="warning">
         <AlertTitle>Information</AlertTitle>
@@ -141,17 +168,19 @@ function SignUp() {
         <Controller
           as={
             <TextField
+              autoComplete={false}
               id="username"
+              autoFocus="true"
               label="Pseudo"
-              InputLabelProps={{ shrink: true }}
+              placeholder="Identifiant utilisé pour l'authentification"
               fullWidth
               my={2}
             />
           }
           name="username"
-          label="Pseudo"
+          label="Identifiant"
           control={control}
-          defaultValue="admin22"
+          defaultValue=""
         />
 
         <Controller
@@ -160,30 +189,18 @@ function SignUp() {
               id="password"
               type="password"
               label="Mot de passe"
-              InputLabelProps={{ shrink: true }}
-              placeholder="Ex: réceptionniste, directeur, gouvernante"
               fullWidth
               my={2}
             />
           }
-          defaultValue="passwzdpldpzl$$ùpùùord"
+          defaultValue=""
           name="password"
           control={control}
         />
 
         <Controller
-          as={
-            <TextField
-              id="email"
-             
-              label="email"
-              InputLabelProps={{ shrink: true }}
-              placeholder="Ex: réceptionniste, directeur, gouvernante"
-              fullWidth
-              my={2}
-            />
-          }
-          defaultValue="a@gk.fr"
+          as={<TextField id="email" label="Email" fullWidth my={2} />}
+          defaultValue=""
           name="email"
           control={control}
         />
@@ -194,7 +211,7 @@ function SignUp() {
           variant="contained"
           color="primary"
         >
-          Sauvegarder les changements {loading}
+          S'inscrire {loading}
         </Button>
       </form>
     </Wrapper>
