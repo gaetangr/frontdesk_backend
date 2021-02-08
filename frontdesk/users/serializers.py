@@ -12,7 +12,6 @@ class UserSerializer(serializers.ModelSerializer):
     # Custom serializers
     title = serializers.SerializerMethodField("title_field")
     bio = serializers.SerializerMethodField("bio_field")
-    linkedin = serializers.SerializerMethodField("linkedin_field")
     note = serializers.SerializerMethodField("note_field")
     phone_number = serializers.SerializerMethodField("phone_field")
 
@@ -25,11 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the title of user """
         user = Profile.objects.get(pk=obj.pk)
         return user.title
-
-    def linkedin_field(self, obj):
-        """ Add a custom field serializer that return the linkeidn url of user """
-        user = Profile.objects.get(pk=obj.pk)
-        return user.linkedin
 
     def note_field(self, obj):
         """ Add a custom field serializer that return the private notes of user """
@@ -52,7 +46,6 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "title",
             "bio",
-            "linkedin",
             "note",
         )
 

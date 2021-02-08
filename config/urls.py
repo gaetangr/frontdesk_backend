@@ -44,7 +44,7 @@ urlpatterns = [
     # Misc
     # ---------------------------------------
     path(
-        "endpoint/",
+        "api/v1/endpoint/",
         schema_view.with_ui("swagger", cache_timeout=0),  # new
         name="schema-swagger-ui",
     ),

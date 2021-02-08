@@ -21,7 +21,7 @@ def api_client():
 @pytest.mark.django_db
 def test_user_detail_request_is_successfull(api_client):
     """ If client provide authorize token, it should access detail page """
-    user = User.objects.create_user(username="gaetan")
+    user = User.objects.create_user(username="gaetanaaa")
     token = Token.objects.create(user=user)  # Create token to authenticate user
     api_client.credentials(
         HTTP_AUTHORIZATION="Token " + token.key

@@ -20,6 +20,8 @@ from .serializers import UserSerializer
 class CollaboratorRetrieveUpdateDestroy(generics.ListAPIView):
     """ Api view that allow user to retrieve, update, or destroy an instance of a collaborator"""
 
+    
+
     serializer_class = CollaboratorSerializer
 
     def get_queryset(self):

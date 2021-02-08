@@ -12,7 +12,7 @@ from frontdesk.workspace.models import Workspace
 
 
 class WorkspaceSerializer(serializers.ModelSerializer):
-    """ WorkspaceSerialize that return JSON content  """
+    """ WorkspaceSerializer that return JSON content  """
 
     class Meta:
         model = Workspace
@@ -20,7 +20,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
 
 class NotebookSerializer(serializers.ModelSerializer):
-    """ NotebookSerialize that return JSON content  """
+    """ NotebookSerializer that return JSON content  """
 
     username = serializers.SerializerMethodField("username_field")
     username_title = serializers.SerializerMethodField("username_title_field")
@@ -61,7 +61,7 @@ class NotebookSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """ CommentSerialize that return JSON content  """
+    """ CommentSerializer that return JSON content  """
 
     class Meta:
         model = Comment

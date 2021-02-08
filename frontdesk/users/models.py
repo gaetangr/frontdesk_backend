@@ -23,13 +23,11 @@ class Profile(models.Model):
     note = models.TextField(
         null=True, blank=True, help_text="Privates notes shown on the dashboard"
     )
-    image = models.ImageField(upload_to="media", max_length=254, null=True, blank=True)
     request = models.TextField(
         null=True,
         blank=True,
-        help_text="Can be used to specify request to the manager, holiday, specifi work days ...",
+        help_text="Can be used to specify request to the manager, holiday, specific work days ...",
     )
-    linkedin = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         """ Return instance with a human readable fashion """

@@ -8,19 +8,21 @@ from frontdesk.property.models import Property
 
 class Workspace(TimeStampedModel):
     """
-    Stores a workspace, a workspace is a page where members can exchange each other
+    Stores a workspace, a workspace is where members can exchange each other
     messages and many uselful information relating to their shift.
     """
 
     property = models.ForeignKey(
-        Property, on_delete=models.CASCADE, related_name="workspace"
+        Property, on_delete=models.CASCADE, related_name="workspace",
+        help_text="Property related to the current workspace"
     )
-    name = models.CharField(max_length=50, verbose_name="Nom de l'espace de travail")
+    name = models.CharField(max_length=50, verbose_name="Nom de l'espace de travail", help_text="Workspace name, by default is the name of the property")
     slug = AutoSlugField(
         "Nom de l'espace de travail'",
         unique=True,
         always_update=False,
         populate_from="name",
+        help_text="Slug used for custom link"
     )
 
     def __str__(self):

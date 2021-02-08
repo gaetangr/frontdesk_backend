@@ -23,7 +23,6 @@ def create_profile(sender, instance, created, **kwargs):
 def create_notification(sender, instance, created, **kwargs):
     """ When an instance of a user is created, a notification is sent to the user """
     if created:
-        # by default, notifications sent by the system are attributed to the admin
 
         Notification.objects.create(
             receiver=instance,
