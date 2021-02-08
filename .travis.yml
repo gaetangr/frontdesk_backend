@@ -5,7 +5,7 @@ python:
   - "3.8" # Current default Python version for the project
   - "3.9"
 
-env: DJANGO_SETTINGS_MODULE="config.settings.local"
+env: DJANGO_SETTINGS_MODULE="config.settings.test"
 
 # Update PIP
 before_install:
