@@ -2,7 +2,8 @@
 
 from rest_framework import serializers
 
-from frontdesk.property.models import Property, PropertyPermission
+from frontdesk.property.models import Property
+from frontdesk.property.models import PropertyPermission
 from frontdesk.workspace.models import Workspace
 
 

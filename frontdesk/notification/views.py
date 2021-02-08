@@ -3,7 +3,9 @@ from rest_framework import generics
 
 from frontdesk.notification.models import Notification
 
-from .serializers import NotificationCreateSerializer, NotificationSerializer
+from .serializers import NotificationCreateSerializer
+from .serializers import NotificationSerializer
+
 
 # NOTIFICATION API VIEWS
 # ------------------------------------------------------------------------------

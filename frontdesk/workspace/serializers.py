@@ -4,8 +4,11 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from frontdesk.users.models import Profile, User
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
+from frontdesk.workspace.models import Comment
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
 
 class WorkspaceSerializer(serializers.ModelSerializer):

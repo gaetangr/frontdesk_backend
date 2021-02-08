@@ -29,5 +29,5 @@ def create_notification(sender, instance, created, **kwargs):
             receiver=instance,
             # if user has first_name filled out use it else use username
             title=f"Bienvenue {instance.first_name if instance.first_name else instance.username} 👋",
-            content=f"N'hésitez pas à remplir votre profil pour finaliser l'inscription",
+            content="N'hésitez pas à remplir votre profil pour finaliser l'inscription",
         )

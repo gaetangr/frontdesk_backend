@@ -3,11 +3,15 @@
 from rest_framework import generics
 
 from frontdesk.property.models import Property
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.workspace.models import Comment
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
-from .permissions import IsAuthor, IsPropertyMember
-from .serializers import (CommentSerializer, NotebookSerializer,
-                          WorkspaceSerializer)
+from .permissions import IsAuthor
+from .permissions import IsPropertyMember
+from .serializers import CommentSerializer
+from .serializers import NotebookSerializer
+from .serializers import WorkspaceSerializer
 
 
 # WORKSPACE API VIEWS

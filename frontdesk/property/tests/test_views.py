@@ -1,8 +1,8 @@
 # flake8: noqa
 """ Unit tests related to property/views"""
-import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
+import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 

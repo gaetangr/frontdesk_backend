@@ -1,8 +1,10 @@
-import pytest
 from django.contrib.auth.models import User
+import pytest
 
 from frontdesk.property.models import Property
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.workspace.models import Comment
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
 
 @pytest.mark.django_db
@@ -45,9 +47,7 @@ def test__str__comment():
     notebook = Notebook.objects.create(
         workspace=workspace, author=user, content="Something"
     )
-    comment = Comment.objects.create(
-        notebook=notebook, author=user, content="Something"
-    )
+    comment = Comment.objects.create(notebook=notebook, author=user, content="Something")
 
     assert comment.__str__() == comment.content
     assert str(comment) == comment.content

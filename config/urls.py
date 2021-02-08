@@ -2,7 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.models import User
-from django.urls import include, path
+from django.urls import include
+from django.urls import path
 from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from django.views.generic import TemplateView
@@ -11,6 +12,7 @@ from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from frontdesk.property.models import Property
+
 
 schema_view = get_schema_view(
     openapi.Info(

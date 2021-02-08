@@ -3,7 +3,6 @@
 from rest_framework import serializers
 
 from frontdesk.notification.models import Notification
-from frontdesk.workspace.models import Workspace
 
 
 class NotificationSerializer(serializers.ModelSerializer):

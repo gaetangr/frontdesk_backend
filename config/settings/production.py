@@ -11,6 +11,7 @@ from sentry_sdk.integrations.logging import LoggingIntegration
 
 from .base import *
 
+
 ALLOWED_HOSTS = ["134.209.35.134", "front-desk.fr", "www.front-desk.fr"]
 
 DEBUG = False

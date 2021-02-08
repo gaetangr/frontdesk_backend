@@ -1,12 +1,13 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
-import pytest
 from django.urls import reverse
+import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import Profile, User
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
 
 
 @pytest.fixture

@@ -7,6 +7,7 @@ from frontdesk.users.models import User
 
 from .serializers import FrontDeskSerializer
 
+
 # GENERAL API VIEWS
 # ------------------------------------------------------------------------------
 

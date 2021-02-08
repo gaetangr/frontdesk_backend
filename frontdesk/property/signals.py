@@ -3,9 +3,9 @@ import logging
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from frontdesk.property.models import Property, PropertyPermission
-from frontdesk.users.models import User
-from frontdesk.workspace.models import Notebook, Workspace
+from frontdesk.property.models import Property
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
 
 @receiver(post_save, sender=Property)

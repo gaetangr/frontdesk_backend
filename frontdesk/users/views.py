@@ -4,11 +4,14 @@ from django.contrib.auth import get_user_model
 from rest_framework import generics
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import Profile, User
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
 
 from .permissions import IsRequestUser
-from .serializers import (CollaboratorSerializer, ProfileSerializer,
-                          UserSerializer)
+from .serializers import CollaboratorSerializer
+from .serializers import ProfileSerializer
+from .serializers import UserSerializer
+
 
 # USER API VIEWS
 # ------------------------------------------------------------------------------

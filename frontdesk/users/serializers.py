@@ -2,7 +2,8 @@
 
 from rest_framework import serializers
 
-from frontdesk.users.models import Profile, User
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

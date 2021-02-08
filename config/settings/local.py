@@ -9,6 +9,7 @@ developer tools like django-debug-toolbar.
 
 from .base import *
 
+
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug

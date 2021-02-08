@@ -3,6 +3,7 @@ import os
 
 from .base import *
 
+
 ALLOWED_HOSTS = ["*"]
 SECRET_KEY = "something"
 DEBUG = False
