@@ -84,6 +84,10 @@ function SignIn() {
     });
   }
 
+
+  
+
+
   const errorCard = (
     <Snackbar
       anchorOrigin={{
@@ -95,12 +99,12 @@ function SignIn() {
       onClose={handleClose}
     >
       <Alert onClose={handleClose} variant="filled" severity="error">
-        Connexion impossible, veuillez vérifier votre saisie 
+        Connexion impossible, veuillez vérifier votre saisie
       </Alert>
     </Snackbar>
   );
   const onSubmit = (data) => {
-   
+
     axios({
       method: "post",
       url: `${FRONTDESK_API}/login/`,
@@ -110,6 +114,8 @@ function SignIn() {
 
       },
     
+      
+
     })
       .then((data) => {
         setLoading(<LinearProgress />);
@@ -117,30 +123,21 @@ function SignIn() {
         localStorage.setItem("token", data.data.key)
         console.log("vous allez être redigrié")
         setTimeout(() => { history.push("/dashboard/default", console.log("c'est bon")); document.location.reload(); }, 3000);
-        
-        
-      })
+
+
+      }).then()
       .catch((error) => {
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          //console.log(error.response.data.detail);
 
           console.log(error.response.data.non_field_errors[0]);
           console.log(error.response.headers);
           setError(true);
         }
          else if (error.request) {
-        /*
-         * The request was made but no response was received, `error.request`
-         * is an instance of XMLHttpRequest in the browser and an instance
-         * of http.ClientRequest in Node.js
-         */
+
         console.log("dzdz",error.request);
     } else {
-        // Something happened in setting up the request and triggered an Error
+
         console.log('Error', error.message);
     }
     console.log("ddzdz",error);

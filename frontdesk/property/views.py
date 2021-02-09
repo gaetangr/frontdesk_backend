@@ -4,7 +4,9 @@ from rest_framework import generics
 from frontdesk.property.models import Property
 
 from .permissions import IsMember
-from .serializers import PropertyPermissionSerializer, PropertySerializer
+from .serializers import PropertyPermissionSerializer
+from .serializers import PropertySerializer
+
 
 # PROPERTY API VIEWS
 # ------------------------------------------------------------------------------

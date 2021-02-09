@@ -8,7 +8,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import { Formik } from "formik";
 import axios from "axios";
 import { resetPassword } from "../../redux/actions/authActions";
-
+import { FRONTDESK_API, TOKEN } from "../../constants/";
 import {
   Button,
   Paper,
@@ -36,6 +36,23 @@ function ResetPassword() {
   const [open, setOpen] = React.useState(false);
   const textReset = "Reinitialiser le mot de passe";
 
+
+  function createProperty() {
+    axios({
+      method: "post",
+      url: `${FRONTDESK_API}/property/`,
+      data: {
+        name: "REACT TES",
+        collaborator: [1],
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+   
+    });
+  }
+
   return (
     <Wrapper>
       <Helmet title={textReset} />
@@ -58,7 +75,7 @@ function ResetPassword() {
       </Snackbar>
       <Formik
         initialValues={{
-          email: "",
+          email: "test@gmail.fr",
           submit: false,
         }}
         validationSchema={Yup.object().shape({
@@ -71,22 +88,7 @@ function ResetPassword() {
           try {
             await dispatch(
               resetPassword(
-                axios({
-                  method: "post",
-                  url:
-                    "http://127.0.0.1:8000/api/v1/dj-rest-auth/password/reset/",
-                  data: {
-                    email: values.email,
-                  },
-                })
-                  .then((res) => {
-                    console.log(res.data.detail);
-                    setOpen(true)
-                  })
-                  .catch((error) => {
-                    // your error handling goes here}
-                    console.log("ooj");
-                  })
+                createProperty()
               )
             );
             //history.push("/auth/sign-in");

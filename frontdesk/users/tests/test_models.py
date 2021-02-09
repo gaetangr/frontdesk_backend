@@ -1,5 +1,5 @@
-import pytest
 from django.contrib.auth.models import User
+import pytest
 
 from frontdesk.users.models import Profile
 

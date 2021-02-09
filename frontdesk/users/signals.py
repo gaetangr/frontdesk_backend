@@ -13,7 +13,11 @@ from .models import Profile
 def create_profile(sender, instance, created, **kwargs):
     """ When an instance of a user is created, a profile is created and links to the user """
     if created:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance, title="Titre non défini")
+        User.objects.filter(pk=instance.pk).update(
+            first_name=instance.username, last_name=instance.username[0:1]
+        )
+
         instance.profile.save()
 
         logging.info(f"{instance} has been created ✨")
@@ -23,11 +27,10 @@ def create_profile(sender, instance, created, **kwargs):
 def create_notification(sender, instance, created, **kwargs):
     """ When an instance of a user is created, a notification is sent to the user """
     if created:
-        # by default, notifications sent by the system are attributed to the admin
 
         Notification.objects.create(
             receiver=instance,
             # if user has first_name filled out use it else use username
             title=f"Bienvenue {instance.first_name if instance.first_name else instance.username} 👋",
-            content=f"N'hésitez pas à remplir votre profil pour finaliser l'inscription",
+            content="N'hésitez pas à remplir votre profil pour finaliser l'inscription",
         )

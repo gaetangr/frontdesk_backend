@@ -15,9 +15,7 @@ class Command(BaseCommand):
     help = "Creating a superuser for the admin panel with prepopulated datas"
 
     def handle(self, *args, **options):
-        spinner = Halo(
-            text="Creating super user..", text_color="yellow", spinner="dots"
-        )
+        spinner = Halo(text="Creating super user..", text_color="yellow", spinner="dots")
         spinner.start()
         time.sleep(3)
         admin_url = "http://127.0.0.1:8000/admin/"

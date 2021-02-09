@@ -4,12 +4,15 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from frontdesk.users.models import Profile, User
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
+from frontdesk.workspace.models import Comment
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
 
 class WorkspaceSerializer(serializers.ModelSerializer):
-    """ WorkspaceSerialize that return JSON content  """
+    """ WorkspaceSerializer that return JSON content  """
 
     class Meta:
         model = Workspace
@@ -17,7 +20,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
 
 class NotebookSerializer(serializers.ModelSerializer):
-    """ NotebookSerialize that return JSON content  """
+    """ NotebookSerializer that return JSON content  """
 
     username = serializers.SerializerMethodField("username_field")
     username_title = serializers.SerializerMethodField("username_title_field")
@@ -26,12 +29,13 @@ class NotebookSerializer(serializers.ModelSerializer):
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
         user = Profile.objects.get(pk=obj.author.pk)
-        return user.title
+        return user.title if user.title else ""
 
     def username_field(self, obj):
         """ Add a custom field serializer that return the username of user """
         user = User.objects.get(pk=obj.author.pk)
-        return user.first_name
+
+        return user.first_name if user.first_name else ""
 
     def date_field(self, obj):
         now = str(obj.created)
@@ -58,7 +62,7 @@ class NotebookSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """ CommentSerialize that return JSON content  """
+    """ CommentSerializer that return JSON content  """
 
     class Meta:
         model = Comment

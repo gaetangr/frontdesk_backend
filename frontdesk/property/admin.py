@@ -1,7 +1,10 @@
-from django.contrib import admin, messages
+from django.contrib import admin
+from django.contrib import messages
 from django.utils.translation import ngettext
 
-from .models import Property, PropertyPermission
+from .models import Property
+from .models import PropertyPermission
+
 
 admin.site.register(PropertyPermission)
 

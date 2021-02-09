@@ -217,7 +217,7 @@ function Private() {
         }
       });
   };
-  
+
     function displayUser() {
       axios({
         method: "get",
@@ -246,7 +246,7 @@ function Private() {
             <Info size={16} />
           </Tooltip>
           <Typography variant="subtitle1"  gutterBottom>
-            Votre fiche vous permet de renseigner des informations disponibles pour votre équipe 
+            Votre fiche vous permet de renseigner des informations disponibles pour votre équipe
           </Typography>
         </Typography>
 
@@ -300,7 +300,7 @@ function Private() {
 }
 
 function Settings() {
-  
+
   return (
     <React.Fragment>
       <Helmet title="Profil" />

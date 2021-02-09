@@ -39,7 +39,7 @@ class Property(TimeStampedModel):
 
 class PropertyPermission(models.Model):
     """
-    Stores a property, using TimeStampedModel to provide a self updating
+    Stores a property permission, using TimeStampedModel to provide a self updating
     and creating field.
     """
 

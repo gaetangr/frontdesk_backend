@@ -223,7 +223,7 @@ function WorkspaceContent(props) {
       .then((reponse) => {
         handleClickOpen("La consigne est indiquée comme fait")
         console.log(reponse.data)
-      }) 
+      })
       .catch((error) => {
         if (error.response) {
           /*
@@ -351,9 +351,9 @@ const [open, setOpen] = React.useState(false);
     setOpen(false);
   };
   const handleClickOpen = () => {
-    
+
      setOpen(true);
-    
+
   };
 
   const handleEdit = () => {
@@ -397,7 +397,7 @@ const schema = yup.object().shape({
   const onSubmit = (data) => {
     console.log(data.TextField)
     axios({
-  
+
     method: "post",
     url: `${FRONTDESK_API}/notebook/create/`,
     data: {
@@ -413,7 +413,7 @@ const schema = yup.object().shape({
     },
   })
     .then(
-      
+
 
       setLoading(<LinearProgress variant="query" />),
               // set timeout
@@ -421,8 +421,8 @@ const schema = yup.object().shape({
                   setLoading("");
                   displayNotebook();
               }, 2500),
-   
-   
+
+
     )
     .catch((error) => {
       if (error.response) {
@@ -436,10 +436,10 @@ const schema = yup.object().shape({
         console.log(error.response.headers);
       }
     });};
-  
-  
-  
-  
+
+
+
+
   const workspaceCard = items.map((msg) => (
 
     <WorkspaceContent
@@ -452,7 +452,7 @@ const schema = yup.object().shape({
       notebookId={msg.id}
       created={msg.created.slice(0, 10)}
       edit={handleClickOpen}
-      
+
     />
   ));
 

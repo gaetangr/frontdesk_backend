@@ -1,13 +1,15 @@
 # flake8: noqa
 """ Unit tests related to workspace/views"""
-import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
+import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
 from frontdesk.property.models import Property
-from frontdesk.workspace.models import Comment, Notebook, Workspace
+from frontdesk.workspace.models import Comment
+from frontdesk.workspace.models import Notebook
+from frontdesk.workspace.models import Workspace
 
 
 @pytest.fixture

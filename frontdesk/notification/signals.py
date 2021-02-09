@@ -1,9 +1,7 @@
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from frontdesk.notification.models import Notification
-from frontdesk.property.models import Property
 from frontdesk.workspace.models import Notebook
 
 
@@ -14,9 +12,9 @@ def create_pinned_notification(sender, instance, created, **kwargs):
     if instance.is_pinned:
         for user in instance.workspace.property.collaborator.all():
             Notification.objects.create(
-                receiver=user.pk,
+                receiver=user,
                 category="pinned",
-                title=f"Une consigne a été épinglée",
+                title="Une consigne a été épinglée",
                 content=f"La consigne « {instance.content}  » a été épinglée",
             )
 
@@ -28,8 +26,8 @@ def create_tag_notification(sender, instance, created, **kwargs):
     for user in instance.tag_user.all():
         print("okok")
         Notification.objects.create(
-            receiver=user.pk,
+            receiver=user,
             category="tag",
-            title=f"Vous avez été tagué",
+            title="Vous avez été tagué",
             content=f"Vous avez été tagué sur la consigne « {instance.content}  »",
         )

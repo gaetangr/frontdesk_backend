@@ -1,5 +1,5 @@
-import factory.fuzzy
 from django.contrib.auth.models import User
+import factory.fuzzy
 
 
 class UserFactory(factory.django.DjangoModelFactory):

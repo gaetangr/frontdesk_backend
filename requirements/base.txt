@@ -13,3 +13,4 @@ python-slugify==4.0.1  # https://github.com/un33k/python-slugify
 pytz==2020.4  # https://github.com/stub42/pytz
 redis==3.5.3  # https://github.com/andymccurdy/redis-py
 whitenoise==5.2.0  # https://github.com/evansd/whitenoise
+django-allauth==0.44.0

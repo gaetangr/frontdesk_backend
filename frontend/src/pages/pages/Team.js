@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(30),
       height: theme.spacing(30),
       margin: theme.spacing(7)
-    
+
   },
 }));
 
@@ -105,7 +105,7 @@ function Cards() {
             date="Février 2020 - Aujourd'hui"
             avatar="https://media-exp1.licdn.com/dms/image/C5603AQECxqBiAO9Zsw/profile-displayphoto-shrink_800_800/0/1517412573625?e=1617840000&v=beta&t=u4_PECNhW_KwLcTC1QsPET0tUmgaEMeCKJjtGaF5Kx4"
             content="Après 7 années dans l'hôtellerie j'ai décidé en janvier 2021 de lancer ma société Front Desk qui propose des outils digitaux pour hôteliers"
-                      
+
           />
         </Grid>
         <Grid item xs={12} md={6}>

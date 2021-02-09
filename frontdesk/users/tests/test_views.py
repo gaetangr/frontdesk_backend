@@ -1,12 +1,13 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
-import pytest
 from django.urls import reverse
+import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
 from frontdesk.property.models import Property
-from frontdesk.users.models import Profile, User
+from frontdesk.users.models import Profile
+from frontdesk.users.models import User
 
 
 @pytest.fixture
@@ -20,7 +21,7 @@ def api_client():
 @pytest.mark.django_db
 def test_user_detail_request_is_successfull(api_client):
     """ If client provide authorize token, it should access detail page """
-    user = User.objects.create_user(username="gaetan")
+    user = User.objects.create_user(username="gaetanaaa")
     token = Token.objects.create(user=user)  # Create token to authenticate user
     api_client.credentials(
         HTTP_AUTHORIZATION="Token " + token.key

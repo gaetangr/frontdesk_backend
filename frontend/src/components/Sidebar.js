@@ -6,6 +6,7 @@ import styled from "styled-components/macro";
 import { rgba } from "polished";
 import { NavLink, withRouter } from "react-router-dom";
 import { darken } from "polished";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PerfectScrollbar from "react-perfect-scrollbar";
 import "../vendor/perfect-scrollbar.css";
 import axios from "axios";
@@ -43,6 +44,61 @@ const Drawer = styled(MuiDrawer)`
     border-right: 0;
   }
 `;
+
+const StyledBadgeOffline = withStyles((theme) => ({
+  badge: {
+    backgroundColor: "#f44336",
+    color: "#f50057",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    
+  },
+}))(Badge);
+
+const StyledBadge= withStyles((theme) => ({
+  badge: {
+    backgroundColor: "#44b700",
+    color: "#44b700",
+    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+    "&::after": {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      borderRadius: "50%",
+      animation: "$ripple 1.2s infinite ease-in-out",
+      border: "1px solid currentColor",
+      content: '""',
+    },
+  },
+  "@keyframes ripple": {
+    "0%": {
+      transform: "scale(.8)",
+      opacity: 1,
+    },
+    "100%": {
+      transform: "scale(2.4)",
+      opacity: 0,
+    },
+  },
+}))(Badge);
+
+const SmallAvatar = withStyles((theme) => ({
+  root: {
+    width: 22,
+    height: 22,
+    border: `2px solid ${theme.palette.background.paper}`,
+  },
+}))(Avatar);
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 const Scrollbar = styled(PerfectScrollbar)`
   background-color: ${(props) => props.theme.sidebar.background};
@@ -343,12 +399,15 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
     useEffect(() => {
       displayNotebook();
     }, []);
+  
+  
+  
   return (
     <Drawer variant="permanent" {...rest}>
       <Brand component={NavLink} to="/dashboard/default" button>
         <BrandIcon />{" "}
         <Box ml={1}>
-          Front Desk <BrandChip label="APP" />
+          Front Desk <BrandChip label="BETA" />
         </Box>
       </Brand>
       <Scrollbar>
@@ -408,18 +467,27 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
       <SidebarFooter>
         <Grid container spacing={2}>
           <Grid item>
-            <SidebarFooterBadge></SidebarFooterBadge>
+            <StyledBadge
+              overlap="circle"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              variant={items.length == 0 ? "" : "dot"}
+            >
+              <Avatar size="small">
+                {firstLetter(`${items.first_name}`)}
+                {firstLetter(`${items.first_name}`)}
+              </Avatar>
+            </StyledBadge>
           </Grid>
-          <Avatar size="small">
-            {firstLetter(`${items.first_name}`)}
-            {firstLetter(`${items.first_name}`)}
-          </Avatar>
+
           <Grid item>
             <SidebarFooterText variant="body2">
               {items.first_name} {items.last_name}
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
-              {items.title}
+              {items.length == 0 ? "Hors ligne" : items.title}
             </SidebarFooterSubText>
           </Grid>
         </Grid>

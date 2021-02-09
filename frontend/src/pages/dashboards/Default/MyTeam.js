@@ -177,7 +177,7 @@ function TrafficTable() {
                   <TableCell onClick={handleProfil} align="right">
                    <Eye size="19"/>
                   </TableCell>
-        
+
                 </TableRow>
               ))}
             </TableBody>
@@ -197,7 +197,7 @@ function TrafficTable() {
             instantément.
           </DialogContentText>
 
-          
+
           <TextField
             defaultValue="Vous avez un nouveau message privé"
             margin="dense"

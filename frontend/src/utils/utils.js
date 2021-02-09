@@ -12,4 +12,3 @@ function firstLetter(string) {
 }
 
 export default firstLetter;
-

@@ -1,275 +1,340 @@
-import { FRONTDESK_API, TOKEN } from "../../../constants";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+/**
+ * Settings and information for a given user
+ */
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-
+import Zoom from "@material-ui/core/Zoom";
+import { useForm, Controller } from "react-hook-form";
 import Helmet from "react-helmet";
-
+import { FRONTDESK_API, TOKEN } from "../../../constants/";
 import {
-  Checkbox,
-  Grid,
-  IconButton,
-  Link,
+  Avatar,
   Breadcrumbs as MuiBreadcrumbs,
+  Button as MuiButton,
+  Card as MuiCard,
+  CardContent,
   Divider as MuiDivider,
-  Paper as MuiPaper,
-  Table,
-  TableBody,
-  TableContainer,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Toolbar,
+  FormControl as MuiFormControl,
+  Grid,
+  Link,
   Tooltip,
+  TextField as MuiTextField,
   Typography,
-  FormControlLabel,
-  Switch,
 } from "@material-ui/core";
 
-import {
-  Delete as DeleteIcon,
-  FilterList as FilterListIcon,
-} from "@material-ui/icons";
+import firstLetter from "../../../utils/utils";
 
+import { Info } from "react-feather";
+import { CloudUpload as MuiCloudUpload } from "@material-ui/icons";
+import axios from "axios";
 import { spacing } from "@material-ui/system";
-
-const Divider = styled(MuiDivider)(spacing);
 
 const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
-const Paper = styled(MuiPaper)(spacing);
+const Card = styled(MuiCard)(spacing);
 
-const Spacer = styled.div`
-  flex: 1 1 100%;
+const Divider = styled(MuiDivider)(spacing);
+
+const FormControl = styled(MuiFormControl)(spacing);
+
+const TextField = styled(MuiTextField)(spacing);
+
+const Button = styled(MuiButton)(spacing);
+
+const CloudUpload = styled(MuiCloudUpload)(spacing);
+
+const CenteredContent = styled.div`
+  text-align: center;
 `;
 
-const rows = [];
+const BigAvatar = styled(Avatar)`
+  width: 120px;
+  height: 120px;
+  margin: 0 auto ${(props) => props.theme.spacing(2)}px;
+`;
 
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Prénom",
-  },
-  { id: "title", numeric: false, disablePadding: false, label: "Titre" },
-  {
-    id: "email",
-    numeric: false,
-    disablePadding: false,
-    label: "Email",
-  },
-  {
-    id: "phone_number",
-    numeric: true,
-    disablePadding: false,
-    label: "Numéro de téléphone",
-  },
-  {
-    id: "request",
-    numeric: false,
-    disablePadding: false,
-    label: "Demande spécifique",
-  },
-  { id: "actions", numeric: true, disablePadding: false, label: "Actions" },
-];
-
-function EnhancedTableHead(props) {
-  const {
-    onSelectAllClick,
-    order,
-    orderBy,
-    numSelected,
-    rowCount,
-    onRequestSort,
-  } = props;
-  const createSortHandler = (property) => (event) => {
-    onRequestSort(event, property);
-  };
-
-  return (
-    <TableHead>
-      <TableRow>
-        <TableCell padding="checkbox"></TableCell>
-        {headCells.map((headCell) => (
-          <TableCell
-            key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
-            padding={headCell.disablePadding ? "none" : "default"}
-            sortDirection={orderBy === headCell.id ? order : false}
-          >
-            <TableSortLabel
-              active={orderBy === headCell.id}
-              direction={orderBy === headCell.id ? order : "asc"}
-              onClick={createSortHandler(headCell.id)}
-            >
-              {headCell.label}
-            </TableSortLabel>
-          </TableCell>
-        ))}
-      </TableRow>
-    </TableHead>
-  );
-}
-
-let EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
-
-  return (
-    <Toolbar>
-      <div></div>
-    </Toolbar>
-  );
-};
-
-function EnhancedTable() {
+function Public() {
   const [items, setItems] = useState([]);
 
-  const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  const handleSelectAllClick = (event) => {
-    if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
-      setSelected(newSelecteds);
-      return;
-    }
-    setSelected([]);
-  };
-
-  const displayUsers = async () => {
-    const reponse = await axios({
+  function displayUser() {
+    axios({
       method: "get",
-      url: `${FRONTDESK_API}/collaborator/`,
+      url: `${FRONTDESK_API}/users/`,
       headers: {
         Authorization: `Token ${TOKEN}`,
       },
+    }).then((res) => {
+      setItems(res.data[0]);
     });
-    setItems(reponse.data);
+  }
+
+  const methods = useForm();
+  const { register, handleSubmit, control, reset } = methods;
+  const onSubmit = (data) => {
+    console.log(data.username);
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/users/${items.id}/`,
+      data: {
+        username: data.username,
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(displayUser)
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
   };
 
   useEffect(() => {
-    // Met à jour le titre du document via l’API du navigateur
-    displayUsers();
+    displayUser();
   }, []);
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected = [];
-
-    setSelected(newSelected);
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
-  const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
   return (
-    <div>
-      <Paper>
-        <EnhancedTableToolbar numSelected={selected.length} />
-        <TableContainer>
-          <Table
-            aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
-            aria-label="enhanced table"
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Informations publiques{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vos collégues"
           >
-            <EnhancedTableHead rowCount={rows.length} />
-            <TableBody>
-              {items.map((row, index) => {
-                const labelId = `enhanced-table-checkbox-${index}`;
+            <Info size={16} />
+          </Tooltip>
+        </Typography>
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.name)}
-                    tabIndex={-1}
-                    key={row.id}
-                  >
-                    <TableCell padding="checkbox"></TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
-                    >
-                      {row.first_name}
-                    </TableCell>
-                    <TableCell align="right">{row.title}</TableCell>
-                    <TableCell align="right">{row.email}</TableCell>
-                    <TableCell align="right">{row.phone_number}</TableCell>
-                    <TableCell align="right">{row.request}</TableCell>
-                    <TableCell align="right">
-                      {" "}
-                      <DeleteIcon />{" "}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          labelRowsPerPage="Collaborateurs par page"
-          rowsPerPageOptions={[5, 10, 25, 50]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handleChangePage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Affichage compact"
-      />
-    </div>
+        <Grid container spacing={6}>
+          <Grid item md={8}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {/* Option 1: pass a component to the Controller. */}
+              <Controller
+                as={
+                  <TextField
+                    id="username"
+                    
+                    helperText="Veuillez contacter votre administrateur pour modifier votre pseudo"
+                    label="Nom de la propriété"
+                    InputLabelProps={{ shrink: true }}
+                    fullWidth
+                    my={2}
+                  />
+                }
+                name="username"
+                control={control}
+                defaultValue={items.username}
+              />
+
+              <Controller
+                as={
+                  <TextField
+                    disabled
+                    helperText="Veuillez contacter votre administrateur pour modifier votre titre"
+                    id="title"
+                    label="Titre"
+                    InputLabelProps={{ shrink: true }}
+                    placeholder="Ex: réceptionniste, directeur, gouvernante"
+                    fullWidth
+                    my={2}
+                  />
+                }
+                defaultValue={items.title}
+                name="title"
+                control={control}
+              />
+
+              <Button
+                onClick={handleSubmit(onSubmit)}
+                variant="contained"
+                color="primary"
+              >
+                Sauvegarder les changements
+              </Button>
+            </form>
+          </Grid>
+          <Grid item md={4}>
+            <CenteredContent>
+              <BigAvatar alt="Remy Sharp">
+                {firstLetter(`${items.first_name}`)}
+                {firstLetter(`${items.last_name}`)}
+              </BigAvatar>
+              <label htmlFor="raised-button-file"></label>
+              <Typography variant="caption">
+                Votre avatar utilise votre prénom/nom
+              </Typography>
+            </CenteredContent>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
   );
 }
 
-function AdvancedTable() {
+function Private() {
+  const [items, setItems] = useState([]);
+
+  const onSubmit = (data) => {
+    console.log(data.username);
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/users/${items.id}/`,
+      data: {
+        first_name: data.first_name,
+        last_name: data.last_name,
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(displayUser)
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data.detail);
+
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  };
+
+  function displayUser() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+  useEffect(() => {
+    displayUser();
+  }, []);
+  return (
+    <Card mb={6}>
+      <CardContent>
+        <Typography variant="h6" gutterBottom>
+          Fiche collaborateur{" "}
+          <Tooltip
+            enterDelay={1}
+            leaveDelay={300}
+            TransitionComponent={Zoom}
+            title="Visible par vos collègues"
+          >
+            <Info size={16} />
+          </Tooltip>
+          <Typography variant="subtitle1" gutterBottom>
+            Votre fiche vous permet de renseigner des informations disponibles
+            pour votre équipe
+          </Typography>
+        </Typography>
+
+        <Grid container spacing={6}>
+          <Grid item md={6}>
+            <TextField
+              id="first-name"
+              InputLabelProps={{ shrink: true }}
+              label="Prénom"
+              value={items.first_name}
+              fullWidth
+              my={2}
+            />
+          </Grid>
+          <Grid item md={6}>
+            <TextField
+              id="last-name"
+              InputLabelProps={{ shrink: true }}
+              label="Nom"
+              value={items.last_name}
+              fullWidth
+              my={2}
+            />
+          </Grid>
+        </Grid>
+
+        <TextField
+          id="email"
+          label="Email"
+          type="email"
+          InputLabelProps={{ shrink: true }}
+          value={items.email}
+          fullWidth
+          my={2}
+        />
+        <TextField
+          id="phone_number"
+          label="Numéro de téléphone"
+          InputLabelProps={{ shrink: true }}
+          type="number"
+          value={items.phone_number}
+          fullWidth
+          my={2}
+        />
+        <Button variant="contained" color="primary" mt={3}>
+          Sauvegarder les changements
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function Manager() {
+
+  const [items, setItems] = useState([])
+
+
+  
+  function displayProperty() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/property/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((res) => {
+      setItems(res.data[0]);
+    });
+  }
+  useEffect(() => {
+    displayProperty();
+  }, []);
+  
   return (
     <React.Fragment>
-      <Helmet title="Gestion des collaborateurs" />
+      <Helmet title="Profil" />
+
       <Typography variant="h3" gutterBottom display="inline">
-        Gestion des collaborateurs
+        Tableau de bord - {items.name}
       </Typography>
-      <br />
-      <Typography variant="subtitle1" gutterBottom display="inline">
-        Gérer votre équipe et récupérer les informations nécessaires
-      </Typography>
+
       <Divider my={6} />
 
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <EnhancedTable />
+          <Public />
+          <Private />
         </Grid>
       </Grid>
     </React.Fragment>
   );
 }
 
-export default AdvancedTable;
+export default Manager;
