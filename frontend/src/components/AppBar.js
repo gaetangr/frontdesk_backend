@@ -7,7 +7,8 @@ import styled, { withTheme } from "styled-components/macro";
 import { darken } from "polished";
 import { useIdleTimer } from 'react-idle-timer'
 import { Search as SearchIcon } from "react-feather";
-
+import { FRONTDESK_API, TOKEN, TIMEOUT_VALUE } from "../constants";
+import axios from "axios"
 import {
   Grid,
   Hidden,

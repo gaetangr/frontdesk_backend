@@ -78,7 +78,10 @@ function Notification({ title, description, Icon, deleteAction }) {
 
 function NotificationsDropdown() {
     const [items, setItems] = useState([]);
-    const [id, setId] = useState("")
+  const [id, setId] = useState("")
+  
+
+
     async function displayNotification() {
       const reponse = await axios({
         method: "get",
@@ -124,13 +127,13 @@ const categories = ["message", "system", "tag" , "pinned"]
     />
   ));
 useEffect(() => {
+displayNotification();
 
+
+}, [] );
 setTimeout(() => {
   displayNotification();
 }, 10000);
-
-},  );
-
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
