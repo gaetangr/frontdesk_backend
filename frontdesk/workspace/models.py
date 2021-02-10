@@ -52,11 +52,10 @@ class Notebook(TimeStampedModel):
     class Category(models.TextChoices):
         """ Define categories for the workspace """
 
-        DEFAULT = "equipe", "Equipe"
+        DEFAULT = "tous", "Tous"
         MAINTENANCE = "maintenance", "Maintenance"
-        HOUSEKEEPING = "housekeeping", "Etage"
-        STAFF = "staff", "Staff"
-        MANAGER = "manager", "Manager"
+        HOUSEKEEPING = "etage", "Étage"
+
 
     category = models.CharField(
         "Category",

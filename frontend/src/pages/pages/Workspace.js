@@ -119,6 +119,23 @@ const PinnedChip = styled(Chip)`
   }
 `;
 
+const CategoryChip = styled(Chip)`
+  background-color: ${blue[700]};
+  border-radius: 5px;
+  color: ${(props) => props.theme.palette.common.white};
+  font-size: 12px;
+  height: 18px;
+  float: right;
+  margin-left: 2px;
+  margin-top: 3px;
+  padding: 3px 0;
+
+  span {
+    padding-left: ${(props) => props.theme.spacing(1.375)}px;
+    padding-right: ${(props) => props.theme.spacing(1.375)}px;
+  }
+`;
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -268,9 +285,25 @@ function WorkspaceContent(props) {
   return (
     <Card mb={6}>
       <CardContent>
-        <Grid>
-          {props.status} {props.pinned}
-        </Grid>
+        <Box display="flex">
+          <Grid container justify="flex-start">
+            <Grid item>{props.category}</Grid>
+          </Grid>
+
+          {/* Actions - Actions if user == request.user such as edit or delete */}
+          <Grid container justify="flex-end">
+            <Grid item xl="auto">
+              {" "}
+             
+                {props.status}
+           
+             
+                {props.pinned}
+             
+            </Grid>
+            <CardActions align="right"></CardActions>
+          </Grid>
+        </Box>
         {/* Header - Author info, date, status */}
         <CardHeader
           avatar={
@@ -311,7 +344,7 @@ function WorkspaceContent(props) {
           <Grid item xl="auto">
             {" "}
             <Button onClick={props.edit} size="small" color="primary">
-              <Link >Editer</Link>
+              <Link>Editer</Link>
             </Button>
             <Button onClick={handleDelete} size="small" color="secondary">
               <Link href={props.deleteLink}>supprimer</Link>
@@ -319,8 +352,6 @@ function WorkspaceContent(props) {
           </Grid>
           <CardActions align="right"></CardActions>
         </Grid>
-
-      
       </Box>
     </Card>
   );
@@ -368,6 +399,7 @@ function Workspace() {
 
   const [progress, setProgress] = React.useState("");
   const [loading, setLoading] = useState("");
+  const [category, setCategory] = useState("tous");
   const [value, setValue] = React.useState("");
 
   useEffect(() => {
@@ -427,19 +459,38 @@ function Workspace() {
       });
   };
 
-  const workspaceCard = items.map((msg) => (
-    <WorkspaceContent
+
+  const workspaceCard = items.map((msg) => {
+    if (msg.category == `${category}`)
+    return <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
       title={msg.username_title}
       key={msg.id}
       status={msg.is_done == true ? <DoneChip label="Fait" /> : ""}
       pinned={msg.is_pinned == true ? <PinnedChip label="Important" /> : ""}
+      category={
+        msg.category == "tous" ? (
+          <Chip size="small" color="secondary" label="Tous" icon={<Group />} />
+        ) : msg.category == "maintenance" ? (
+          <Chip size="small" color="secondary" label="Maintenance" icon={<Build />} />
+        ) : msg.category == "etage" ? (
+          <Chip
+            size="small"
+            color="secondary"
+            label="Etage"
+            icon={<SingleBed />}
+          />
+        )
+              : (
+                <Bell />
+              )
+      }
       message={msg.content}
       notebookId={msg.id}
       created={msg.date}
       edit={handleClickOpen}
     />
-  ));
+  });
 
   return (
     <React.Fragment>
@@ -489,6 +540,7 @@ function Workspace() {
           <Grid item xs={8}>
             Cahier de consignes
           </Grid>
+
           <Grid item>
             <Button>
               <Loop onClick={displayNotebook} />
@@ -535,6 +587,42 @@ function Workspace() {
           </Button>
           {loading}
           <Divider my={6} />
+          <Autocomplete
+            id="highlights-demo"
+            options={items}
+            openOnFocus="false"
+            noOptionsText="Consigne introuvable"
+            openText="Trier par date"
+            getOptionLabel={(option) => option.content}
+            fullWidth
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                helperText=""
+                onChange={console.log()}
+                label="Chercher une consigne"
+                variant="outlined"
+              />
+            )}
+            renderOption={(option, { inputValue }) => {
+              const matches = match(option.content, inputValue);
+              const parts = parse(option.content, matches);
+
+              return (
+                <div>
+                  {parts.map((part, index) => (
+                    <span
+                      key={index}
+                      style={{ fontWeight: part.highlight ? 900 : 200 }}
+                    >
+                      {part.text}
+                    </span>
+                  ))}
+                </div>
+              );
+            }}
+          />
+          <br/>
           {workspaceCard}
           {error ? (
             <Alert mt={3} mb={1} severity="error">
@@ -544,6 +632,45 @@ function Workspace() {
             ""
           )}
         </Grid>
+
+        <li Style="list-style-type:none;">
+          {" "}
+          <ul>
+            <Chip
+              size="small"
+              color="primary"
+              onClick={() => {
+                setCategory("tous");
+              }}
+              label="Tous"
+              icon={<Group />}
+            />
+          </ul>
+          <ul>
+            {" "}
+            <Chip
+              size="small"
+              onClick={() => {
+                setCategory("maintenance");
+              }}
+              color="secondary"
+              label="Maintenance"
+              icon={<Build />}
+            />
+          </ul>
+          <ul>
+            {" "}
+            <Chip
+              size="small"
+              onClick={() => {
+                setCategory("etage");
+              }}
+              color="secondary"
+              label="Etage"
+              icon={<SingleBed />}
+            />
+          </ul>
+        </li>
       </Grid>
     </React.Fragment>
   );

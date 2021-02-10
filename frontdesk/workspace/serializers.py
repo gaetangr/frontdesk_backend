@@ -58,6 +58,7 @@ class NotebookSerializer(serializers.ModelSerializer):
             "is_done",
             "is_pinned",
             "created",
+            "category",
             "modified",
             "username",
             "username_title",
