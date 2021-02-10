@@ -3,10 +3,6 @@ from django.contrib import messages
 from django.utils.translation import ngettext
 
 from .models import Property
-from .models import PropertyPermission
-
-
-admin.site.register(PropertyPermission)
 
 
 def nbr_message(obj):

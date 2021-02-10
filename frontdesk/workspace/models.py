@@ -1,9 +1,12 @@
-from autoslug import AutoSlugField
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from model_utils.models import TimeStampedModel
 
-from frontdesk.property.models import Property
+from frontdesk.properties.models import Property
+
+
+User = settings.AUTH_USER_MODEL
 
 
 class Workspace(TimeStampedModel):
@@ -12,28 +15,16 @@ class Workspace(TimeStampedModel):
     messages and many uselful information relating to their shift.
     """
 
-    property = models.ForeignKey(
+    property = models.OneToOneField(
         Property,
         on_delete=models.CASCADE,
         related_name="workspace",
         help_text="Property related to the current workspace",
     )
-    name = models.CharField(
-        max_length=50,
-        verbose_name="Nom de l'espace de travail",
-        help_text="Workspace name, by default is the name of the property",
-    )
-    slug = AutoSlugField(
-        "Nom de l'espace de travail'",
-        unique=True,
-        always_update=False,
-        populate_from="name",
-        help_text="Slug used for custom link",
-    )
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.name
+        return self.property.name
 
 
 class Notebook(TimeStampedModel):

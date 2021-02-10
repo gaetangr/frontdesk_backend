@@ -57,16 +57,17 @@ function Note(props) {
       },
     }).then((res) => {
       setItems(res.data[0]);
+     
     });
   }
 
   const methods = useForm();
   const { register, handleSubmit, control, reset } = methods;
   const onSubmit = (data) => {
-    console.log(data.TextField);
+     
       axios({
           method: "patch",
-          url: `${FRONTDESK_API}/profile/${items.id}/`,
+          url: `${FRONTDESK_API}/profile/${items.profile}/`,
           data: {
               note: data.note,
           },
@@ -134,7 +135,7 @@ function Note(props) {
                 <TextField
                   multiline
                   rows={10}
-                  autoFocus="true"
+                  autoFocus={true}
                   rowsMax={15}
                   variant="outlined"
                   label="Votre note"
@@ -146,6 +147,7 @@ function Note(props) {
               }
               rules={{ required: true, minLength: 0 }}
               name="note"
+              defaultValue={items.note}
               control={control}
             />
           </form>

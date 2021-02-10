@@ -126,8 +126,36 @@ function TrafficTable() {
     }
 
     setOpen(false);
+    setProfil(false)
   };
 
+  const userCard = (
+    <Dialog
+      align="center"
+      open={profil}
+      onClose={handleClose}
+      aria-labelledby="form-dialog-title"
+    >
+      <DialogTitle id="form-dialog-title">
+        <Avatar />
+        <br />
+         - Réceptionniste
+        <br />
+        <Typography variant="caption">hello@gaetangr.me</Typography>
+        <br />
+        <Typography variant="caption">0627382727</Typography>
+      </DialogTitle>
+
+      <DialogContent>
+        <DialogContentText></DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose} color="primary">
+          Fermer
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
   return (
     <Card mb={3}>
       <Snackbar
@@ -162,7 +190,7 @@ function TrafficTable() {
               <TableRow>
                 <TableCell>Prénom</TableCell>
                 <TableCell align="right">Titre</TableCell>
-                <TableCell align="right">Dernière connexion</TableCell>
+                <TableCell align="right">Message privé</TableCell>
                 <TableCell align="right">Profil</TableCell>
               </TableRow>
             </TableHead>
@@ -173,11 +201,16 @@ function TrafficTable() {
                     {row.first_name}
                   </TableCell>
                   <TableCell align="right">{row.title}</TableCell>
-                  <TableCell align="right">26</TableCell>
-                  <TableCell onClick={handleProfil} align="right">
-                   <Eye size="19"/>
+                  <TableCell align="right">
+                    {" "}
+                    <Button onClick={handleClickOpen} color="inherit">
+                      <Mail size="19" />
+                    </Button>
                   </TableCell>
-
+                  <TableCell onClick={handleProfil} align="right">
+                    <Eye size="19" />
+                    {userCard}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -197,7 +230,6 @@ function TrafficTable() {
             instantément.
           </DialogContentText>
 
-
           <TextField
             defaultValue="Vous avez un nouveau message privé"
             margin="dense"
@@ -206,7 +238,7 @@ function TrafficTable() {
             fullWidth
           />
           <TextField
-            autoFocus
+            autoFocus={true}
             margin="dense"
             id="name"
             multiline
@@ -221,36 +253,6 @@ function TrafficTable() {
           </Button>
           <Button onClick={handleNotification} color="primary">
             Envoyer
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog
-        align="center"
-        open={profil}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">
-          <Avatar />
-          <br />
-          Gaëtan - Réceptionniste
-          <br />
-          <Typography variant="caption">hello@gaetangr.me</Typography>
-          <br />
-          <Typography variant="caption">0627382727</Typography>
-        </DialogTitle>
-
-        <DialogContent>
-          <DialogContentText>
-            <Button onClick={handleClickOpen} color="inherit">
-              <MessageCircle />
-            </Button>
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Fermer
           </Button>
         </DialogActions>
       </Dialog>

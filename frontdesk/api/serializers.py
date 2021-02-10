@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 
-from frontdesk.property.models import Property
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Notebook
 

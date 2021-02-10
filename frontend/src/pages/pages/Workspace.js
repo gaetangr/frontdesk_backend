@@ -221,8 +221,8 @@ function WorkspaceContent(props) {
       data: { is_done: true },
     })
       .then((reponse) => {
-        handleClickOpen("La consigne est indiquée comme fait")
-        console.log(reponse.data)
+        handleClickOpen("La consigne est indiquée comme fait");
+        console.log(reponse.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -311,7 +311,7 @@ function WorkspaceContent(props) {
           <Grid item xl="auto">
             {" "}
             <Button onClick={props.edit} size="small" color="primary">
-              <Link href={props.editLink}>Editer</Link>
+              <Link >Editer</Link>
             </Button>
             <Button onClick={handleDelete} size="small" color="secondary">
               <Link href={props.deleteLink}>supprimer</Link>
@@ -320,46 +320,28 @@ function WorkspaceContent(props) {
           <CardActions align="right"></CardActions>
         </Grid>
 
-        <Snackbar
-          anchorOrigin={{
-            vertical: "top",
-            horizontal: "right",
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={handleClose}
-        >
-          <Alert onClose={handleClose} severity={error}>
-            {message}
-          </Alert>
-        </Snackbar>
+      
       </Box>
     </Card>
   );
 }
 
 function Workspace() {
-
-
-const [items, setItems] = useState([]);
-const [error, setError] = useState();
-const [open, setOpen] = React.useState(false);
-
-
+  const [items, setItems] = useState([]);
+  const [user, setUser] = useState([]);
+  const [error, setError] = useState();
+  const [open, setOpen] = React.useState(false);
 
   const handleClose = () => {
     setOpen(false);
   };
   const handleClickOpen = () => {
-
-     setOpen(true);
-
+    setOpen(true);
   };
 
   const handleEdit = () => {
     setOpen(false);
   };
-
 
   const displayNotebook = async () => {
     const reponse = await axios({
@@ -372,76 +354,80 @@ const [open, setOpen] = React.useState(false);
     setItems(reponse.data);
   };
 
+  function getUser() {
+    axios({
+      method: "get",
+      url: `${FRONTDESK_API}/users/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then((response) => {
+      setUser(response.data[0]);
+    });
+  }
+
   const [progress, setProgress] = React.useState("");
-const [loading, setLoading] = useState("");
+  const [loading, setLoading] = useState("");
   const [value, setValue] = React.useState("");
 
   useEffect(() => {
     displayNotebook();
+    getUser();
     console.log("Loading state");
   }, []);
 
-
-const schema = yup.object().shape({
-  TextField: yup
-    .string()
-    .required("Vous n'avez rien renseigné")
-    .min(10, "Trop court ").max(1000),
-});
+  const schema = yup.object().shape({
+    TextField: yup
+      .string()
+      .required("Vous n'avez rien renseigné")
+      .min(10, "Trop court ")
+      .max(1000),
+  });
 
   const methods = useForm({
     resolver: yupResolver(schema),
   });
 
-    const {register, handleSubmit, errors, control, reset } = methods;
+  const { register, handleSubmit, errors, control, reset } = methods;
   const onSubmit = (data) => {
-    console.log(data.TextField)
+    console.log(data.TextField);
     axios({
+      method: "post",
+      url: `${FRONTDESK_API}/notebook/create/`,
+      data: {
+        workspace: user.workspace,
+        author: user.id,
+        content: data.TextField,
+        is_done: false,
+        is_pinned: false,
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(
+        setLoading(<LinearProgress variant="query" />),
+        // set timeout
+        setTimeout(() => {
+          setLoading("");
+          displayNotebook();
+        }, 2500)
+      )
+      .catch((error) => {
+        if (error.response) {
+          /*
+           * The request was made and the server responded with a
+           * status code that falls out of the range of 2xx
+           */
+          console.log(error.response.data);
 
-    method: "post",
-    url: `${FRONTDESK_API}/notebook/create/`,
-    data: {
-      id: 35,
-      workspace: 1,
-      author: 1,
-      content: data.TextField,
-      is_done: false,
-      is_pinned: false,
-    },
-    headers: {
-      Authorization: `Token ${TOKEN}`,
-    },
-  })
-    .then(
-
-
-      setLoading(<LinearProgress variant="query" />),
-              // set timeout
-              setTimeout(() => {
-                  setLoading("");
-                  displayNotebook();
-              }, 2500),
-
-
-    )
-    .catch((error) => {
-      if (error.response) {
-        /*
-         * The request was made and the server responded with a
-         * status code that falls out of the range of 2xx
-         */
-        console.log(error.response.data.detail);
-
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      }
-    });};
-
-
-
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  };
 
   const workspaceCard = items.map((msg) => (
-
     <WorkspaceContent
       name={capitalizeFirstLetter(msg.username)}
       title={msg.username_title}
@@ -450,9 +436,8 @@ const schema = yup.object().shape({
       pinned={msg.is_pinned == true ? <PinnedChip label="Important" /> : ""}
       message={msg.content}
       notebookId={msg.id}
-      created={msg.created.slice(0, 10)}
+      created={msg.date}
       edit={handleClickOpen}
-
     />
   ));
 
@@ -477,7 +462,7 @@ const schema = yup.object().shape({
             <Controller
               as={
                 <TextField
-                  autoFocus
+                  autoFocus={true}
                   margin="dense"
                   id="consigne"
                   label="Consigne"
@@ -496,9 +481,7 @@ const schema = yup.object().shape({
           <Button onClick={handleClose} color="primary">
             Annuler
           </Button>
-          <Button  color="primary">
-            Modifier
-          </Button>
+          <Button color="primary">Modifier</Button>
         </DialogActions>
       </Dialog>
       <Typography variant="h3" gutterBottom display="inline">
@@ -518,16 +501,14 @@ const schema = yup.object().shape({
 
       <Grid container spacing={6}>
         <Grid item xs={9}>
-          {loading}
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Option 1: pass a component to the Controller. */}
             <Controller
               as={
                 <TextField
                   multiline
-                  onSubmit
                   rows={4}
-                  autoFocus="true"
+                  autoFocus={true}
                   value=""
                   error={errors.TextField ? true : false}
                   helperText={errors.TextField?.message}
@@ -552,7 +533,7 @@ const schema = yup.object().shape({
             Ajouter la consigne
             {value}
           </Button>
-          {progress}
+          {loading}
           <Divider my={6} />
           {workspaceCard}
           {error ? (

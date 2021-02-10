@@ -4,7 +4,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
-from frontdesk.property.models import Property
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace
@@ -20,9 +20,7 @@ def create_welcome_datas(sender, instance, created, **kwargs):
         except ObjectDoesNotExist:
             user = User.objects.filter(is_superuser=True).first()
         # Creating workspace and workspace.name matching property.name
-        workspace = Workspace.objects.create(
-            property=instance, name=f"Cahier de consignes- {instance.name}"
-        )
+        workspace = Workspace.objects.create(property=instance)
 
         # Creating notebook content to welcome user and populate workspace
         Notebook.objects.create(
@@ -32,4 +30,4 @@ def create_welcome_datas(sender, instance, created, **kwargs):
         )
 
         # Logging new property so it's send to sentry logging
-        logging.info(f"The {instance.name} property has been created ! ✨")
+        logging.info(f"The {instance} property has been created ! ✨")

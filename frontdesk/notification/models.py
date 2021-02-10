@@ -1,6 +1,10 @@
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from model_utils.models import TimeStampedModel
+
+
+User = settings.AUTH_USER_MODEL
 
 
 class Notification(TimeStampedModel):

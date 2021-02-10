@@ -473,7 +473,7 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
                 vertical: "bottom",
                 horizontal: "right",
               }}
-              variant={items.length == 0 ? "" : "dot"}
+              variant={items.length == 0 ? "standard" : "dot"}
             >
               <Avatar size="small">
                 {firstLetter(`${items.first_name}`)}
