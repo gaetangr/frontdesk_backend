@@ -134,8 +134,8 @@ function SignUp() {
         localStorage.setItem("token", data.data.key);
         getUser(data.data.key, 1);
         setTimeout(() => {
-          // history.push("/dashboard/default",);
-          //document.location.reload();
+          history.push("/dashboard/default",);
+          document.location.reload();
         }, 3333);
       })
       .catch((error) => {
@@ -166,16 +166,9 @@ function SignUp() {
         Rejoignez-nous
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Créez votre compte en quelques secondes !{errorCard}
+        Ajoutez votre établissement à notre plateforme en quelques secondes !{errorCard}
       </Typography>
-      <Alert mt={3} mb={2} severity="warning">
-        <AlertTitle>Attention</AlertTitle>
-        Vous allez inscrire votre hôtel sur Front Desk, ce formulaire est
-        réservé aux propriétaires ou un représentant de l'établissement
-        <br />
-        <br />
-        <Link href="/documentation/account-manager">En savoir plus</Link>
-      </Alert>
+    
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Option 1: pass a component to the Controller. */}
@@ -184,7 +177,7 @@ function SignUp() {
             <TextField
               required
               id="username"
-              autoFocus="true"
+              autoFocus={true}
               label="Pseudo"
               helperText="L'identifiant sera lié à votre établissement"
               placeholder="Ex: H0827, DIRECTION..."

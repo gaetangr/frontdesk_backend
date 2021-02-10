@@ -6,7 +6,7 @@ import React from "react";
 import styled, { withTheme } from "styled-components/macro";
 import { darken } from "polished";
 import { useIdleTimer } from 'react-idle-timer'
-import { Search as SearchIcon } from "react-feather";
+import { Search as SearchIcon, LogIn } from "react-feather";
 import { FRONTDESK_API, TOKEN, TIMEOUT_VALUE } from "../constants";
 import axios from "axios"
 import {
@@ -22,6 +22,7 @@ import {
 import { Menu as MenuIcon, Loop } from "@material-ui/icons";
 
 import NotificationsDropdown from "./NotificationsDropdown";
+import MessagesDropdown from "./MessagesDropdown";
 import UserDropdown from "./UserDropdown";
 
 const AppBar = styled(MuiAppBar)`
@@ -93,12 +94,11 @@ const AppBarComponent = ({ onDrawerToggle }) => (
               </IconButton>
             </Grid>
           </Hidden>
-          <Grid item>
-
-          </Grid>
+          <Grid item></Grid>
           <Grid item xs />
           <Grid item>
-             <NotificationsDropdown />
+            <MessagesDropdown />
+            <NotificationsDropdown />
             <UserDropdown />
           </Grid>
         </Grid>

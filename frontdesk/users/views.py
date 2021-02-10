@@ -3,8 +3,7 @@
 from django.contrib.auth import get_user_model
 from rest_framework import generics
 
-from frontdesk.property.models import Property
-from frontdesk.users.models import Profile
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 
 from .permissions import IsRequestUser
@@ -84,7 +83,7 @@ class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Profile.objects.filter(user=user)
+        return User.objects.filter(user=user)
 
 
 profile_detail_view = ProfileDetail.as_view()

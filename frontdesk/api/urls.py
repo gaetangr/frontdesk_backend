@@ -4,10 +4,8 @@ from django.urls import path
 from frontdesk.notification.views import notification_create_view
 from frontdesk.notification.views import notification_delete_view
 from frontdesk.notification.views import notification_list_view
-from frontdesk.property.views import property_detail_view
-from frontdesk.property.views import property_list_create_view
-from frontdesk.property.views import property_permission_detail_view
-from frontdesk.property.views import property_permission_list_create_view
+from frontdesk.properties.views import property_detail_view
+from frontdesk.properties.views import property_list_create_view
 from frontdesk.users.views import collaborator_retrieve_update_destroy
 from frontdesk.users.views import profile_detail_view
 from frontdesk.users.views import user_detail_view
@@ -65,16 +63,6 @@ urlpatterns = [
         "property/<int:pk>/",
         view=property_detail_view,
         name="property-detail",
-    ),
-    path(
-        "property-permission/",
-        view=property_permission_list_create_view,
-        name="property-permission-list-create",
-    ),
-    path(
-        "property-permission/<int:pk>/",
-        view=property_permission_detail_view,
-        name="property-permission-detail",
     ),
     # NOTIFICATION ROUTES
     # ------------------------------------------------------------------------------

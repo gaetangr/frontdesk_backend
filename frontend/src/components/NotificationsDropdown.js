@@ -49,9 +49,19 @@ const NotificationHeader = styled(Box)`
 `;
 
 
+function Notification({ title, description, Icon, deleteAction, notificationId }, props) {
+  
+  async function deleteNotification() {
+    const reponse = await axios({
+      method: "delete",
+      url: `${FRONTDESK_API}/notification/delete/${deleteAction}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+      
+    }).then(displayNotification());
+  }
 
-
-function Notification({ title, description, Icon, deleteAction }) {
   return (
     <ListItem divider component={Link} to="#">
       <ListItemAvatar>
@@ -69,16 +79,17 @@ function Notification({ title, description, Icon, deleteAction }) {
         secondary={description}
       />
       <Typography variant="caption">
-        <X size={16} />
+        <X size={16} onClick={deleteNotification} />
       </Typography>
+
     </ListItem>
   );
 }
 
 
 function NotificationsDropdown() {
-    const [items, setItems] = useState([]);
-  const [id, setId] = useState("")
+  const [items, setItems] = useState([]);
+  
   
 
 
@@ -93,47 +104,52 @@ function NotificationsDropdown() {
       setItems(reponse.data);
   }
 
-  async function deleteNotification(id) {
+  async function deleteNotification1() {
     const reponse = await axios({
       method: "delete",
-      url: `${FRONTDESK_API}/notification/delete/${id}/`,
+      url: `${FRONTDESK_API}/notification/delete/${364}/`,
       headers: {
         Authorization: `Token ${TOKEN}`,
       },
-    });
+    }).then(displayNotification());
   }
 
-console.log(items);
+
+
+  useEffect(() => {
+    displayNotification();
+  }, []);
+
+  
+
 const categories = ["message", "system", "tag" , "pinned"]
-  const notificationCard = items.map((msg) => (
-    <Notification
-      title={msg.title}
-      key={msg.id}
-      deleteAction={msg.id}
-      description={msg.content}
-      Icon={
-        msg.category == "tag" ? (
-          <AtSign />
-        ) : msg.category == "message" ? (
-          <Mail />
-        ) : msg.category == "system" ? (
-          <AlertTriangle />
-        ) : msg.category == "pinned" ? (
-          <Flag />
-        ) : (
-          <Bell />
-        )
-      }
-    />
-  ));
-useEffect(() => {
-displayNotification();
+  const notificationCard = items.map((msg) => {
+     if (msg.category != "message")
+      return <Notification
+         title={msg.title}
+         key={msg.id}
+         deleteAction={msg.id}
+         description={msg.content}
+         notificationId={deleteNotification1}
+         Icon={
+           msg.category == "tag" ? (
+             <AtSign />
+           ) : msg.category == "message" ? (
+             <Mail />
+           ) : msg.category == "system" ? (
+             <AlertTriangle />
+           ) : msg.category == "pinned" ? (
+             <Flag />
+           ) : (
+             <Bell />
+           )
+         }
+       />;
+  });
 
 
-}, [] );
-setTimeout(() => {
-  displayNotification();
-}, 10000);
+
+
 
   const ref = useRef(null);
   const [isOpen, setOpen] = useState(false);
@@ -167,13 +183,16 @@ setTimeout(() => {
         <NotificationHeader p={2}>
           <Typography variant="subtitle1" color="textPrimary">
             {items.length} nouvelles notifications
+          
           </Typography>
         </NotificationHeader>
         <React.Fragment>
-          <List disablePadding>{notificationCard}</List>
+          <List disablePadding>{notificationCard}
+          </List>
           <Box p={1} display="flex" justifyContent="center">
             <Button size="small" component={Link} to="#">
-              Voir toutes les notifications
+              Supprimer toutes les notifications
+               
             </Button>
           </Box>
         </React.Fragment>

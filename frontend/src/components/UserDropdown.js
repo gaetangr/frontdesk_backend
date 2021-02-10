@@ -61,7 +61,10 @@ function UserDropdown() {
         onClose={closeMenu}
       >
         <MenuItem onClick={closeMenu}>Profile</MenuItem>
-        <MenuItem onClick={handleSignOut}>Se déconnecter</MenuItem>
+        <MenuItem onClick={handleSignOut}>
+          {" "}
+          {localStorage.getItem("token") ? "Se déconnecter" : "Se connecter"}
+        </MenuItem>
       </Menu>
     </React.Fragment>
   );

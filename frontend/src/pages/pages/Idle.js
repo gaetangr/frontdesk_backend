@@ -20,7 +20,7 @@
     </DialogContentText>
   </DialogContent>
   <DialogActions>
-    <Button onClick={handleClose} color="primary" autoFocus>
+    <Button onClick={handleClose} color="primary" autoFocus={true}>
       Gardez-moi en ligne
     </Button>
   </DialogActions>

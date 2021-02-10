@@ -155,7 +155,7 @@ function SignIn() {
       <Helmet title="Se connecter" />
 
       <Typography component="h1" variant="h4" align="center" gutterBottom>
-        Bienvenue, {username ? username : "visiteur"} !
+        Bienvenue, visiteur!
       </Typography>
       <Typography component="h2" variant="body1" align="center">
         Connectez-vous pour continuer
@@ -167,15 +167,14 @@ function SignIn() {
           as={
             <TextField
               id="username"
-              label="Pseudo"
-              InputLabelProps={{ shrink: true }}
+           
               fullWidth
               helperText={<p>{errors.username?.message}</p>}
               my={2}
             />
           }
           name="username"
-          label="Pseudo"
+          label="Identifiant"
           control={control}
           defaultValue=""
         />
@@ -183,15 +182,15 @@ function SignIn() {
         <Controller
           as={
             <TextField
-              id="title"
+              id="password"
               type="password"
               label="Mot de passe"
-              InputLabelProps={{ shrink: true }}
+
               fullWidth
               my={2}
             />
           }
-          defaultValue="password"
+          defaultValue=""
           name="password"
           control={control}
         />
@@ -202,7 +201,7 @@ function SignIn() {
           variant="contained"
           color="primary"
         >
-          Sauvegarder les changements
+          Se connecter
         </Button>
       </form>
       {loading}

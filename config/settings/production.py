@@ -5,6 +5,8 @@ This is the settings file used to host front-desk live in
 production server. That is, the settings
 for the server that host the real live website
 """
+import logging
+
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 from sentry_sdk.integrations.logging import LoggingIntegration

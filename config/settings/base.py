@@ -2,7 +2,6 @@
 Base settings to be extended for production, test and local.
 Settings common to all instances of the project.
 """
-import logging
 import os
 from pathlib import Path
 
@@ -88,7 +87,7 @@ LOCAL_APPS = [
     "frontdesk.users.apps.UsersConfig",
     "frontdesk.workspace.apps.WorkspaceConfig",
     "frontdesk.api.apps.ApiConfig",
-    "frontdesk.property.apps.PropertyConfig",
+    "frontdesk.properties.apps.PropertiesConfig",
     "frontdesk.notification.apps.NotificationConfig",
 ]
 
@@ -119,7 +118,6 @@ MIDDLEWARE = [
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [str(APPS_DIR / "templates")],
         "OPTIONS": {
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
@@ -130,8 +128,6 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.template.context_processors.i18n",
-                "django.template.context_processors.media",
-                "django.template.context_processors.static",
                 "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
             ],
@@ -315,3 +311,5 @@ LOGGING = {
         },
     },
 }
+
+AUTH_USER_MODEL = "users.User"

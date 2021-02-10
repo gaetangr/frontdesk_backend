@@ -4,7 +4,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from frontdesk.users.models import Profile
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
@@ -16,7 +15,7 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workspace
-        fields = ("property", "name", "slug")
+        fields = ("property",)
 
 
 class NotebookSerializer(serializers.ModelSerializer):
@@ -28,14 +27,19 @@ class NotebookSerializer(serializers.ModelSerializer):
 
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
-        user = Profile.objects.get(pk=obj.author.pk)
-        return user.title if user.title else ""
+        try:
+            user = User.objects.get(pk=obj.author.pk)
+            return user.title if user.title else ""
+        except AttributeError:
+            return "visiteur"
 
     def username_field(self, obj):
         """ Add a custom field serializer that return the username of user """
-        user = User.objects.get(pk=obj.author.pk)
-
-        return user.first_name if user.first_name else ""
+        try:
+            user = User.objects.get(pk=obj.author.pk)
+            return user.first_name if user.first_name else ""
+        except AttributeError:
+            return "Anonyme"
 
     def date_field(self, obj):
         now = str(obj.created)

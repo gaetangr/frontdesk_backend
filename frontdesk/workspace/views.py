@@ -2,7 +2,7 @@
 
 from rest_framework import generics
 
-from frontdesk.property.models import Property
+from frontdesk.properties.models import Property
 from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace

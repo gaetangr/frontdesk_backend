@@ -5,7 +5,7 @@ from allauth.socialaccount.models import SocialToken
 from django.contrib import admin
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import User
 
 
 # Cleaning admin panel
@@ -15,12 +15,6 @@ admin.site.unregister(SocialToken)
 admin.site.unregister(EmailAddress)
 
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user",)
-
-
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    admin.site.unregister(User)
     list_display = ["username", "date_joined", "last_login"]

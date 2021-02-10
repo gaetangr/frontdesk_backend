@@ -6,7 +6,6 @@ DEBUG mode, log level, and activation of
 developer tools like django-debug-toolbar.
 """
 
-
 from .base import *
 
 

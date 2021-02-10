@@ -1,8 +1,6 @@
 """ Permissions for the property app """
 from rest_framework import permissions
 
-from frontdesk.property.models import PropertyPermission
-
 
 class IsMember(permissions.BasePermission):
     """ If user is member of the property allow CRUD, else return 403 """
@@ -20,8 +18,8 @@ class IsMemberAndAdmin(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         user = request.user
-        property_permission = PropertyPermission.objects.get(user=user)
-        if user in obj.collaborator.all() and property_permission.is_admin == True:
+
+        if user in obj.collaborator.all():
             return True
         else:
             return False
@@ -32,8 +30,7 @@ class IsMemberAndStaff(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
         user = request.user
-        property_permission = PropertyPermission.objects.get(user=user)
-        if user in obj.collaborator.all() and property_permission.is_staff == True:
+        if user in obj.collaborator.all():
             return True
         else:
             return False

@@ -21,6 +21,7 @@ import {
   Users,
 } from "react-feather";
 
+import { FRONTDESK_API, TOKEN } from "../constants/";
 
 
 // Guards
@@ -37,7 +38,7 @@ const ResetPassword = async(() => import("../pages/auth/ResetPassword"));
 
 // Dashboards components
 const Default = async(() => import("../pages/dashboards/Default"));
-const Manager = async(() => import("../pages/dashboards/Manager"));
+
 
 
 // Pages components
@@ -71,7 +72,7 @@ const dashboardsRoutes = {
   id: "Tableau de bord",
   path: "/dashboard",
   header: "Outils",
-
+  path: "/dashboard/default",
 
   icon: <Sliders />,
   containsHome: true,
@@ -82,12 +83,7 @@ const dashboardsRoutes = {
       component: Default,
 
     },
-    {
-      path: "/dashboard/manager",
-      name: "Mon espace manager",
-      component: Manager,
-
-    },
+  
   ],
   component: null,
 };
@@ -217,7 +213,7 @@ const documentationRoutes = {
 const changelogRoutes = {
   id: "Changelog",
   path: "/changelog",
-  badge: "v2.0.0",
+  badge: "v1.0.0",
 
   icon: <List />,
   component: Changelog,
@@ -282,6 +278,8 @@ export const presentationLayoutRoutes = [landingRoutes];
 export const protectedRoutes = [protectedPageRoutes];
 
 // Routes visible in the sidebar
+
+
 export const sidebarRoutes = [
   dashboardsRoutes,
   workspaceRoutes,

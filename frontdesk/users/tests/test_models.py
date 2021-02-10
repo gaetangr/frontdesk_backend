@@ -1,14 +1,13 @@
-from django.contrib.auth.models import User
+from frontdesk.users.models import User
 import pytest
 
-from frontdesk.users.models import Profile
 
 
 @pytest.mark.django_db
 def test__str__():
     """If an user object is created, a profil is linked and should return username as str"""
     user = User.objects.create_user(username="Gaetan", password="you-will-never-guess")
-    profile = Profile.objects.get(user=user)
+    user = User.objects.get(pk=user.pk)
 
-    assert profile.__str__() == profile.user.username
-    assert str(profile) == profile.user.username
+    assert user.__str__() == user.username
+    assert str(user) == user.username

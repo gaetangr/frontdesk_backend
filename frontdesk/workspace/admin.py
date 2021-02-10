@@ -18,7 +18,7 @@ class WorkspaceAdmin(admin.ModelAdmin):
     """ Custom workspace admin to display custom fields and methods """
 
     actions_on_bottom = True
-    list_display = ("name", "created", nbr_message)
+    list_display = ("property", "created", nbr_message)
 
 
 admin.site.register(Notebook)
