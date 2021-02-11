@@ -54,31 +54,28 @@ function UserCreate() {
   const [openInfo, setOpenInfo] = React.useState(false);
 
   
-
+ axios({
+   method: "patch",
+   url: `${FRONTDESK_API}/property/52/`,
+   data: {
+     collaborator: [88],
+   },
+   headers: {
+     Authorization: `Token ${TOKEN}`,
+   },
+ });
 
    const onSubmit = (data) => {
      axios({
        method: "post",
-       url: `${FRONTDESK_API}/auth/registration/`,
+       url: `${FRONTDESK_API}/users/`,
        data: {
          username: data.username,
          email: `${data.username}k@example.com`,
-         password1: "passwordpassword",
-         password2: "passwordpassword",
+         password: "passwordpassword",
        },
      })
-       .then(
-         axios({
-           method: "patch",
-           url: `${FRONTDESK_API}/property/52/`,
-           data: {
-             collaborator: [88,],
-           },
-           headers: {
-             Authorization: `Token ${TOKEN}`,
-           },
-         })
-       )
+       .then((res) => console.log(res.data.user))
        .catch((error) => {
          if (error.response) {
            console.log(error.response.data.detail);

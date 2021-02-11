@@ -42,7 +42,7 @@ class Notebook(TimeStampedModel):
     author = models.ForeignKey(
         User, null=True, on_delete=models.SET_NULL, related_name="author"
     )
-
+    date = models.DateTimeField(auto_now_add=True, null=False)
     tag_user = models.ManyToManyField(
         User,
         blank=True,
@@ -55,7 +55,6 @@ class Notebook(TimeStampedModel):
         DEFAULT = "tous", "Tous"
         MAINTENANCE = "maintenance", "Maintenance"
         HOUSEKEEPING = "etage", "Étage"
-
 
     category = models.CharField(
         "Category",

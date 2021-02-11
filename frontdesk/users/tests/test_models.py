@@ -1,6 +1,6 @@
-from frontdesk.users.models import User
 import pytest
 
+from frontdesk.users.models import User
 
 
 @pytest.mark.django_db

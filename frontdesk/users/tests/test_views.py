@@ -1,11 +1,11 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
 from django.urls import reverse
-from frontdesk.properties.models import Property
 import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 
 
