@@ -53,7 +53,7 @@ urlpatterns = [
     ),
     path("admin-manager/", admin_manager.urls),
     path("admin/", admin.site.urls, name="admin_panel"),
-    path("admin/doc/", include("django.contrib.admindocs.urls")),
+    # path("admin/doc/", include("django.contrib.admindocs.urls")),
     # Local apps
     # ----------------------------------
     path(

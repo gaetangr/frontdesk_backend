@@ -32,12 +32,14 @@ class MyAdminSite(AdminSite):
 admin_manager = MyAdminSite(name="manager-admin")
 
 
+# Custom field for property model
 def nbr_message(obj):
     """ custom function to count members of given property """
     return obj.collaborator.all().count()
 
 
 nbr_message.short_description = "Nombre de membres"
+
 
 
 def nbr_files(obj):
@@ -60,18 +62,12 @@ class PropertyAdmin(admin.ModelAdmin):
     text_fields = {"collaborator": admin.VERTICAL}
     list_display = ["name", "created", nbr_message, nbr_files]
 
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        return super().formfield_for_manytomany(db_field, request, **kwargs)
-
-    readonly_fields = ("is_premium",)
+    
     fieldsets = (
         (
             None,
             {
-                "fields": (
-                    "collaborator",
-                    r"notice",
-                ),
+                "fields": ("notice",),
             },
         ),
         (
@@ -102,14 +98,24 @@ class PropertyAdmin(admin.ModelAdmin):
         if request.user.pk == 33:
             return qs
         return qs.filter(collaborator=request.user)
+        
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        user = request.user
 
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        if db_field.name == "collaborator":
+            kwargs["queryset"] = User.objects.all().filter(property=properties)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
+    readonly_fields = ("is_premium",)
 
 @admin.register(Checklist, Document, Planning, site=admin_manager)
 class PropertyFilesAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
+   
     list_display = ["name", "created"]
-    exclude = ("property",)
+    exclude = ("properties",)
     prepopulated_fields = {"name": ("file",)}
 
     def has_module_permission(self, request):
@@ -131,12 +137,21 @@ class PropertyFilesAdmin(admin.ModelAdmin):
             return True
 
 
+    def save_model(self, request, obj, form, change):
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        obj.properties = properties
+        super().save_model(request, obj, form, change)
+
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
     list_display = ["username", "first_name", "is_staff", "date_joined", "last_login"]
-    prepopulated_fields = {"username": ("first_name", "last_name")}
+    prepopulated_fields = {
+        "username": ("first_name", "last_name"),
+        "password": ("first_name", "last_name"),
+    }
     fieldsets = (
         (
             "Fiche collaborateur",
@@ -150,6 +165,7 @@ class UserAdmin(admin.ModelAdmin):
         (
             "Options avancées",
             {
+                "classes": ("collapse",),
                 "description": (
                     "Les options avancées permettent de gérer précisement les droits et actions de vos utilisateurs\n"
                 ),
@@ -158,14 +174,28 @@ class UserAdmin(admin.ModelAdmin):
         ),
     )
 
-    def save_model(self, request, obj, form, change):
-        super(UserAdmin, self).save_model(request, obj, form, change)
+    def response_add(self, request, obj, post_url_continue=None):
+        user = request.user
+
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        properties.collaborator.add(obj.id)
+        self.message_user(
+            request,
+            f"{obj.first_name} a été ajouté à votre établissement",
+            messages.SUCCESS,
+        )
+        return super().response_add(
+            request,
+            obj,
+        )
 
     def get_queryset(self, request):
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
         qs = super().get_queryset(request)
         if request.user.pk == 33:
             return qs
-        return qs.filter(pk=request.user.pk)
+        return qs.all().filter(property=properties)
 
     def has_module_permission(self, request):
         return True
@@ -186,12 +216,16 @@ class UserAdmin(admin.ModelAdmin):
 class WorkspaceAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
+    exclude = ("workspace", "tag_user", "author")
+
     def has_module_permission(self, request):
-        return True
+        if request.user.is_admin or request.user.is_staff:
+            return True
 
     def has_view_permission(self, request, obj=None):
-        return True
+        if request.user.is_admin or request.user.is_staff:
+            return True
 
-    def has_add_permission(self, request, obj=None):
+    def has_delete_permission(self, request, obj=None):
         if request.user.is_admin or request.user.is_staff:
             return True
