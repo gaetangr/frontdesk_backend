@@ -17,21 +17,18 @@ class User(AbstractUser):
         max_length=200,
         null=True,
         blank=True,
-        help_text="Job title to identify which departement the user belongs to",
+        help_text="Rôle dans l'entreprise, (ex: directeur, réceptionniste ..)",
     )
     note = models.TextField(
         null=True, blank=True, help_text="Privates notes shown on the dashboard"
     )
 
     is_admin = models.BooleanField(
+        "Administrateur",
         default=False,
-        help_text="If set to true the user is able to delete or update a property and delete, update and create an user",
-    )
-    is_staff = models.BooleanField(
-        default=False,
-        help_text="If set to true the user is able to delete or update a property and delete, update and create an user",
+        help_text="Précise si l’utilisateur est administrateur, l'administrateur est le seul rôle permettant de supprimer et modifier un établissement, ainsi que supprimer un utilisateur",
     )
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.username
+        return self.first_name if self.first_name else self.username

@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Note(props) {
   const [items, setItems] = useState([]);
+  const [itemsProperty, setItemsProperty] = useState([]);
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState("");
 
@@ -87,6 +88,18 @@ function Note(props) {
       setItems(res.data[0]);
     });
   }
+
+    function displayProperty() {
+      axios({
+        method: "get",
+        url: `${FRONTDESK_API}/property/`,
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      }).then((res) => {
+        setItemsProperty(res.data[0]);
+      });
+    }
 
   const methods = useForm();
   const { register, handleSubmit, control, reset } = methods;
@@ -127,6 +140,7 @@ function Note(props) {
 
   useEffect(() => {
     displayUser();
+    displayProperty()
   }, []);
  const classes = useStyles();
   return (
@@ -168,7 +182,7 @@ function Note(props) {
             <Stats
               tooltipInfo="Ordre du jour ajouté par un administrateur de votre établissement"
               title="Ordre du jour"
-              amount="Ne pas oublier de sortir les poubelles de verre s'il vous plaît et vendre les encas"
+              amount={itemsProperty.notice}
               since="Depuis le mois dernier"
             />
           </Grid>
@@ -177,12 +191,22 @@ function Note(props) {
               tooltipInfo="Une check-list ajoutée par un administrateur de votre établissement"
               title="Check-list"
               download={
-                <Button variant="outlined" size="small" color="primary">
+                <Button
+                  href={itemsProperty.checklist}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                >
                   Télécharger
                 </Button>
               }
               see={
-                <Button variant="outlined" size="small" color="primary">
+                <Button
+                  href={itemsProperty.checklist}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                >
                   Voir
                 </Button>
               }
@@ -194,12 +218,22 @@ function Note(props) {
               tooltipInfo="Le planning ajouté par un administrateur de votre établissement"
               title="Planning"
               download={
-                <Button variant="outlined" size="small" color="primary">
+                <Button
+                  href={itemsProperty.planning}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                >
                   Télécharger
                 </Button>
               }
               see={
-                <Button variant="outlined" size="small" color="primary">
+                <Button
+                  href={itemsProperty.planning}
+                  variant="outlined"
+                  size="small"
+                  color="primary"
+                >
                   Voir
                 </Button>
               }

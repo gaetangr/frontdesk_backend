@@ -17,9 +17,6 @@ nbr_message.short_description = "Nombre de membres"
 class PropertyAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
-    list_display = ("name", "created", nbr_message)
-    actions = ["make_premium"]
-
     def make_premium(self, request, queryset):
         """ custom method to activate premium on a given property """
         if queryset.filter(is_premium=True):
