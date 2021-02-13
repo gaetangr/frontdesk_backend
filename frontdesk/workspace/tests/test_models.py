@@ -1,7 +1,7 @@
-from frontdesk.users.models import User
-from frontdesk.properties.models import Property
 import pytest
 
+from frontdesk.properties.models import Property
+from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace

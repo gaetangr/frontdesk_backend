@@ -4,6 +4,7 @@ import ReactMarkdown from "react-markdown";
 import axios from "axios";
 import { sizing, maxHeight, height } from "@material-ui/system";
 import { Helmet } from "react-helmet";
+import Stats from "./Stats";
 import { FRONTDESK_API, TOKEN } from "../../../constants";
 import {
   Grid,
@@ -12,7 +13,8 @@ import {
   CardHeader,
   Tooltip,
   Typography,
-    IconButton,
+  IconButton,
+  CardMedia,
   LinearProgress,
   Button,
   Card as MuiCard,
@@ -29,6 +31,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
 import { useForm, Controller } from "react-hook-form";
 import { green, red } from "@material-ui/core/colors";
+import { makeStyles } from "@material-ui/core/styles";
 
 import { spacing } from "@material-ui/system";
 const Card = styled(MuiCard)(spacing);
@@ -36,10 +39,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+}));
+
 function Note(props) {
   const [items, setItems] = useState([]);
-    const [open, setOpen] = React.useState(false);
-    const [loading, setLoading] = React.useState("");
+  const [itemsProperty, setItemsProperty] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = React.useState("");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,77 +86,113 @@ function Note(props) {
       },
     }).then((res) => {
       setItems(res.data[0]);
-     
     });
   }
+
+    function displayProperty() {
+      axios({
+        method: "get",
+        url: `${FRONTDESK_API}/property/`,
+        headers: {
+          Authorization: `Token ${TOKEN}`,
+        },
+      }).then((res) => {
+        setItemsProperty(res.data[0]);
+      });
+    }
 
   const methods = useForm();
   const { register, handleSubmit, control, reset } = methods;
   const onSubmit = (data) => {
-     
-      axios({
-          method: "patch",
-          url: `${FRONTDESK_API}/profile/${items.profile}/`,
-          data: {
-              note: data.note,
-          },
-          headers: {
-              Authorization: `Token ${TOKEN}`,
-          },
-      })
-          .then(
-              // Add linear progress
-              setLoading(<LinearProgress />),
-              // set timeout
-              setTimeout(() => {
-                  setLoading("");
-                  displayUser();
-              }, 3332),
-
-      ).catch((error) => {
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/profile/${items.id}/`,
+      data: {
+        note: data.note,
+      },
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    })
+      .then(
+        // Add linear progress
+        setLoading(<LinearProgress />),
+        setOpen(false),
+        // set timeout
+        setTimeout(() => {
+          setLoading("");
+          displayUser();
+        }, 3332)
+      )
+      .catch((error) => {
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
 
-          console.log(error.response.status);
-          console.log(error.response.headers);
         }
       });
   };
 
   useEffect(() => {
     displayUser();
+    displayProperty()
   }, []);
+ const classes = useStyles();
+  return (
+    <Grid container spacing={6}>
+      <Grid item xs={12} lg={5}>
+        <Stats
+          tooltipInfo="Information du jour ajoutée par un administrateur de votre établissement"
+          title="Information du jour"
+          amount={<ReactMarkdown source={itemsProperty.notice} />}
+          since="Depuis le mois dernier"
+        />
+      </Grid>
+      <Grid item xs={12} lg={7}>
+        <Grid container spacing={6}>
+          <Grid item xs={12} lg={12} md={6}>
+            <Card mb={7}>
+              <CardHeader
+                action={
+                  <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
+                    <IconButton aria-label="settings">
+                      <HelpCircle />
+                    </IconButton>
+                  </Tooltip>
+                }
+                title="Mes notes"
+              />
 
-    return (
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={5}>
-          <Card mb={7}>
-            <CardHeader
-              action={
-                <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
-                  <IconButton aria-label="settings">
-                    <HelpCircle />
-                  </IconButton>
-                </Tooltip>
-              }
-              title="Mes notes"
-            />
+              <Grid container justify="flex-end"></Grid>
 
-            <Grid container justify="flex-end"></Grid>
-
-            <Paper component="blockquote">
-              {" "}
-              <ReactMarkdown source={items.note} />{" "}
-            </Paper>
-
-            {loading}
-          </Card>
+              <Paper component="blockquote">
+                {" "}
+                <ReactMarkdown source={items.note} />{" "}
+              </Paper>
+              <Button
+                onClick={handleClickOpen}
+                //onClick={handleSubmit(onSubmit)}
+                fullWidth
+                variant="contained"
+                color="secondary"
+              >
+                Ajouter
+              </Button>
+              {loading}
+            </Card>
+          </Grid>
         </Grid>
-        <Grid item xs={12} lg={7}>
+      </Grid>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
+        <DialogTitle id="form-dialog-title">
+          Modifier votre note personnelle
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Vous pouvez formatter votre note
+          </DialogContentText>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Option 1: pass a component to the Controller. */}
             <Controller
@@ -151,63 +216,18 @@ function Note(props) {
               control={control}
             />
           </form>
-
-          <Button
-            onClick={handleSubmit(onSubmit)}
-            fullWidth
-            variant="contained"
-            color="primary"
-          >
-            Modifier
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
           </Button>
-          <Typography onClick={handleClickOpen} variant="caption">
-            Formater votre texte
-          </Typography>
-          <Dialog
-            open={open}
-            TransitionComponent={Transition}
-            keepMounted
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-          >
-            <DialogTitle id="alert-dialog-slide-title">
-              {"Formater ses notes"}
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-slide-description">
-                Vous pouvez utiliser les balises suivantes pour formater votre
-                texte:
-                <ul>
-                  <li># Titre de niveau 1</li>
-                  <li>## Titre de niveau 2</li>
-                  <li>**Je suis en gras**</li>
-                  <li>_Je suis en italique_</li>
-                  <li>- Je suis une liste </li>
-                  <li>[Je suis un lien](https://example.com/)</li>
-                </ul>
-                <Divider mt={3} />
-                <Typography variant="caption">
-                  <ReactMarkdown source={"# Titre de niveau 1"} />
-                  <ReactMarkdown source={"## Titre de niveau 2"} />
-                  <ReactMarkdown source={"**Je suis en gras**"} />
-                  <ReactMarkdown source={"_Je suis en italique_"} />
-                  <ReactMarkdown source={"- Je suis une liste "} />
-                  <ReactMarkdown
-                    source={"[Je suis un lien](https://example.com/)."}
-                  />
-                </Typography>
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose} color="primary">
-                J'ai compris
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Grid>
-      </Grid>
-    );
+          <Button onClick={handleSubmit(onSubmit)} color="primary">
+            Modifier la note
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
+  );
 }
 
 export default Note;

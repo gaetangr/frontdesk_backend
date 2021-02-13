@@ -17,4 +17,9 @@ class PropertySerializer(serializers.ModelSerializer):
     class Meta:
 
         model = Property
-        fields = ["name", "collaborator", "slug", "collaborator_count"]
+        fields = [
+            "name",
+            "collaborator",
+            "notice",
+            "collaborator_count",
+        ]

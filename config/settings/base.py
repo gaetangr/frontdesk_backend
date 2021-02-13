@@ -2,11 +2,12 @@
 Base settings to be extended for production, test and local.
 Settings common to all instances of the project.
 """
-import os
 from pathlib import Path
 
 import environ
 
+
+REDIRECT_WEBSITE = "localhost:3000"
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 APPS_DIR = BASE_DIR / "frontdesk"
@@ -37,6 +38,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Definir les langues disponible
+
+
 def gettext(x):
     return x
 
@@ -117,7 +120,10 @@ MIDDLEWARE = [
 # ------------------------------------------------------------------------------
 TEMPLATES = [
     {
+        # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
+        # https://docs.djangoproject.com/en/dev/ref/settings/#template-dirs
+        "DIRS": [str(APPS_DIR / "templates")],
         "OPTIONS": {
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
@@ -163,7 +169,6 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 PASSWORD_HASHERS = [
     # https://docs.djangoproject.com/en/dev/topics/auth/passwords/#using-argon2-with-django
-    "django.contrib.auth.hashers.Argon2PasswordHasher",  # see comment above
     "django.contrib.auth.hashers.PBKDF2PasswordHasher",
     "django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher",
     "django.contrib.auth.hashers.BCryptSHA256PasswordHasher",

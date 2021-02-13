@@ -1,0 +1,40 @@
+
+
+#header{
+  height: 70px;
+  background: #233044;
+  color: rgb(255, 255, 255);
+}
+#header a:link, #header a:visited {
+    
+    color: #ffffff;
+}
+#branding h1{
+  color: rgb(255, 255, 255);
+}
+
+.module h2, .module caption, .inline-group h2{
+  background: #233044d8;
+  color: #ffffff;
+  height: 30px;
+}
+a.section:link{
+  color: #ffffff;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  bottom: 0;
+  width: 100%;
+   background: #233044;
+  color: rgb(255, 255, 255);
+  text-align: center;
+}
+
+ul {
+    list-style-type: none;
+}
+

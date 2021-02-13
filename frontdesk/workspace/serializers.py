@@ -23,7 +23,7 @@ class NotebookSerializer(serializers.ModelSerializer):
 
     username = serializers.SerializerMethodField("username_field")
     username_title = serializers.SerializerMethodField("username_title_field")
-    date = serializers.SerializerMethodField("date_field")
+    dates = serializers.SerializerMethodField("date_field")
 
     def username_title_field(self, obj):
         """ Add a custom field serializer that return the title of user """
@@ -42,7 +42,7 @@ class NotebookSerializer(serializers.ModelSerializer):
             return "Anonyme"
 
     def date_field(self, obj):
-        now = str(obj.created)
+        now = str(obj.date)
         year = now[0:4]
         month = now[5:7]
         day = now[8:10]
@@ -59,8 +59,11 @@ class NotebookSerializer(serializers.ModelSerializer):
             "is_pinned",
             "created",
             "modified",
+            "category",
+            "modified",
             "username",
             "username_title",
+            "dates",
             "date",
         ]
 
@@ -72,5 +75,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = [
             "notebook",
+            "author",
+            "created",
             "content",
         ]

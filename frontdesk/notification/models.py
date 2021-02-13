@@ -12,8 +12,11 @@ class Notification(TimeStampedModel):
     Stores a notification
     """
 
-    title = models.CharField(max_length=50, verbose_name="Titre")
-    content = models.CharField(max_length=300, verbose_name="Contenu")
+    title = models.CharField(
+        max_length=50,
+        verbose_name="Titre",
+    )
+    content = models.TextField(verbose_name="Contenu")
     is_system = models.BooleanField(
         default=False,
         help_text="If set to true the notification is highlighted in the notification dropdown",
@@ -23,15 +26,17 @@ class Notification(TimeStampedModel):
         User,
         related_name="sender",
         blank=True,
+        verbose_name="Envoyé par",
         null=True,
         on_delete=models.CASCADE,
         help_text="The user who taggued or send the notificiation to the receiver, can be null",
     )
     receiver = models.ForeignKey(
         User,
-        related_name="reveiver",
+        related_name="receiver",
+        verbose_name="Destinataire",
         on_delete=models.CASCADE,
-        help_text="The user who is receiving the notification",
+        help_text="L'utilisateur selectionné recevra une notification instantanément",
     )
 
     class Category(models.TextChoices):
@@ -45,7 +50,7 @@ class Notification(TimeStampedModel):
         "Category",
         max_length=20,
         choices=Category.choices,
-        default=Category.DEFAULT,
+        default=Category.MESSAGE,
         help_text="Use for categorize notifications",
     )
 

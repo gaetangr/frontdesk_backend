@@ -1,6 +1,6 @@
 name: Front Desk Build
 
-#on: [push]
+on: [push]
 
 jobs:
   build:
@@ -37,5 +37,3 @@ jobs:
         black .
         isort .
         
-    - name: Run tests
-      run: pytest frontdesk

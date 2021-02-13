@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { FRONTDESK_API, TOKEN, TIMEOUT_VALUE } from "../constants";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import axios from "axios";
 import {
   Avatar as MuiAvatar,
@@ -19,16 +20,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import {
-  Bell,
-  Home,
     Mail,
   MessageSquare,
-  AlertTriangle,
-  Flag,
-  UserPlus,
-  Server,
-  AtSign,
-  MessageCircle,
+
   X,
 } from "react-feather";
 
@@ -58,21 +52,41 @@ const MessageHeader = styled(Box)`
 
 
 
-function MessagesDropdown() {
+function MessagesDropdown(deleteAction) {
     const ref = useRef(null);
       const [items, setItems] = useState([]);
-
+  const [loading, setLoading] = useState("");
+  
       async function displayNotification() {
         const reponse = await axios({
           method: "get",
-          url: `${FRONTDESK_API}/notification/`,
+          url: `${FRONTDESK_API}/notification/private`,
           headers: {
             Authorization: `Token ${TOKEN}`,
           },
         });
           setItems(reponse.data);
+          
         
       }
+  
+  async function deleteNotification(id) {
+    const reponse = await axios({
+      method: "delete",
+      url: `${FRONTDESK_API}/notification/delete/${id}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    }).then(refreshApi());
+  }
+  
+   const refreshApi = (time = 900) => {
+     setLoading(<LinearProgress variant="query" />),
+       setTimeout(() => {
+         setLoading("");
+         displayNotification();
+       }, time);
+   };
   const [isOpen, setOpen] = useState(false);
 
   const handleOpen = () => {
@@ -87,7 +101,6 @@ function MessagesDropdown() {
         displayNotification();
       }, []);
 
-  
 
     const messageCard = items.map((msg) => {
         if (msg.category == "message")
@@ -96,7 +109,9 @@ function MessagesDropdown() {
            <ListItem divider component="" to="#">
              <ListItemAvatar>
                <Avatar src={""} alt="Avatar">
-                 <SvgIcon fontSize="small"><Mail/></SvgIcon>
+                 <SvgIcon fontSize="small">
+                   <Mail />
+                 </SvgIcon>
                </Avatar>
              </ListItemAvatar>
              <ListItemText
@@ -107,6 +122,9 @@ function MessagesDropdown() {
                }}
                secondary={msg.content}
              />
+             <Typography variant="caption">
+               <X size={16} onClick={() => deleteNotification(msg.id)} />
+             </Typography>
            </ListItem>
          </List>
        );
@@ -136,12 +154,18 @@ function MessagesDropdown() {
             {items.length} Nouveaux messages
           </Typography>
         </MessageHeader>
+        {loading}
         <React.Fragment>
           {messageCard}
           <Box p={1} display="flex" justifyContent="center">
             {" "}
-            <Button size="small" component={Link} to="#">
-              Supprimer toutes les notifications
+            <Button
+              onClick={() => refreshApi(1000)}
+              size="small"
+              component={Link}
+              to="#"
+            >
+              Actualiser
             </Button>
           </Box>
         </React.Fragment>

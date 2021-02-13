@@ -162,7 +162,7 @@ notebook_detail_view = NotebookDetail.as_view()
 # ------------------------------------------------------------------------------
 
 
-class CommentListCreate(generics.CreateAPIView):
+class CommentListCreate(generics.ListCreateAPIView):
     """
     Api endpoint related to `workspace.Comment`
 

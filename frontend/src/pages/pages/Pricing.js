@@ -56,7 +56,7 @@ function Pricing() {
 
         <Typography variant="subtitle1" gutterBottom align="center">
           Peu importe la taille et le budget de votre hôtel, nous avons un plan
-          pour chacun d'entre vous
+          pour chacun d'entre vous.
         </Typography>
       </Header>
 
@@ -92,13 +92,17 @@ function Pricing() {
                     </Typography>
                   </Price>
                   <Typography variant="subtitle1" align="center">
-                    20 collaborateurs
+                    10 utilisateurs
                     <br />
-                    50 consignes/jour
+                    Cahier de consignes
                     <br />
-                    Espace de travail
+                    Registre de maintenance
                     <br />
-                    Assistance par email
+                    Notifications
+                    <br />
+                    Tableau de bord
+                    <br />
+                    Espace manager
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -143,17 +147,17 @@ function Pricing() {
                     </Typography>
                   </Price>
                   <Typography variant="subtitle1" align="center">
-                    100 collaborateurs
+                    Abonnement gratuit
                     <br />
-                    200 consignes/jour
+                    50 utilisateurs
                     <br />
-                    Espace de travail
+                    Messages privés
                     <br />
-                    Hébérgement de plannings
+                    Hébérgement de checklists
                     <br />
-                    Assistance par email prioritaire
+                    Gestion de documents et plannings
                     <br />
-                    Assistance par téléphone
+                    Accès aux futurs outils
                     <br />
                   </Typography>
                 </CardContent>
@@ -199,9 +203,9 @@ function Pricing() {
                   <Typography variant="subtitle1" align="center">
                     Abonnement premium
                     <br />
-                    250 collaborateurs
+                    150 collaborateurs
                     <br />
-                    Consignes/jour illimitées
+                    Soutenez une jeune entreprise
                     <br />
                     Contact priviligié
                     <br />
@@ -209,7 +213,7 @@ function Pricing() {
                 </CardContent>
                 <CardActions>
                   <Button fullWidth variant="outlined" color="primary">
-                    Nous soutenir
+                    S'abonner
                   </Button>
                 </CardActions>
                 <Typography variant="caption" gutterBottom align="center">
@@ -223,12 +227,14 @@ function Pricing() {
           <Typography variant="caption" gutterBottom align="center">
             Si vous n'êtes pas satisfait à 100% nous vous remboursons votre
             abonnement, aucune justification requise, un simple email au support
-            et le tour est joué !
+            et le tour est joué.
           </Typography>
           <br />
           <Typography variant="caption" gutterBottom align="center">
-            Le traitement des paiements en ligne sont gérés par notre paternaire
-            Stripe
+            <strong>
+              Le traitement des paiements en ligne est géré par notre
+              parternaire Stripe
+            </strong>
           </Typography>
           <br />
         </Grid>

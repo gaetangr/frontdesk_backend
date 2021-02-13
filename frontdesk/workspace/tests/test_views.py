@@ -1,12 +1,12 @@
 # flake8: noqa
 """ Unit tests related to workspace/views"""
-from frontdesk.users.models import User
 from django.urls import reverse
-from frontdesk.properties.models import Property
 import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
+from frontdesk.properties.models import Property
+from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace
@@ -58,6 +58,7 @@ def test_if_comment_create_endpoint_return_success(api_client):
         },
     )
     assert response.status_code == 201
+
 
 @pytest.mark.skip(reason="no way of currently testing this")
 @pytest.mark.django_db

@@ -98,7 +98,7 @@ function TrafficTable() {
      },
    });
    setItems(reponse.data);
-   console.log(reponse);
+
  };
  useEffect(() => {
    // Met à jour le titre du document via l’API du navigateur

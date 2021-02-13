@@ -101,9 +101,10 @@ function CollaboratorCard() {
           Authorization: `Token ${TOKEN}`,
         },
       }).then((res) => {
-        console.log("RESPONSE: ", res);
+        
         setItems(res.data[0]);
-        console.log("items", items)
+        
+       
       });
     }
 
@@ -111,13 +112,14 @@ function CollaboratorCard() {
   
  useEffect(() => {
    displayUser()
-   console.log("ITEMS BEFORE: ", items);
+   
+
 
  }, []);
 
 
 useEffect((res) => {
-  console.log("ITEMS AFTER: ", items);
+ 
   
 
 }, [items]);
@@ -153,7 +155,7 @@ useEffect((res) => {
                   />
                 }
                 ref={register}
-            
+                
                 name="first_name"
                 control={control}
               />

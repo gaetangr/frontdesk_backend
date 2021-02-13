@@ -2,30 +2,18 @@ import React, { useState, useEffect } from "react";
 import styled, { withTheme } from "styled-components/macro";
 import ReactMarkdown from "react-markdown";
 import axios from "axios";
-import { sizing, maxHeight, height } from "@material-ui/system";
+import Stats from "./Stats";
 import { Helmet } from "react-helmet";
 import { FRONTDESK_API, TOKEN } from "../../../constants";
 import {
   Grid,
-  TextField,
-  CardHeader,
-  Tooltip,
-  IconButton,
-  Button,
   Card as MuiCard,
   Paper,
   Divider as MuiDivider,
   Typography as MuiTypography,
 } from "@material-ui/core";
-import { Edit, HelpCircle } from "react-feather";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+
 import Slide from "@material-ui/core/Slide";
-import { useForm, Controller } from "react-hook-form";
-import { green, red } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
 
@@ -45,10 +33,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 function Default({ theme }) {
   const [items, setItems] = useState([]);
 
-
-
-  
-
   function displayUser() {
     axios({
       method: "get",
@@ -58,6 +42,7 @@ function Default({ theme }) {
       },
     }).then((res) => {
       setItems(res.data[0]);
+      console
     });
   }
   useEffect(() => {
@@ -87,18 +72,15 @@ function Default({ theme }) {
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}></Grid>
-        <Grid item xs={12} lg={4}></Grid>
+       
+    
       </Grid>
       <Note />
-
-      <Grid container spacing={6}>
-        <Grid item xs={12} lg={8}></Grid>
-        <Grid item xs={12} lg={4}></Grid>
-      </Grid>
+       <Grid item xs={12} lg={7}></Grid>
+      
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
-          <MyTeam />
+         {/*  <MyTeam /> */}
         </Grid>
         <Grid item xs={12} lg={7}>
           <Workspace />

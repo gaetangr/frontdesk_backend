@@ -17,7 +17,9 @@ import { Button as MuiButton, Menu, MenuItem, Snackbar} from "@material-ui/core"
 import {
   Loop as LoopIcon,
   FilterList as FilterListIcon,
-  PersonAdd
+  PersonAdd,
+  Lock,
+  Message
 
 } from "@material-ui/icons";
 
@@ -54,38 +56,33 @@ function UserCreate() {
   const [openInfo, setOpenInfo] = React.useState(false);
 
   
-
+ axios({
+   method: "patch",
+   url: `${FRONTDESK_API}/property/52/`,
+   data: {
+     collaborator: [88],
+   },
+   headers: {
+     Authorization: `Token ${TOKEN}`,
+   },
+ });
 
    const onSubmit = (data) => {
      axios({
        method: "post",
-       url: `${FRONTDESK_API}/auth/registration/`,
+       url: `${FRONTDESK_API}/users/`,
        data: {
          username: data.username,
          email: `${data.username}k@example.com`,
-         password1: "passwordpassword",
-         password2: "passwordpassword",
+         password: "passwordpassword",
        },
      })
-       .then(
-         axios({
-           method: "patch",
-           url: `${FRONTDESK_API}/property/52/`,
-           data: {
-             collaborator: [88,],
-           },
-           headers: {
-             Authorization: `Token ${TOKEN}`,
-           },
-         })
-       )
+       .then()
        .catch((error) => {
          if (error.response) {
-           console.log(error.response.data.detail);
-           console.log(error.response.status);
-           console.log(error.response.headers);
+         
          } else {
-           console.log("quoi");
+       
          }
        });
    };
@@ -105,91 +102,36 @@ function UserCreate() {
      setOpenInfo(false);
   };
 
-  return (
-    <React.Fragment>
-      <Snackbar
-        anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
-        }}
-        open={openInfo}
-        autoHideDuration={6000}
-        onClose={handleClose}
+http: return (
+  <React.Fragment>
+    <SmallButton size="small" mr={2}>
+      <Button
+        size="small"
+        href="http://127.0.0.1:8000/admin-manager/"
+        variant="contained"
+        color="primary"
+        mt={3}
       >
-        <Alert onClose={handleClose} severity={error}>
-          Le compte a été crée
-        </Alert>
-      </Snackbar>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
+        <Lock style={{ marginRight: 3 }} />
+        {"   "}
+        {"   "} Espace manager
+      </Button>
+    </SmallButton>
+    <SmallButton size="small" mr={2}>
+      <Button
+        size="small"
+        href="http://127.0.0.1:8000/admin-manager/notification/notification/add/"
+        variant="outlined"
+        color="secondary"
+        mt={3}
       >
-        <DialogTitle id="form-dialog-title">
-          Ajouter un collaborateur
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            Vous pouvez créer un compte utilisateur en quelques secondes, ce
-            dernier sera ajouté à votre établissement.
-          </DialogContentText>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            {/* Option 1: pass a component to the Controller. */}
-            <Controller
-              as={
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="username"
-                  label="Identifiant"
-                  helperText="Identifiant unique pour la connexion"
-                  fullWidth
-                />
-              }
-              name="username"
-              control={control}
-              defaultValue=""
-            />
-
-            <Controller
-              as={
-                <TextField
-                  margin="dense"
-                  id="password"
-                  label="Mot de passe"
-                  helperText="Laissez le champ vide pour utiliser le mot de passe par défaut"
-                  type="password"
-                  fullWidth
-                />
-              }
-              name="password"
-              defaultValue="passwordpassword"
-              control={control}
-            />
-          </form>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleSubmit(onSubmit)} color="primary">
-            Ajouter un utilisateur
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <SmallButton size="small" mr={2}>
-        <Button
-          onClick={handleClickOpen}
-          variant="contained"
-          color="primary"
-          mt={3}
-        >
-          <PersonAdd />
-          {"   "}Créer
-        </Button>
-      </SmallButton>
-    </React.Fragment>
-  );
+        <Message style={{ marginRight: 3 }} />
+        {"   "}
+        {"   "} Envoyer un message
+      </Button>
+    </SmallButton>
+  </React.Fragment>
+);
 }
 
 

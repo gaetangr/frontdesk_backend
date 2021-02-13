@@ -21,7 +21,14 @@ import { red, green } from "@material-ui/core/colors";
 
 import { spacing } from "@material-ui/system";
 
-import { MoreVertical, Mail, Edit, Trash2, Eye, HelpCircle} from "react-feather";
+import {
+  MoreVertical,
+  Mail,
+  Edit,
+  Trash2,
+  Eye,
+  HelpCircle,
+} from "react-feather";
 
 const Card = styled(MuiCard)(spacing);
 
@@ -51,39 +58,33 @@ const rows = [
     "21 janvier 2021",
     <Eye size={18} />
   ),
-
 ];
 
 function TrafficTable() {
-
-
   const [items, setItems] = useState([]);
-    const displayNotebook = async () => {
-      const reponse = await axios({
-        method: "get",
-        url: `${FRONTDESK_API}/notebook/list/pinned`,
-        headers: {
-          Authorization: `Token ${TOKEN}`,
-        },
-      });
-      setItems(reponse.data);
-      console.log(reponse)
+  const displayNotebook = async () => {
+    const reponse = await axios({
+      method: "get",
+      url: `${FRONTDESK_API}/notebook/list/pinned`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+    setItems(reponse.data);
+   
   };
-   useEffect(() => {
-     // Met à jour le titre du document via l’API du navigateur
-     displayNotebook();
-   }, []);
+  useEffect(() => {
+    // Met à jour le titre du document via l’API du navigateur
+    displayNotebook();
+  }, []);
   const workspaceCard = items.map((msg) => (
-
-     <TableRow key={msg.id}>
+    <TableRow key={msg.id}>
       <TableCell component="th" scope="row">
         {msg.content}
       </TableCell>
-      <TableCell align="right">23 février</TableCell>
-      <TableCell align="right"> <Trash2 size="19"  /></TableCell>
-  </TableRow>
-
-
+      <TableCell align="left"> {msg.dates}</TableCell>
+      <TableCell align="left">{msg.category}</TableCell>
+    </TableRow>
   ));
   return (
     <Card mb={3}>
@@ -99,23 +100,18 @@ function TrafficTable() {
       />
 
       <Paper>
-
         <TableWrapper>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Message</TableCell>
 
-              <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Message</TableCell>
-
-          <TableCell align="left">Date</TableCell>
-          <TableCell align="right">Action</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {workspaceCard}
-      </TableBody>
-    </Table>
-
+                <TableCell align="left">Date</TableCell>
+                <TableCell align="left">Catégorie</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>{workspaceCard}</TableBody>
+          </Table>
         </TableWrapper>
       </Paper>
     </Card>

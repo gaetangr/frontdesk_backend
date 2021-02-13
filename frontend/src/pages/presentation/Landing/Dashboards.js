@@ -69,35 +69,34 @@ function Dashboards() {
   return (
     <Wrapper py={20}>
       <Container>
-        <TypographyOverline variant="body2" gutterBottom>
-          outils digitaux
-        </TypographyOverline>
         <Typography variant="h2" component="h3" gutterBottom>
           Découvrez nos outils
         </Typography>
         <Typography variant="subtitle1" color="textSecondary" gutterBottom>
-          The package includes 50+ prebuilt pages, 6 theme variants and 3
-          prebuilt dashboards.
+          Front Desk inclut de nombreux outils digitaux pour vous faciliter le
+          quotidien.
         </Typography>
         <Box mb={8} />
 
         <Grid container spacing={6}>
           <Demo
             to="/dashboard/default"
-            title="Espaces de travail"
+            title="Espace de travail"
             img="dashboard-default"
           />
           <Demo
             to="/dashboard/analytics"
-            title="Registre de maintenance"
+            title="Tableau de bord"
             img="dashboard-analytics"
+            newDemo
           />
           <Demo
             to="/dashboard/saas"
-            title="Checklist"
+            title="Espace manager"
             img="dashboard-saas"
             newDemo
           />
+
         </Grid>
       </Container>
     </Wrapper>

@@ -5,6 +5,7 @@ import overrides from "./overrides";
 import breakpoints from "./breakpoints";
 import props from "./props";
 import shadows from "./shadows";
+import { frFR } from "@material-ui/core/locale";
 
 const createTheme = (name) => {
   let themeConfig = variants.find((variant) => variant.name === name);
@@ -24,6 +25,7 @@ const createTheme = (name) => {
       shadows: shadows,
       palette: themeConfig.palette,
     },
+    frFR,
     {
       name: themeConfig.name,
       header: themeConfig.header,

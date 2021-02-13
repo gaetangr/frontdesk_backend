@@ -20,11 +20,16 @@ class Workspace(TimeStampedModel):
         on_delete=models.CASCADE,
         related_name="workspace",
         help_text="Property related to the current workspace",
+        verbose_name="Établissement",
     )
 
     def __str__(self):
         """ Return instance with a human readable fashion """
         return self.property.name
+
+    class Meta:
+        verbose_name_plural = "Espaces de travail"
+        verbose_name = "Espace de travail"
 
 
 class Notebook(TimeStampedModel):
@@ -38,43 +43,51 @@ class Notebook(TimeStampedModel):
         on_delete=models.CASCADE,
         related_name="notes",
         help_text="Workspace is linked to a property, the workspace is where users exchange informations",
+        verbose_name="Espace de travail",
     )
     author = models.ForeignKey(
-        User, null=True, on_delete=models.SET_NULL, related_name="author"
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Auteur",
+        related_name="author",
     )
-
+    date = models.DateTimeField(auto_now_add=True, null=False)
     tag_user = models.ManyToManyField(
         User,
         blank=True,
-        help_text="Users who are selected will be notified with the message content",
+        verbose_name="Utilisateurs taggués",
+        help_text="Les utilisateurs selectionnés recevront une notification",
     )
+
+    class Meta:
+        verbose_name_plural = "Messages"
+        verbose_name = "Message"
 
     class Category(models.TextChoices):
         """ Define categories for the workspace """
 
-        DEFAULT = "equipe", "Equipe"
+        DEFAULT = "tous", "Tous"
         MAINTENANCE = "maintenance", "Maintenance"
-        HOUSEKEEPING = "housekeeping", "Etage"
-        STAFF = "staff", "Staff"
-        MANAGER = "manager", "Manager"
+        HOUSEKEEPING = "etage", "Étage"
 
     category = models.CharField(
-        "Category",
+        "Catégorie",
         max_length=20,
         choices=Category.choices,
         default=Category.DEFAULT,
-        help_text="Use to display certains notes for a specific group of users, by default messages are shown to everyone",
+        help_text="Catégories utilisées pour filtrer et associer des consignes et messages",
     )
-    content = models.CharField(
-        max_length=3000, null=True, blank=True, verbose_name="Contenu du message"
-    )
+    content = models.TextField(null=True, blank=True, verbose_name="Contenu du message")
     is_done = models.BooleanField(
+        "Fait",
         default=False,
-        help_text="If set to true the note is mark as done and display a different design",
+        help_text="Si la case est cochée, le message est considéré comme fait et affiche un label sur le contenu",
     )
     is_pinned = models.BooleanField(
+        "Épinglé",
         default=False,
-        help_text="If set to true the note is mark as pinned and show on the dashboard",
+        help_text="Si la case est cochée, le message est considéré comme épinglé et affiche un label sur le contenu",
     )
 
     def __str__(self):
@@ -89,15 +102,28 @@ class Comment(TimeStampedModel):
     """
 
     notebook = models.ForeignKey(
-        Notebook, on_delete=models.CASCADE, related_name="comments"
+        Notebook,
+        on_delete=models.CASCADE,
+        related_name="comments",
+        verbose_name="Message",
+        help_text="Le message associé au commentaire que vous ajouter ou ",
     )
-    author = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    content = models.CharField(
-        max_length=1000,
+    author = models.ForeignKey(
+        User,
+        null=True,
+        on_delete=models.SET_NULL,
+        verbose_name="Auteur",
+        help_text="L'auteur qui sera associé au commentaire",
+    )
+    content = models.TextField(
         null=True,
         blank=True,
-        verbose_name="Commenter la note",
+        verbose_name="Contenu",
     )
+
+    class Meta:
+        verbose_name_plural = "Commentaires"
+        verbose_name = "Commentaire"
 
     def __str__(self):
         """ Return instance with a human readable fashion """

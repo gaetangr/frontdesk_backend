@@ -1,11 +1,11 @@
 # flake8: noqa
 """ Unit tests related to users/views"""
 from django.urls import reverse
-from frontdesk.properties.models import Property
 import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 
 
@@ -84,7 +84,7 @@ def test_if_token_is_generated_after_registration(api_client):
 # not available for regular users
 # ------------------------------------------------------------------------------
 
-
+@pytest.mark.skip(reason="Not testable with new instance of admin")
 def test_if_a_superuser_can_access_administration_panel(admin_client):
     """Test if a superuser can access the administration panel while being login
     :param admin_client: An instance of a superuser, with username “admin” and password “password” to test admin .

@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Helmet } from "react-helmet";
-import * as Yup from "yup";
 import { FRONTDESK_API, TOKEN } from "../../constants/";
 import { useForm, Controller } from "react-hook-form";
-import { Formik } from "formik";
-import { signUp } from "../../redux/actions/authActions";
+
 import axios from "axios";
 
 import {
   Button,
-  Tooltip,
-  Link,
   Snackbar,
-  Checkbox,
-  Divider,
   Paper,
   CircularProgress,
   TextField as MuiTextField,
@@ -24,7 +17,7 @@ import {
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import { Alert as MuiAlert } from "@material-ui/lab";
-import { AlertTitle } from "@material-ui/lab";
+
 
 const Alert = styled(MuiAlert)(spacing);
 
@@ -51,8 +44,6 @@ function SignUp() {
 
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-
-  const [user, setUser] = useState();
   const [loading, setLoading] = useState();
 
   const handleClose = (event, reason) => {
@@ -87,25 +78,17 @@ function SignUp() {
    * @param {integer} token - Token to indentify the user
    * @param {integer} id - Primary key for the user
    */
-  function getUser(token, id) {
+  function getUser(id, token, name) {
     axios({
-      method: "get",
-      url: `${FRONTDESK_API}/users/`,
+      method: "post",
+      url: `${FRONTDESK_API}/property/`,
+      data: {
+        name: name,
+        collaborator: [id],
+      },
       headers: {
         Authorization: `Token ${token}`,
       },
-    }).then((res) => {
-      axios({
-        method: "post",
-        url: `${FRONTDESK_API}/property/`,
-        data: {
-          name: "Mon établissement",
-          collaborator: [res.data[0].id],
-        },
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
     });
   }
 
@@ -116,31 +99,31 @@ function SignUp() {
    *
    */
   const onSubmit = (data) => {
-    setUser(data.property);
-    console.log(user);
+    
     axios({
       method: "post",
-      url: `${FRONTDESK_API}/auth/registration/`,
+      url: `${FRONTDESK_API}/users/`,
       data: {
         username: data.username,
         email: data.email,
-        password1: data.password,
-        password2: data.password,
+        password: data.password,
+        is_admin: true,
+        is_staff: true,
       },
     })
-      .then((data) => {
-        console.log("ID:", data.data.key);
+      .then((response) => {
+        getUser(response.data.user, response.data.token, data.name);
+
         setLoading(<CircularProgress size={20} color="green" />);
-        localStorage.setItem("token", data.data.key);
-        getUser(data.data.key, 1);
+        localStorage.setItem("token", response.data.token);
         setTimeout(() => {
-          history.push("/dashboard/default",);
+          history.push("/dashboard/default");
           document.location.reload();
-        }, 3333);
+        });
       })
       .catch((error) => {
         if (error.response) {
-          console.log("dzdz", error);
+        
           if (error.response.data.username) {
             setErrorMessage(error.response.data.username[0]);
           } else if (error.response.data.email) {
@@ -150,11 +133,11 @@ function SignUp() {
           }
           setError(true);
         } else if (error.request) {
-          console.log("dzdz", error);
+         
         } else {
-          console.log("Error", error.message);
+       
         }
-        console.log("ddzdz", error);
+   
       });
   };
 
@@ -203,7 +186,7 @@ function SignUp() {
             />
           }
           defaultValue=""
-          name="property"
+          name="name"
           control={control}
         />
         <Controller
