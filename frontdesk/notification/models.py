@@ -12,8 +12,11 @@ class Notification(TimeStampedModel):
     Stores a notification
     """
 
-    title = models.CharField(max_length=50, verbose_name="Titre", )
-    content = models.TextField( verbose_name="Contenu")
+    title = models.CharField(
+        max_length=50,
+        verbose_name="Titre",
+    )
+    content = models.TextField(verbose_name="Contenu")
     is_system = models.BooleanField(
         default=False,
         help_text="If set to true the notification is highlighted in the notification dropdown",

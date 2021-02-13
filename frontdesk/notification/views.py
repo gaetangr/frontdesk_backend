@@ -22,7 +22,12 @@ class NotificationList(generics.ListAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Notification.objects.all().filter(receiver=user).order_by("-created").exclude(category="message")
+        return (
+            Notification.objects.all()
+            .filter(receiver=user)
+            .order_by("-created")
+            .exclude(category="message")
+        )
 
 
 notification_list_view = NotificationList.as_view()
@@ -39,10 +44,15 @@ class PrivateNotificationList(generics.ListAPIView):
         for the currently authenticated user.
         """
         user = self.request.user
-        return Notification.objects.all().filter(receiver=user, category="message").order_by("-created")
+        return (
+            Notification.objects.all()
+            .filter(receiver=user, category="message")
+            .order_by("-created")
+        )
 
 
 private_notification_list_view = PrivateNotificationList.as_view()
+
 
 class NotificationDelete(generics.DestroyAPIView):
     """Api view that list notifications for a user"""

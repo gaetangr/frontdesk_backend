@@ -68,7 +68,9 @@ urlpatterns = [
     # NOTIFICATION ROUTES
     # ------------------------------------------------------------------------------
     path("notification/", view=notification_list_view, name="notification-list"),
-     path("notification/private", view=private_notification_list_view, name="private-list"),
+    path(
+        "notification/private", view=private_notification_list_view, name="private-list"
+    ),
     path(
         "notification/delete/<int:pk>/",
         view=notification_delete_view,

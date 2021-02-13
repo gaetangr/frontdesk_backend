@@ -1,26 +1,22 @@
-""" 
+"""
 Creating a new instance of the admin site to enable property owner to manager
 their team and property without causing security issues and conflicts with the base
-admin site 
+admin site
 """
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin import AdminSite
-from django.contrib.admin import ModelAdmin
-from django.contrib.auth import views as auth_views
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
-from django.utils.translation import ngettext
 
+from frontdesk.notification.models import Notification
 from frontdesk.properties.models import Checklist
 from frontdesk.properties.models import Document
 from frontdesk.properties.models import Planning
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
-from frontdesk.notification.models import Notification
 from frontdesk.workspace.models import Notebook
-from frontdesk.workspace.models import Workspace
 
 
 class MyAdminSite(AdminSite):
@@ -40,7 +36,6 @@ def nbr_message(obj):
 
 
 nbr_message.short_description = "Nombre de membres"
-
 
 
 def nbr_files(obj):
@@ -63,7 +58,6 @@ class PropertyAdmin(admin.ModelAdmin):
     text_fields = {"collaborator": admin.VERTICAL}
     list_display = ["name", "created", nbr_message, nbr_files]
 
-    
     fieldsets = (
         (
             None,
@@ -99,7 +93,7 @@ class PropertyAdmin(admin.ModelAdmin):
         if request.user.pk == 33:
             return qs
         return qs.filter(collaborator=request.user)
-        
+
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         user = request.user
 
@@ -110,11 +104,11 @@ class PropertyAdmin(admin.ModelAdmin):
 
     readonly_fields = ("is_premium",)
 
+
 @admin.register(Checklist, Document, Planning, site=admin_manager)
 class PropertyFilesAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
-   
     list_display = ["name", "created"]
     exclude = ("properties",)
     prepopulated_fields = {"name": ("file",)}
@@ -134,15 +128,15 @@ class PropertyFilesAdmin(admin.ModelAdmin):
             return True
 
     def has_change_permission(self, request, obj=None):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
-
 
     def save_model(self, request, obj, form, change):
         user = request.user
         properties = Property.objects.all().filter(collaborator=user.pk).first()
         obj.properties = properties
         super().save_model(request, obj, form, change)
+
 
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
@@ -205,11 +199,11 @@ class UserAdmin(admin.ModelAdmin):
         return True
 
     def has_add_permission(self, request, obj=None):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
 
 
@@ -220,20 +214,22 @@ class WorkspaceAdmin(admin.ModelAdmin):
     exclude = ("workspace", "tag_user", "author")
 
     def has_module_permission(self, request):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def has_view_permission(self, request, obj=None):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def has_delete_permission(self, request, obj=None):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
+
 
 @admin.register(Notification, site=admin_manager)
 class NotificationAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
+
     list_display = ["title", "receiver", "created"]
     fieldsets = (
         (
@@ -245,15 +241,13 @@ class NotificationAdmin(admin.ModelAdmin):
                 "fields": ("title", "content", "receiver"),
             },
         ),
-        
     )
 
     exclude = ("is_system", "is_read", "author", "sender", "category")
 
     def has_module_permission(self, request):
-        if  request.user.is_staff:
+        if request.user.is_staff:
             return True
-            
 
     def has_view_permission(self, request, obj=None):
         if request.user.is_staff:

@@ -2,7 +2,6 @@
 Base settings to be extended for production, test and local.
 Settings common to all instances of the project.
 """
-import os
 from pathlib import Path
 
 import environ
@@ -39,6 +38,8 @@ USE_L10N = True
 USE_TZ = True
 
 # Definir les langues disponible
+
+
 def gettext(x):
     return x
 

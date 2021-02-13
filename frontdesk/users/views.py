@@ -1,7 +1,6 @@
 """ views for the users app """
 
 from django.contrib.auth import get_user_model
-from django.shortcuts import render
 from rest_framework import generics
 from rest_framework import status
 from rest_framework.authtoken.models import Token

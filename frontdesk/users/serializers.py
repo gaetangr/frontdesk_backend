@@ -11,6 +11,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     workspace = serializers.SerializerMethodField("workspace_field")
     # Custom serializers
+
     def workspace_field(self, obj):
         """ Add a custom field serializer that return the title of user """
         try:
