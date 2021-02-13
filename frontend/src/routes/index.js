@@ -155,7 +155,7 @@ const authRoutes = {
     },
     {
       path: "/auth/sign-up",
-      name: "S'enregistrer",
+      name: "S'inscrire",
       component: SignUp,
     },
     {

@@ -162,7 +162,7 @@ function SignUp() {
               id="username"
               autoFocus={true}
               label="Pseudo"
-              helperText="L'identifiant sera lié à votre établissement"
+              helperText="Il sera utilisé pour vous connecter"
               placeholder="Ex: H0827, DIRECTION..."
               fullWidth
               my={2}
@@ -179,7 +179,7 @@ function SignUp() {
               id="property"
               required
               placeholder="Ex:  Ibis Tour Eiffel"
-              helperText="Le nom de votre établissement, par défault le nom de votre hôtel"
+              
               label="Nom de votre établissement"
               fullWidth
               my={2}
@@ -196,7 +196,7 @@ function SignUp() {
               id="password"
               type="password"
               label="Mot de passe"
-              helperText="Choisissez un bon mot de passe, il sera utilisé pour vous identifier"
+              
               fullWidth
               my={2}
             />
@@ -211,7 +211,7 @@ function SignUp() {
           defaultValue=""
           name="email"
           required
-          helperText="L'email sera utilisé pour envoyer un nouveau mot de passe"
+
           control={control}
         />
 

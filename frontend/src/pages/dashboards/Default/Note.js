@@ -190,9 +190,7 @@ function Note(props) {
           Modifier votre note personnelle
         </DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Vous pouvez formatter votre note
-          </DialogContentText>
+        
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Option 1: pass a component to the Controller. */}
             <Controller

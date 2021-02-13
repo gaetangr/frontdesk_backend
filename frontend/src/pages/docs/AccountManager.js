@@ -41,18 +41,15 @@ function Introduction() {
         et remplir les champs suivants:
         <ul>
           <li>
-            <strong> Prénom:</strong> Ce prénom sera utilisé pour vous
-            identifier entre collaborateurs, il est conseillé d'utiliser votre
-            prénom d'usage.
+            <strong> Identifiant:</strong> Il sera utilisé pour vous
+            authentifier sur la plaforme et l'espace manager
           </li>
           <li>
             <strong> Nom de votre établissement:</strong> Le nom de votre
-            entreprise, par défaut le nom de votre hôtel ou la raison sociale
+           hôtel ou la raison sociale
             pour un groupe de plusieurs hôtels.
           </li>
-          <li>
-            <strong> Titre:</strong> L'intitulé de votre poste au sein de l'établissement, (ex: directeur, technicien, gouvernante...) il sera renseigné sur vos consignes et votre profil
-          </li>
+   
           <li>
             <strong> Email:</strong> L'email sera utilisé pour la confirmation
             de compte, la modification d'un mot de passe et, au besoin, une

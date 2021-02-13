@@ -16,6 +16,7 @@ from .serializers import ProfileSerializer
 from .serializers import UserSerializer
 
 
+
 User = get_user_model()
 
 
@@ -64,6 +65,7 @@ class UserListCreate(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
         token, created = Token.objects.get_or_create(user=serializer.instance)

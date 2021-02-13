@@ -39,8 +39,8 @@ function JoinUs() {
               Rejoignez Front Desk
             </Typography>
             <Subtitle variant="h5" gutterBottom>
-              En rejoignant front-desk vous avez la certitude de gagner en
-              efficacité et en temps, tout est disponibe à porté de clic !
+              En rejoignant Front Desk vous avez la certitude de gagner en
+              efficacité et en temps, lancez-vous dès aujourd'hui
             </Subtitle>
             <Spacer mb={4} />
 
@@ -51,7 +51,7 @@ function JoinUs() {
               size="large"
               target="_blank"
             >
-              Rejoindre Front Desk
+              Je me lance
             </Button>
           </Grid>
         </Grid>
