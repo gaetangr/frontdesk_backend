@@ -4,6 +4,7 @@ from django.urls import path
 from frontdesk.notification.views import notification_create_view
 from frontdesk.notification.views import notification_delete_view
 from frontdesk.notification.views import notification_list_view
+from frontdesk.notification.views import private_notification_list_view
 from frontdesk.properties.views import property_detail_view
 from frontdesk.properties.views import property_list_create_view
 from frontdesk.users.views import collaborator_retrieve_update_destroy
@@ -67,6 +68,7 @@ urlpatterns = [
     # NOTIFICATION ROUTES
     # ------------------------------------------------------------------------------
     path("notification/", view=notification_list_view, name="notification-list"),
+     path("notification/private", view=private_notification_list_view, name="private-list"),
     path(
         "notification/delete/<int:pk>/",
         view=notification_delete_view,

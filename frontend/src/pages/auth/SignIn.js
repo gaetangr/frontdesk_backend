@@ -119,28 +119,24 @@ function SignIn() {
     })
       .then((data) => {
         setLoading(<LinearProgress />);
-        console.log(data.data.key)
         localStorage.setItem("token", data.data.key)
-        console.log("vous allez être redigrié")
-        setTimeout(() => { history.push("/dashboard/default", console.log("c'est bon")); document.location.reload(); }, 3000);
+        setTimeout(() => { history.push("/dashboard/default", ); document.location.reload(); }, 3000);
 
 
       }).then()
       .catch((error) => {
         if (error.response) {
 
-          console.log(error.response.data.non_field_errors[0]);
-          console.log(error.response.headers);
           setError(true);
         }
          else if (error.request) {
 
-        console.log("dzdz",error.request);
+
     } else {
 
-        console.log('Error', error.message);
+      
     }
-    console.log("ddzdz",error);
+  
 
       });
   };

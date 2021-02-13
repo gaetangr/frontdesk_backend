@@ -80,7 +80,7 @@ function Default({ theme }) {
       
       <Grid container spacing={6}>
         <Grid item xs={12} lg={5}>
-          <MyTeam />
+         {/*  <MyTeam /> */}
         </Grid>
         <Grid item xs={12} lg={7}>
           <Workspace />

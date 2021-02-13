@@ -75,5 +75,7 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = [
             "notebook",
+            "author",
+            "created",
             "content",
         ]

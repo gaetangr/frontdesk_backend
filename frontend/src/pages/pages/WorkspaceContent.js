@@ -9,9 +9,15 @@ import styled from "styled-components/macro";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
+import Chat from "./Chat"
 import Box from "@material-ui/core/Box";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Collapse from "@material-ui/core/Collapse";
 import {
   deepOrange,
   deepPurple,
@@ -92,14 +98,18 @@ const Divider = styled(MuiDivider)(spacing);
  */
 function WorkspaceContent(props) {
   const [open, setOpen] = React.useState(false);
+  const [expanded, setExpanded] = React.useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("success");
   const handleClickOpen = (msg, severity) => {
-    console.log(msg);
+   
     setMessage(msg);
     setOpen(true);
   };
 
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -108,97 +118,11 @@ function WorkspaceContent(props) {
     setOpen(false);
   };
 
-  function handleAction(method, message, data) {
-    axios({
-      method: method,
-      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
-      headers: {
-        Authorization: `Token ${TOKEN}`,
-      },
-      data,
-    })
-      .then(handleClickOpen(message))
-      .catch((error) => {
-        if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
-          handleClickOpen(error.response.data.detail);
-          setError("error");
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-  }
-
-  /**
-   * Delete an instance of a notebook
-   */
-  function handleDelete() {
-    handleAction("delete", "Consigne supprimée");
-  }
-
-  /**
-   * mark a notebook as done
-   */
-  function handleDone() {
-    axios({
-      method: "patch",
-      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
-      headers: {
-        Authorization: `Token ${TOKEN}`,
-      },
-      data: { is_done: true },
-    })
-      .then((reponse) => {
-        handleClickOpen("La consigne est indiquée comme fait");
-        console.log(reponse.data);
-      })
-      .catch((error) => {
-        if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
-          handleClickOpen(error.response.data.detail);
-          setError("error");
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-  }
-
-  function handlePinned() {
-    axios({
-      method: "patch",
-      url: `${FRONTDESK_API}/notebook/${props.notebookId}/`,
-      headers: {
-        Authorization: `Token ${TOKEN}`,
-      },
-      data: { is_pinned: true },
-    })
-      .then(handleClickOpen("La consigne a été épinglée"))
-      .catch((error) => {
-        if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
-          handleClickOpen(error.response.data.detail);
-          setError("error");
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-  }
 
   const classes = useStyles();
   return (
     <Card mb={6}>
+     {props.progress}
       <CardContent>
         <Box display="flex">
           <Grid container justify="flex-start">
@@ -238,13 +162,11 @@ function WorkspaceContent(props) {
         <Grid container justify="flex-start">
           <Grid item>
             {" "}
-            <Button size="small" color="primary">
-              <Link href={props.answerLink}>Répondre </Link>
+            
+            <Button onClick={props.linkDone} size="small" color="secondary">
+              <Link>Marquer comme fait</Link>
             </Button>
-            <Button onClick={handleDone} size="small" color="secondary">
-              <Link href={props.doneLink}>Marquer comme fait</Link>
-            </Button>
-            <Button onClick={handlePinned} size="small" color="secondary">
+            <Button onClick={props.linkPinned} size="small" color="secondary">
               Epingler
             </Button>
           </Grid>
@@ -257,13 +179,21 @@ function WorkspaceContent(props) {
             <Button onClick={props.edit} size="small" color="primary">
               <Link>Editer</Link>
             </Button>
-            <Button onClick={handleDelete} size="small" color="secondary">
-              <Link href={props.deleteLink}>supprimer</Link>
+            <Button onClick={props.linkDelete} size="small" color="secondary">
+              <Link>supprimer</Link>
             </Button>
           </Grid>
-          <CardActions align="right"></CardActions>
+          <CardActions align="left"></CardActions>
         </Grid>
       </Box>
+      <Collapse in={expanded} timeout="auto" unmountOnExit>
+        <CardContent>
+          <Typography>
+            <Chat />
+          </Typography>
+        </CardContent>
+      </Collapse>
+     
     </Card>
   );
 }

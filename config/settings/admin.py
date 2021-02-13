@@ -18,6 +18,7 @@ from frontdesk.properties.models import Planning
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
+from frontdesk.notification.models import Notification
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace
 
@@ -86,11 +87,11 @@ class PropertyAdmin(admin.ModelAdmin):
         return True
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_admin:
+        if request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def get_queryset(self, request):
@@ -125,15 +126,15 @@ class PropertyFilesAdmin(admin.ModelAdmin):
         return True
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def has_add_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
             return True
 
 
@@ -169,7 +170,7 @@ class UserAdmin(admin.ModelAdmin):
                 "description": (
                     "Les options avancées permettent de gérer précisement les droits et actions de vos utilisateurs\n"
                 ),
-                "fields": ("is_staff", "is_active", "is_admin"),
+                "fields": ("title", "is_staff", "is_active", "is_admin"),
             },
         ),
     )
@@ -204,11 +205,11 @@ class UserAdmin(admin.ModelAdmin):
         return True
 
     def has_add_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
             return True
 
 
@@ -219,13 +220,49 @@ class WorkspaceAdmin(admin.ModelAdmin):
     exclude = ("workspace", "tag_user", "author")
 
     def has_module_permission(self, request):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
             return True
 
     def has_view_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
             return True
 
     def has_delete_permission(self, request, obj=None):
-        if request.user.is_admin or request.user.is_staff:
+        if  request.user.is_staff:
+            return True
+
+@admin.register(Notification, site=admin_manager)
+class NotificationAdmin(admin.ModelAdmin):
+    """ Custom property admin to display custom fields and methods """
+    list_display = ["title", "receiver", "created"]
+    fieldsets = (
+        (
+            "Envoyer une notification",
+            {
+                "description": format_html(
+                    "<br/> Les notifications apparaissent instantanément pour l'utilisateur selectionné <u>uniquement</u>, c'est un excellent moyen de communiquer des informations rapidement <br/><br/>"
+                ),
+                "fields": ("title", "content", "receiver"),
+            },
+        ),
+        
+    )
+
+    exclude = ("is_system", "is_read", "author", "sender", "category")
+
+    def has_module_permission(self, request):
+        if  request.user.is_staff:
+            return True
+            
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_staff:
+            return True
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_staff:
+            return True
+
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_staff:
             return True

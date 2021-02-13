@@ -107,22 +107,23 @@ function SignUp() {
         username: data.username,
         email: data.email,
         password: data.password,
+        is_admin: true,
+        is_staff: true,
       },
     })
       .then((response) => {
         getUser(response.data.user, response.data.token, data.name);
-       
+
         setLoading(<CircularProgress size={20} color="green" />);
         localStorage.setItem("token", response.data.token);
         setTimeout(() => {
-          
-          history.push("/dashboard/default",);
+          history.push("/dashboard/default");
           document.location.reload();
-        }, );
+        });
       })
       .catch((error) => {
         if (error.response) {
-          console.log("dzdz", error);
+        
           if (error.response.data.username) {
             setErrorMessage(error.response.data.username[0]);
           } else if (error.response.data.email) {
@@ -132,11 +133,11 @@ function SignUp() {
           }
           setError(true);
         } else if (error.request) {
-          console.log("dzdz", error);
+         
         } else {
-          console.log("Error", error.message);
+       
         }
-        console.log("ddzdz", error);
+   
       });
   };
 

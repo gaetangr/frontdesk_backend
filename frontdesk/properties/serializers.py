@@ -20,8 +20,6 @@ class PropertySerializer(serializers.ModelSerializer):
         fields = [
             "name",
             "collaborator",
-            "planning",
-            "checklist",
             "notice",
             "collaborator_count",
         ]

@@ -111,9 +111,6 @@ function Introduction() {
   return (
     <Wrapper>
       <Container>
-        <Alert mt={3} mb={1} severity="info">
-          Front desk V2.0 est actuellement <strong>Beta</strong>
-        </Alert>
         <Grid container alignItems="center" justify="center" spacing={4}>
           <Grid item xs={12} sm={9} md={8} lg={7}>
             <Content>
@@ -123,9 +120,8 @@ function Introduction() {
               <Grid container justify="center" spacing={4}>
                 <Grid item xs={12} lg={10}>
                   <Subtitle color="textSecondary">
-                    Front desk réinvente l'hôtellerie de demain en proposant des
-                    outils digitaux gratuits pensés par un hôtelier pour des
-                    hôteliers.
+                    Moins de papiers, plus d'efficacité. <br/> En rejoignant
+                    Front Desk vous avez la certitude d'augmenter en productivité.
                   </Subtitle>
                 </Grid>
               </Grid>
@@ -133,16 +129,18 @@ function Introduction() {
               <Box my={6}>
                 <Feature>
                   <FeatureText component="span" variant="h2" mb={1}>
-                    1000+
+                    500+
                   </FeatureText>
                   <Typography variant="body1">Utilisateurs</Typography>
                 </Feature>
                 <Feature>
                   <FeatureText component="span" variant="h2" mb={1}>
-                    340+
+                    140+
                   </FeatureText>
-                  <Typography variant="body1">Hôtel inscrits</Typography>
+                  <Typography variant="body1">Hôtels inscrits</Typography>
                 </Feature>
+                <br/>
+
               </Box>
             </Content>
           </Grid>

@@ -126,14 +126,7 @@ function Note(props) {
       )
       .catch((error) => {
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data.detail);
 
-          console.log(error.response.status);
-          console.log(error.response.headers);
         }
       });
   };
@@ -146,99 +139,45 @@ function Note(props) {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={5}>
-        <Card mb={7}>
-          <CardHeader
-            action={
-              <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
-                <IconButton aria-label="settings">
-                  <HelpCircle />
-                </IconButton>
-              </Tooltip>
-            }
-            title="Mes notes"
-          />
-
-          <Grid container justify="flex-end"></Grid>
-
-          <Paper component="blockquote">
-            {" "}
-            <ReactMarkdown source={items.note} />{" "}
-          </Paper>
-          <Button
-            onClick={handleClickOpen}
-            //onClick={handleSubmit(onSubmit)}
-            fullWidth
-            variant="contained"
-            color="secondary"
-          >
-            Modifier
-          </Button>
-          {loading}
-        </Card>
+        <Stats
+          tooltipInfo="Information du jour ajoutée par un administrateur de votre établissement"
+          title="Information du jour"
+          amount={<ReactMarkdown source={itemsProperty.notice} />}
+          since="Depuis le mois dernier"
+        />
       </Grid>
       <Grid item xs={12} lg={7}>
         <Grid container spacing={6}>
           <Grid item xs={12} lg={12} md={6}>
-            <Stats
-              tooltipInfo="Ordre du jour ajouté par un administrateur de votre établissement"
-              title="Ordre du jour"
-              amount={itemsProperty.notice}
-              since="Depuis le mois dernier"
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Stats
-              tooltipInfo="Une check-list ajoutée par un administrateur de votre établissement"
-              title="Check-list"
-              download={
-                <Button
-                  href={itemsProperty.checklist}
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                >
-                  Télécharger
-                </Button>
-              }
-              see={
-                <Button
-                  href={itemsProperty.checklist}
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                >
-                  Voir
-                </Button>
-              }
-              since="Depuis l'année dernière"
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Stats
-              tooltipInfo="Le planning ajouté par un administrateur de votre établissement"
-              title="Planning"
-              download={
-                <Button
-                  href={itemsProperty.planning}
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                >
-                  Télécharger
-                </Button>
-              }
-              see={
-                <Button
-                  href={itemsProperty.planning}
-                  variant="outlined"
-                  size="small"
-                  color="primary"
-                >
-                  Voir
-                </Button>
-              }
-              since="Depuis l'année dernière"
-            />
+            <Card mb={7}>
+              <CardHeader
+                action={
+                  <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
+                    <IconButton aria-label="settings">
+                      <HelpCircle />
+                    </IconButton>
+                  </Tooltip>
+                }
+                title="Mes notes"
+              />
+
+              <Grid container justify="flex-end"></Grid>
+
+              <Paper component="blockquote">
+                {" "}
+                <ReactMarkdown source={items.note} />{" "}
+              </Paper>
+              <Button
+                onClick={handleClickOpen}
+                //onClick={handleSubmit(onSubmit)}
+                fullWidth
+                variant="contained"
+                color="secondary"
+              >
+                Ajouter
+              </Button>
+              {loading}
+            </Card>
           </Grid>
         </Grid>
       </Grid>

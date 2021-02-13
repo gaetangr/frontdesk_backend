@@ -18,7 +18,8 @@ import {
   Loop as LoopIcon,
   FilterList as FilterListIcon,
   PersonAdd,
-  Lock
+  Lock,
+  Message
 
 } from "@material-ui/icons";
 
@@ -76,14 +77,12 @@ function UserCreate() {
          password: "passwordpassword",
        },
      })
-       .then((res) => console.log(res.data.user))
+       .then()
        .catch((error) => {
          if (error.response) {
-           console.log(error.response.data.detail);
-           console.log(error.response.status);
-           console.log(error.response.headers);
+         
          } else {
-           console.log("quoi");
+       
          }
        });
    };
@@ -103,22 +102,36 @@ function UserCreate() {
      setOpenInfo(false);
   };
 
-  return (
-    <React.Fragment>
-      <SmallButton size="small" mr={2}>
-        <Button
-          href="http://127.0.0.1:8000/admin-manager/"
-          variant="contained"
-          color="primary"
-          mt={3}
-        >
-          <Lock />
-          {"   "}
-          {"   "} Espace manager
-        </Button>
-      </SmallButton>
-    </React.Fragment>
-  );
+http: return (
+  <React.Fragment>
+    <SmallButton size="small" mr={2}>
+      <Button
+        size="small"
+        href="http://127.0.0.1:8000/admin-manager/"
+        variant="contained"
+        color="primary"
+        mt={3}
+      >
+        <Lock style={{ marginRight: 3 }} />
+        {"   "}
+        {"   "} Espace manager
+      </Button>
+    </SmallButton>
+    <SmallButton size="small" mr={2}>
+      <Button
+        size="small"
+        href="http://127.0.0.1:8000/admin-manager/notification/notification/add/"
+        variant="outlined"
+        color="secondary"
+        mt={3}
+      >
+        <Message style={{ marginRight: 3 }} />
+        {"   "}
+        {"   "} Envoyer un message
+      </Button>
+    </SmallButton>
+  </React.Fragment>
+);
 }
 
 

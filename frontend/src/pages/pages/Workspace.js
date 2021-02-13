@@ -30,6 +30,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import {
   Loop,
@@ -61,6 +62,7 @@ import {
 } from "@material-ui/core";
 import { spacing } from "@material-ui/system";
 import axios from "axios";
+import { Bell } from "react-feather";
 
 // Custom functions
 //------------------------------
@@ -184,6 +186,19 @@ function Workspace() {
     setOpen(false);
   };
 
+
+  const displayComment = async () => {
+    const reponse = await axios({
+      method: "get",
+      url: `${FRONTDESK_API}/comment/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+    });
+    setItems(reponse.data);
+  };
+
+
   const displayNotebook = async () => {
     const reponse = await axios({
       method: "get",
@@ -204,11 +219,12 @@ function Workspace() {
       },
     }).then((response) => {
       setUser(response.data[0]);
-      console.log(response.data[0].id)
+   
     });
   }
 
   const [loading, setLoading] = useState("");
+  
   const [category, setCategory] = useState("tous");
   const [value, setValue] = React.useState("");
   const handleDateChange = (date) => {
@@ -217,15 +233,16 @@ function Workspace() {
 
   useEffect(() => {
     displayNotebook();
+
     getUser();
-    console.log("Loading state");
+
   }, []);
 
   const schema = yup.object().shape({
     TextField: yup
       .string()
       .required("Vous n'avez rien renseigné")
-      .min(10, "Trop court ")
+      .min(1, "Trop court ")
       .max(1000),
   });
 
@@ -239,8 +256,17 @@ function Workspace() {
   );
   const { register, handleSubmit, errors, control, reset } = methods;
 
+
+  const refreshApi = (time=2000) => {
+   setLoading(<LinearProgress variant="query" />),
+     setTimeout(() => {
+       setLoading("");
+       displayNotebook();
+     }, time);
+}
+
   const onSubmit = (data) => {
-    console.log(data.TextField);
+ 
     axios({
       method: "post",
       url: `${FRONTDESK_API}/notebook/create/`,
@@ -251,7 +277,7 @@ function Workspace() {
         is_done: false,
         is_pinned: false,
         category: category,
-        date: "2021-02-12T14:57:45Z",
+       
       },
       headers: {
         Authorization: `Token ${TOKEN}`,
@@ -259,26 +285,49 @@ function Workspace() {
     })
       .then(
         setOpen(false),
-        setLoading(<LinearProgress variant="query" />),
-        // set timeout
-        setTimeout(() => {
-          setLoading("");
-          displayNotebook();
-        }, 2500)
-      )
+       refreshApi(2000))
       .catch((error) => {
         if (error.response) {
-          /*
-           * The request was made and the server responded with a
-           * status code that falls out of the range of 2xx
-           */
-          console.log(error.response.data);
 
-          console.log(error.response.status);
-          console.log(error.response.headers);
         }
       });
   };
+
+
+const onDelete = (id) => {
+  axios({
+    method: "delete",
+    url: `${FRONTDESK_API}/notebook/${id}/`,
+    headers: {
+      Authorization: `Token ${TOKEN}`,
+    },
+  }).then(refreshApi(2000));
+};
+
+  const onPinned = (id) => {
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/notebook/${id}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+      data: { is_pinned: true },
+    }).then(refreshApi(1000));
+  };
+
+  
+
+  const onDone = (id) => {
+    axios({
+      method: "patch",
+      url: `${FRONTDESK_API}/notebook/${id}/`,
+      headers: {
+        Authorization: `Token ${TOKEN}`,
+      },
+      data: { is_done: true },
+    }).then(refreshApi(1000));
+  };
+
   const workspaceForm = (
     <Dialog
       open={open}
@@ -345,42 +394,42 @@ function Workspace() {
       </DialogContent>
     </Dialog>
   );
+
   const workspaceCard = items.map((msg) => {
     if (
-      msg.category == `${category}` &&
-      msg.dates == `${selectedDate.getDate()}-02-2021`
+      msg.category == `${category}`
     )
       return (
         <WorkspaceContent
+          progress={loading}
           name={capitalizeFirstLetter(msg.username)}
           title={msg.username_title}
           key={msg.id}
           status={msg.is_done == true ? <DoneChip label="Fait" /> : ""}
           pinned={msg.is_pinned == true ? <PinnedChip label="Important" /> : ""}
           message={msg.content}
-          notebookId={msg.id}
-          created={msg.date}
-          edit={handleClickOpen}
+          created={msg.dates}
+          linkDelete={() => {
+            onDelete(msg.id);
+          }}
+          linkDone={() => {
+            onDone(msg.id);
+          }}
+          linkPinned={() => {
+            onPinned(msg.id);
+          }}
+          edit="dd"
         />
       );
   });
 
+
+
+
   const rightSidebar = (
     <li Style="list-style-type:none;">
       {" "}
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <KeyboardDatePicker
-          margin="normal"
-          id="date-picker-dialog"
-          label="Filter les consignes"
-          format="dd/MM/yyyy"
-          value={selectedDate}
-          onChange={handleDateChange}
-          KeyboardButtonProps={{
-            "aria-label": "change date",
-          }}
-        />
-      </MuiPickersUtilsProvider>
+     
       <ul>
         <Button
           onClick={() => {
@@ -389,31 +438,21 @@ function Workspace() {
           variant="contained"
           color="primary"
         >
-          <Group />
-          Tous
+          <RoomService style={{ marginRight: 8 }} />
+          Réception
         </Button>
       </ul>
+     
       <ul>
         <Button
-          onClick={() => {
-            setCategory("etage");
-          }}
-          variant="contained"
-          color="primary"
-        >
-          <SingleBed />
-          Étage
-        </Button>
-      </ul>
-      <ul>
-        <Button
+   
           onClick={() => {
             setCategory("maintenance");
           }}
           variant="contained"
           color="primary"
         >
-          <Build />
+          <Build style={{ marginRight: 8 }} />
           Maintenance
         </Button>
       </ul>
@@ -427,8 +466,8 @@ function Workspace() {
       onChange={(event, newValue) => {
         setValueSearch(newValue);
       }}
-      groupBy={(option) => option.date}
-      getOptionLabel={(option) => option.date}
+      groupBy={(option) => option.dates}
+      getOptionLabel={(option) => option.dates}
       openOnFocus="false"
       noOptionsText="Consigne introuvable"
       openText="Trier par date"
@@ -452,7 +491,7 @@ function Workspace() {
             {parts.map((part, index) => (
               <span
                 key={index}
-                style={{ fontWeight: part.highlight ? 900 : 400 }}
+                style={{ fontWeight: part.highlight ? 900 : 400, backgroundColor: blue[100]}}
               >
                 {part.text.slice(0, 100)}
               </span>
@@ -473,14 +512,12 @@ function Workspace() {
               ? "Cahier de consignes"
               : category == "maintenance"
               ? "Registre de maintenance"
-              : "autre"}
+              : "Étage"}
           </Grid>
 
           {/* Action right side */}
           <Grid item>
-            <Button>
-              <Loop onClick={handleClickOpen} />
-            </Button>
+            <Button></Button>
           </Grid>
         </Grid>
       </Typography>
@@ -489,11 +526,65 @@ function Workspace() {
 
       <Grid container spacing={6}>
         <Grid item xs={9}>
-          {loading}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            {/* Option 1: pass a component to the Controller. */}
+            <Controller
+              as={
+                <TextField
+                  multiline
+                  rows={4}
+                  autoFocus={true}
+                  value=""
+                  error={errors.TextField ? true : false}
+                  helperText={errors.TextField?.message}
+                  variant="outlined"
+                  label="Votre consigne"
+                  placeholder="Ajouter votre consigne"
+                  fullWidth
+                />
+              }
+              name="TextField"
+              control={control}
+              defaultValue=""
+            />
 
+            {/*  <Controller
+              as={
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <KeyboardDatePicker
+                    margin="normal"
+                    id="date-picker-dialog"
+                    label="Programmer la consigne"
+                    format="dd/MM/yyyy"
+                    value={selectedDate}
+                    onChange={handleDateChange}
+                    KeyboardButtonProps={{
+                      "aria-label": "change date",
+                    }}
+                  />
+                </MuiPickersUtilsProvider>
+              }
+              name="Date"
+              control={control}
+              defaultValue=""
+            /> */}
+          </form>
+
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+            color="primary"
+          >
+            Ajouter la consigne
+            {value}
+          </Button>
+          <br />
+          <br />
+          <br />
           {/* Autocomplete form */}
           {AutocompleteField}
-
+          
           <br />
           {valueSearch !== null ? (
             <CardContent>{valueSearch.content}</CardContent>
@@ -504,6 +595,7 @@ function Workspace() {
           {/* Autocomplete form */}
           {workspaceCard}
         </Grid>
+
         {/* Autocomplete form */}
         {rightSidebar}
       </Grid>

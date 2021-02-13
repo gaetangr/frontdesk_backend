@@ -8,7 +8,9 @@ import { spacing } from "@material-ui/system";
 
 import {
   Mail as MailIcon,
+  Sunrise as SunriseIcon,
   Code as CodeIcon,
+  Shield as ShieldIcon,
   Heart as HeartIcon,
   Users as UsersIcon,
   Figma as FigmaIcon,
@@ -68,33 +70,31 @@ function Features() {
   return (
     <Wrapper py={20}>
       <Container>
-        <TypographyOverline variant="body2" gutterBottom>
-          Fonctionalités
-        </TypographyOverline>
+
         <Typography variant="h2" component="h3" gutterBottom>
-          Les hôteliers adorent Front Desk
+          Vous allez nous adorer 
         </Typography>
         <Box mb={8} />
         <Grid container spacing={6}>
           <Feature
             Icon={HeartIcon}
             title="Par un hôtelier, pour des hôteliers"
-            description="Material App is built to make your life easier. Theme provider, build tooling, documentation, and 400+ components. "
+            description="Fondé par un réceptionniste conscient des problématiques du quotiden souhaitant moderniser son métier."
           />
           <Feature
-            Icon={MailIcon}
+            Icon={ShieldIcon}
             title="La sécurité est notre priorité"
-            description="Certificat SSL, chiffrement des mots de passe, sauvegarde journalière des données, front-desk.fr prend la sécurité très au sérieux !"
+            description="Certificat SSL, chiffrement des mots de passe, sauvegarde journalière des données, Front Desk prend la sécurité au sérieux."
           />
           <Feature
-            Icon={PlusCircleIcon}
-            title="Pensé pour durer"
-            description="Nous utilisons les dernières technologies pour faire de front desk une solution d'avenir"
+            Icon={SunriseIcon}
+            title="Une solution d'avenir"
+            description="Nous utilisons les dernières technologies pour faire de Front Desk un outil évolutif et durable."
           />
           <Feature
             Icon={MailIcon}
-            title="D'humain à humain"
-            description="Nous sommes une équipe de passionné, nous connaissons le métier et nous sommes à l'écoute de vos retours."
+            title="Disponible pour vous"
+            description="Nous sommes une équipe de passionnés, toujours à l'écoute de vos besoins."
           />
           <Feature
             Icon={UsersIcon}
@@ -103,8 +103,8 @@ function Features() {
           />
           <Feature
             Icon={BookOpenIcon}
-            title="Documentation complète"
-            description="Front Desk dispose d'une documentation complète, utiliser notre plateforme n'a jamais été aussi simple."
+            title="Facile à utiliser"
+            description="Notre plateforme est conçue pour être adopter rapidement par tous."
           />
         </Grid>
 
@@ -117,7 +117,7 @@ function Features() {
             size="large"
             target="_blank"
           >
-            Je me lance !
+            Je me lance 
           </Button>
         </Box>
       </Container>

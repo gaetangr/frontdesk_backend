@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             properties = Property.objects.filter(collaborator=obj).first()
             return properties.workspace.pk
         except AttributeError:
-            return Nonew
+            return 0
 
     class Meta:
         model = User
