@@ -137,7 +137,7 @@ function Note(props) {
   }, []);
  const classes = useStyles();
   return (
-    <Grid container spacing={6}>
+    <Grid container spacing={3}>
       <Grid item xs={12} lg={5}>
         <Stats
           tooltipInfo="Information du jour ajoutée par un administrateur de votre établissement"
@@ -146,8 +146,9 @@ function Note(props) {
           since="Depuis le mois dernier"
         />
       </Grid>
+      
       <Grid item xs={12} lg={7}>
-        <Grid container spacing={6}>
+        <Grid container spacing={3}>
           <Grid item xs={12} lg={12} md={6}>
             <Card mb={7}>
               <CardHeader
@@ -190,7 +191,6 @@ function Note(props) {
           Modifier votre note personnelle
         </DialogTitle>
         <DialogContent>
-        
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Option 1: pass a component to the Controller. */}
             <Controller

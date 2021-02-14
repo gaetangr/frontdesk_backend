@@ -1,3 +1,8 @@
+""" 
+By extendings the manage commands from the Django Framework
+We can create a super account with one one command by running
+`python manage.py super_account`
+"""
 import time
 import webbrowser
 

@@ -1,3 +1,19 @@
+"""
+This module is responsible to handle the source of information about the data. 
+It contains the essential fields and behaviors of the data for the
+properties app
+
+- The endpoint are defined in the `properties.urls.py` module
+
+- The logic are defined in the `properties.views.py` module
+
+- The serializer are defined in the `properties.serializer.py` module
+
+- The signals are defined in the `properties.signals.py` module 
+
+
+"""
+
 from autoslug import AutoSlugField
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -10,8 +26,12 @@ User = settings.AUTH_USER_MODEL
 
 class Property(TimeStampedModel):
     """
-    Stores a property, using TimeStampedModel to provide a self updating
-    and creating field.
+    Stores a :model:`properties.Property`
+
+    A `properties` is the main model where an user can add collaborators
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
     """
 
     name = models.CharField(
@@ -20,8 +40,8 @@ class Property(TimeStampedModel):
         help_text="Le nom de votre établissement",
     )
     notice = models.TextField(
-        verbose_name="Ordre du jour",
-        help_text="L'ordre du jour apparaitra sur le tableau de bord de votre équipe",
+        verbose_name="Information du jour",
+        help_text="L'information du jour apparaitra sur le tableau de bord de votre équipe",
         null=True,
         blank=True,
     )
@@ -54,58 +74,15 @@ class Property(TimeStampedModel):
         return self.name
 
 
-class Planning(TimeStampedModel):
-    """"""
-
-    properties = models.ForeignKey(
-        Property, on_delete=models.CASCADE, related_name="plannings"
-    )
-    file = models.FileField(
-        "Planning",
-        help_text="Un planning disponible au téléchargement par votre équipe",
-        null=True,
-        blank=True,
-    )
-    name = models.CharField(
-        "Description",
-        max_length=300,
-        help_text="Description de votre planning, laissez vide si besoin",
-        null=True,
-        blank=True,
-    )
-
-    def __str__(self):
-        """ Return instance with a human readable fashion """
-        return self.name if self.name else "Aucune description"
-
-
-class Checklist(TimeStampedModel):
-    """"""
-
-    properties = models.ForeignKey(
-        Property, on_delete=models.CASCADE, related_name="checklists"
-    )
-    file = models.FileField(
-        "Checklist",
-        help_text="Une checklist disponible au téléchargement par votre équipe",
-        null=True,
-        blank=True,
-    )
-    name = models.CharField(
-        "Description",
-        max_length=300,
-        help_text="Description de votre checklist, laissez vide si besoin",
-        null=True,
-        blank=True,
-    )
-
-    def __str__(self):
-        """ Return instance with a human readable fashion """
-        return self.name if self.name else "Aucune description"
-
-
 class Document(TimeStampedModel):
-    """"""
+    """
+    Stores a :model:`properties.Document` for the properties, related to :model:`properties.Properties`
+
+    A `document` is a way for users to save files and images for the properties
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
+    """
 
     properties = models.ForeignKey(
         Property, on_delete=models.CASCADE, related_name="documents"
@@ -122,6 +99,21 @@ class Document(TimeStampedModel):
         help_text="Description de votre fichier, laissez vide si besoin",
         null=True,
         blank=True,
+    )
+
+    class Category(models.TextChoices):
+        """ Define categories for the document """
+
+        DEFAULT = "document", "Document"
+        MAINTENANCE = "checklist", "Checklist"
+        HOUSEKEEPING = "planning", "Planning"
+
+    category = models.CharField(
+        "Catégorie",
+        max_length=20,
+        choices=Category.choices,
+        default=Category.DEFAULT,
+        help_text="Catégories utilisées pour filtrer les documents",
     )
 
     def __str__(self):

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components/macro";
 import { Helmet } from "react-helmet";
 import { FRONTDESK_API, TOKEN } from "../../constants/";
@@ -149,9 +149,17 @@ function SignUp() {
         Rejoignez-nous
       </Typography>
       <Typography component="h2" variant="body1" align="center">
-        Ajoutez votre établissement à notre plateforme en quelques secondes !{errorCard}
+        Ajoutez votre établissement à notre plateforme en quelques secondes !
+        {errorCard}
       </Typography>
-    
+      <br />
+      <Alert variant="filled" severity="info">
+        {" "}
+        Vous allez inscrire votre établissement sur Front Desk,{" "}
+        <strong>
+          cette page d'inscription n'est pas destinée à la création de comptes collaborateurs{" "} <Link to="/documentation/account-manager">En savoir plus</Link>
+        </strong>
+      </Alert>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Option 1: pass a component to the Controller. */}
@@ -179,7 +187,6 @@ function SignUp() {
               id="property"
               required
               placeholder="Ex:  Ibis Tour Eiffel"
-              
               label="Nom de votre établissement"
               fullWidth
               my={2}
@@ -196,7 +203,6 @@ function SignUp() {
               id="password"
               type="password"
               label="Mot de passe"
-              
               fullWidth
               my={2}
             />
@@ -211,7 +217,6 @@ function SignUp() {
           defaultValue=""
           name="email"
           required
-
           control={control}
         />
 

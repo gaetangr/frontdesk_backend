@@ -1,7 +1,7 @@
 """
 Creating a new instance of the admin site to enable property owner to manager
 their team and property without causing security issues and conflicts with the base
-admin site
+admin site.
 """
 from django.contrib import admin
 from django.contrib import messages
@@ -10,9 +10,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 
 from frontdesk.notification.models import Notification
-from frontdesk.properties.models import Checklist
 from frontdesk.properties.models import Document
-from frontdesk.properties.models import Planning
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
@@ -40,11 +38,7 @@ nbr_message.short_description = "Nombre de membres"
 
 def nbr_files(obj):
     """ custom function to count members of given property """
-    total_file = (
-        obj.plannings.all().count()
-        + obj.checklists.all().count()
-        + obj.documents.all().count()
-    )
+    total_file = obj.documents.all().count()
     return total_file
 
 
@@ -105,11 +99,11 @@ class PropertyAdmin(admin.ModelAdmin):
     readonly_fields = ("is_premium",)
 
 
-@admin.register(Checklist, Document, Planning, site=admin_manager)
+@admin.register(Document, site=admin_manager)
 class PropertyFilesAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
 
-    list_display = ["name", "created"]
+    list_display = ["name", "created", "category"]
     exclude = ("properties",)
     prepopulated_fields = {"name": ("file",)}
 
@@ -137,6 +131,14 @@ class PropertyFilesAdmin(admin.ModelAdmin):
         obj.properties = properties
         super().save_model(request, obj, form, change)
 
+    def get_queryset(self, request):
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        qs = super().get_queryset(request)
+        if request.user.pk == 33:
+            return qs
+        return qs.all().filter(properties=properties)
+
 
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
@@ -154,7 +156,7 @@ class UserAdmin(admin.ModelAdmin):
                 "description": format_html(
                     "<h3> Créer un compte facilement</h3> <hr/> <br/> <p> Afin de faciliter la création de compte, le champ <strong> Nom d'utilisateur </strong> et <strong> Mot de passe </strong> sont générés avec le prénom et nom. </p> <p> Vous pouvez choisir de les modifier </p>"
                 ),
-                "fields": ("first_name", "last_name", "password", "username"),
+                "fields": ("title", "first_name", "last_name", "password", "username"),
             },
         ),
         (
@@ -164,7 +166,7 @@ class UserAdmin(admin.ModelAdmin):
                 "description": (
                     "Les options avancées permettent de gérer précisement les droits et actions de vos utilisateurs\n"
                 ),
-                "fields": ("title", "is_staff", "is_active", "is_admin"),
+                "fields": ("is_staff", "is_active", "is_admin"),
             },
         ),
     )

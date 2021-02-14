@@ -1,3 +1,18 @@
+"""
+This module is responsible to handle signals for the properties app
+In a nutshell, signals allow certain senders to notify a set of 
+receivers that some action has taken place. They’re especially useful 
+when many pieces of code may be interested in the same events
+
+- The endpoint are defined in the `properties.urls.py` module
+
+- The logic are defined in the `properties.views.py` module
+
+- The serializer are defined in the `properties.serializer.py` module
+
+- The behiavors of the data are defined in the `properties.models.py` module
+
+"""
 import logging
 
 from django.core.exceptions import ObjectDoesNotExist

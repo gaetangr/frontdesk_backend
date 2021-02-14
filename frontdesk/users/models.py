@@ -1,3 +1,17 @@
+"""
+This module is responsible to handle the source of information about the data. 
+It contains the essential fields and behaviors of the data for the
+users app
+
+- The endpoint are defined in the `users.urls.py` module
+
+- The logic are defined in the `users.views.py` module
+
+- The serializer are defined in the `users.serializer.py` module
+
+- The signals are defined in the `users.signals.py` module
+
+"""
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.models import User
 from django.db import models
@@ -5,12 +19,10 @@ from django.db import models
 
 class User(AbstractUser):
     """
-    Stores a profile, a profile is related to an instance of :model:`auth.User`
-    It will be trigger with a signal each time a User instance is created.
-    Profile will store non mandatory information
+    Stores a :model:`auth.User`
 
-    Args:
-        AbstractUser : An abstract base class for extending user model
+    An abstract base class implementing a fully
+    featured User model with admin-compliant permissions.
     """
 
     title = models.CharField(

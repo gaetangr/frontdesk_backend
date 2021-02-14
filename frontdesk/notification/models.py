@@ -1,3 +1,17 @@
+"""
+This module is responsible to handle the source of information about the data. 
+It contains the essential fields and behaviors of the data for the
+notification app
+
+- The endpoint are defined in the `notification.urls.py` module
+
+- The logic are defined in the `notification.views.py` module
+
+- The signals are defined in the `notification.signals.py` module 
+
+- The serializers are defined in the `notification.serializers.py` module
+
+"""
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -9,7 +23,12 @@ User = settings.AUTH_USER_MODEL
 
 class Notification(TimeStampedModel):
     """
-    Stores a notification
+    Stores a :model:`notification.Notification`
+
+    A `notification` is way for user to send information to each others
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
     """
 
     title = models.CharField(

@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { NavLink } from "react-router-dom";
-
+import Code from "../../components/Code";
 import { Helmet } from "react-helmet";
-
+import ReactMarkdown from "react-markdown";
 import {
   Box,
   Breadcrumbs as MuiBreadcrumbs,
@@ -21,119 +21,103 @@ const Breadcrumbs = styled(MuiBreadcrumbs)(spacing);
 
 const Typography = styled(MuiTypography)(spacing);
 
-function Introduction() {
-  return (
-    <Box mb={10}>
-      <Typography variant="h3" gutterBottom>
-        Introduction
-      </Typography>
-      <Typography variant="subtitle1" gutterBottom my={4}>
-        This theme uses Material-UI in combination with Styled-Components. On
-        this page we try to cover the basics on how to adjust the color palette
-        and other styles.
-      </Typography>
-    </Box>
-  );
-}
+
 
 function HowItWorks() {
   return (
     <Box mb={10}>
       <Typography variant="h3" gutterBottom>
-        How it works
+        Comment sa marche
       </Typography>
       <Typography variant="subtitle1" gutterBottom my={4}>
-        Material-UI's{" "}
-        <Link
-          href="https://material-ui.com/customization/theming/#createmuitheme-options-args-theme"
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          createMuiTheme
-        </Link>{" "}
-        is used to extend Material-UI's default styling. Material App is using
-        both the Material-UI ThemeProvider as Styled-Components ThemeProvider.
-        This way, global theme variables will be applied to both Material-UI's
-        components as custom Styled-Components.
+        Il est parfois nécessaire de formater son texte pour mettre en valeur
+        son contenu, Front Desk met à disposition un formatage simple et rapide
+        à prendre en main.
       </Typography>
       <Typography variant="subtitle1" gutterBottom my={4}>
-        How to access theme variables from a component:
-        <Code>{`const CustomComponent = styled.div\`
-  background: \${props => props.theme.palette.primary.main};
-  color: \${props => props.theme.palette.common.white};
-  padding: \${props => props.theme.spacing(2)}px;
-\`;
-
-const Custom = ({children}) => (
-  <CustomComponent>
-    {children}
-  </CustomComponent>
-);`}</Code>
+        En utilisant les balises de formatage vous pouvez ajouter des images et des liens, créer des listes, mettre en avant un contenu sur la plupart des outils Front Desk.
       </Typography>
-    </Box>
-  );
-}
-
-function AdjustingTheme() {
-  return (
-    <Box mb={10}>
       <Typography variant="h3" gutterBottom>
-        Adjusting theme variables
+       Outils compatibles
       </Typography>
       <Typography variant="subtitle1" gutterBottom my={4}>
-        In the <code>/theme</code> folder you can find all the theme variables.
-        They are categorized by palettes, shadows, typography, overrides and
-        theme variants. You are able to control each on them inndividually.
-        Typography example:
-        <Code>{`const typography = {
-  h1: {
-    fontSize: "2rem",
-    fontWeight: 600,
-    lineHeight: 1.2
-  },
-  h2: {
-    fontSize: "1.75rem",
-    fontWeight: 600,
-    lineHeight: 1.2
-  },
-  h3: {
-    fontSize: "1.5rem",
-    fontWeight: 600,
-    lineHeight: 1.2
-  },
-  //etc
-};`}</Code>
+        Vous pouvez utiliser le formatage pour les outils suivants :
+         
+    <ul><li>Notes personnelles </li>
+          <li>Cahier de consignes</li>
+        <li>Information du jour</li></ul>
+      </Typography>
+      <Typography variant="h3" gutterBottom>
+        Exemples d'usage
+      </Typography>
+      <Typography variant="subtitle1" gutterBottom my={4}>
+        Voici un exemple de balises que vous pouvez utiliser pour formater votre
+        contenu
+        <ul>
+          <li>
+            <ReactMarkdown source="**Texte en gras**" />
+            <Code>**Texte en gras**</Code>
+          </li>
+          <li>
+            <ReactMarkdown source="_Texte en italique_" />
+            <Code>_Texte en italique_</Code>
+          </li>
+          <li>
+            <ReactMarkdown source="#  Titre 1" />
+            <Code># Titre 1</Code>
+          </li>
+
+          <li>
+            <ReactMarkdown source="## Titre 2" />
+            <Code>## Titre 2</Code>
+          </li>
+          <li>
+            <ReactMarkdown source=">Ceci est une **zone en retrait**." />
+            <Code>>Ceci est une **zone en retrait**.</Code>
+          </li>
+
+          <li>
+            <ReactMarkdown source=">- Liste1" />
+            <Code>- Liste1</Code>
+          </li>
+          <li>
+            <ReactMarkdown source='Ici ce qui suit [Lien](https://example.com/ "titre de lien optionnel").' />
+            <Code>
+              Ici ce qui suit [Lien](https://example.com/ "titre de lien
+              optionnel").
+            </Code>
+          </li>
+
+          <li>
+            <ReactMarkdown source="![Ceci est un exemple d’image](https://via.placeholder.com/150)" />
+            <Code>
+              ![Ceci est un exemple d’image](https://example.com/bild.jpg)
+            </Code>
+          </li>
+        </ul>
       </Typography>
     </Box>
   );
 }
+
+
 
 function Theming() {
   return (
     <React.Fragment>
-      <Helmet title="Theming" />
+      <Helmet title="Formater son texte" />
 
       <Grid container spacing={6} justify="center">
         <Grid item xs={12} lg={9} xl={7}>
           <Typography variant="h2" gutterBottom display="inline">
-            Theming
+            Formater son texte
           </Typography>
-
-          <Breadcrumbs aria-label="Breadcrumb" mt={2}>
-            <Link component={NavLink} exact to="/">
-              Dashboard
-            </Link>
-            <Link component={NavLink} exact to="/documentation/welcome">
-              Documentation
-            </Link>
-            <Typography>Theming</Typography>
-          </Breadcrumbs>
 
           <Divider my={6} />
 
-          <Introduction />
+        
           <HowItWorks />
-          <AdjustingTheme />
+          
         </Grid>
       </Grid>
     </React.Fragment>

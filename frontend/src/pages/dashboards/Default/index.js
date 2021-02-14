@@ -68,20 +68,16 @@ function Default({ theme }) {
           <Actions />
         </Grid>
       </Grid>
-
       <Divider my={6} />
-
-      <Grid container spacing={6}>
-       
-    
+      <Grid container xs={12}  spacing={3}>
+        <Note />
       </Grid>
-      <Note />
-       <Grid item xs={12} lg={7}></Grid>
-      
-      <Grid container spacing={6}>
+ 
+      <Grid container spacing={3}>
         <Grid item xs={12} lg={5}>
-         {/*  <MyTeam /> */}
+          <MyTeam />
         </Grid>
+
         <Grid item xs={12} lg={7}>
           <Workspace />
         </Grid>

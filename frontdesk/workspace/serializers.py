@@ -1,4 +1,15 @@
-""" Serializer for the workspace application"""
+"""
+This module is responsible to return serializers for the workspace app. 
+A serializer allow complex data such as querysets and 
+model instances to be converted to native Python 
+datatypes that can then be easily rendered into JSON.
+
+- The endpoint are defined in the `workspace.urls.py` module
+
+- The logic are defined in the `workspace.views.py` module
+
+- The behiavors of the data are defined in the `workspace.models.py` module
+"""
 
 
 from django.contrib.auth.models import User
@@ -11,7 +22,10 @@ from frontdesk.workspace.models import Workspace
 
 
 class WorkspaceSerializer(serializers.ModelSerializer):
-    """ WorkspaceSerializer that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`workspace.Workspace` into a JSON format
+    """
 
     class Meta:
         model = Workspace
@@ -19,7 +33,10 @@ class WorkspaceSerializer(serializers.ModelSerializer):
 
 
 class NotebookSerializer(serializers.ModelSerializer):
-    """ NotebookSerializer that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`workspace.Notebook` into a JSON format
+    """
 
     username = serializers.SerializerMethodField("username_field")
     username_title = serializers.SerializerMethodField("username_title_field")
@@ -42,6 +59,10 @@ class NotebookSerializer(serializers.ModelSerializer):
             return "Anonyme"
 
     def date_field(self, obj):
+        """
+        Return a date with a custom
+        format to be used in the front end
+        """
         now = str(obj.date)
         year = now[0:4]
         month = now[5:7]
@@ -69,7 +90,10 @@ class NotebookSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    """ CommentSerializer that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`workspace.Comment` into a JSON format
+    """
 
     class Meta:
         model = Comment
