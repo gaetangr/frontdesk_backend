@@ -14,7 +14,7 @@ def test__str__workspace():
     user = User.objects.create_user(username="Gaetan", password="you-will-never-guess")
     property = Property.objects.create(name="Ovaerlook 44")
     property.collaborator.add(user)
-    workspace = Workspace.objects.create(property=property)
+    workspace = Workspace.objects.get(property=property)
 
     assert workspace.__str__() == workspace.property.name
     assert str(workspace) == workspace.property.name
@@ -27,7 +27,7 @@ def test__str__notebook():
     user = User.objects.create_user(username="Gaetan", password="you-will-never-guess")
     property = Property.objects.create(name="Overlook 3")
     property.collaborator.add(user)
-    workspace = Workspace.objects.create(property=property)
+    workspace = Workspace.objects.get(property=property)
     notebook = Notebook.objects.create(
         workspace=workspace, author=user, content="Something"
     )
@@ -43,7 +43,7 @@ def test__str__comment():
     user = User.objects.create_user(username="Gaetan", password="you-will-never-guess")
     property = Property.objects.create(name="Overlook 2")
     property.collaborator.add(user)
-    workspace = Workspace.objects.create(property=property)
+    workspace = Workspace.objects.get(property=property)
     notebook = Notebook.objects.create(
         workspace=workspace, author=user, content="Something"
     )

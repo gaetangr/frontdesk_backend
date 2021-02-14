@@ -18,6 +18,10 @@ from frontdesk.workspace.models import Notebook
 
 
 class MyAdminSite(AdminSite):
+    """ 
+    This AdminSite object encapsulates an instance of the Django admin application
+    to be used by users with limited access and permissions
+    """
     site_header = "Espace manager"
     site_title = "Front Desk - Web plateform"
     index_title = "Gestion de votre établissement "
@@ -29,7 +33,9 @@ admin_manager = MyAdminSite(name="manager-admin")
 
 # Custom field for property model
 def nbr_message(obj):
-    """ custom function to count members of given property """
+    """ 
+    custom function to count members of given property 
+    """
     return obj.collaborator.all().count()
 
 
@@ -37,7 +43,9 @@ nbr_message.short_description = "Nombre de membres"
 
 
 def nbr_files(obj):
-    """ custom function to count members of given property """
+    """ 
+    custom function to count members of given property 
+    """
     total_file = obj.documents.all().count()
     return total_file
 
@@ -47,7 +55,9 @@ nbr_files.short_description = "Nombre total de fichiers"
 
 @admin.register(Property, site=admin_manager)
 class PropertyAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+    """ 
+    Custom property admin to display custom fields and methods 
+    """
 
     text_fields = {"collaborator": admin.VERTICAL}
     list_display = ["name", "created", nbr_message, nbr_files]
@@ -69,20 +79,44 @@ class PropertyAdmin(admin.ModelAdmin):
     )
 
     def has_module_permission(self, request):
+        """ 
+        Authorized users should access the :model:`properties.Property` 
+        instance in the administration panel
+        """
         return True
 
     def has_view_permission(self, request, obj=None):
+        """ 
+        Authorized users should access the :model:`properties.Property` 
+        instance in the administration panel
+        """
         return True
 
     def has_delete_permission(self, request, obj=None):
+        """ 
+        Authorized users should be able to create
+        new instance of :model:`properties.Property` 
+        instance in the administration panel
+        """
         if request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
+        """ 
+        Authorized users should be able to update
+        new instance of :model:`properties.Property` 
+        instance in the administration panel
+        """
         if request.user.is_staff:
             return True
 
     def get_queryset(self, request):
+        """
+        Queryset that return specific set of data 
+        if the user is collaborator of the 
+        :model:`properties.Property` 
+        instance 
+        """
         qs = super().get_queryset(request)
         if request.user.pk == 33:
             return qs
@@ -111,6 +145,7 @@ class PropertyFilesAdmin(admin.ModelAdmin):
         return True
 
     def has_view_permission(self, request, obj=None):
+        
         return True
 
     def has_delete_permission(self, request, obj=None):
