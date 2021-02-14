@@ -1,5 +1,14 @@
-""" views for the workspace app """
+"""
+This module is responsible to handle the logic of the `workspace` app.
+Each view is a class based view with custom method that return data with 
+specific permissions.
 
+- The endpoint are defined in the `workspace.urls.py` module
+
+- The serializer are defined in the `workspace.serializer.py` module
+
+- The behiavors of the data are defined in the `workspace.models.py` module
+"""
 from rest_framework import generics
 
 from frontdesk.properties.models import Property

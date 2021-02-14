@@ -81,9 +81,10 @@ function FAQ() {
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="subtitle1" color="textSecondary">
-                  Front Desk est une société de solutions digitales spécialisée dans l'hôtellerie.
-                   Nous proposons des outils modernes et performants pour améliorer votre productivité.
-                  Nous sommes le parfait partenaire de votre quotidien.
+                  Front Desk est une société de solutions digitales spécialisée
+                  dans l'hôtellerie. Nous proposons des outils modernes et
+                  performants pour améliorer votre productivité. Nous sommes le
+                  parfait partenaire de votre quotidien.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -93,11 +94,15 @@ function FAQ() {
                 aria-controls="faq4-content"
                 id="faq4-header"
               >
-                <Typography variant="subtitle1">Quel type d'abonnements proposons-nous ?</Typography>
+                <Typography variant="subtitle1">
+                  Quels abonnements proposons-nous ?
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="subtitle1" color="textSecondary">
-                  Front Desk propose une formule gratuite pour vous permettre de découvrir 
+                  Front Desk s'adapte à vos besoins, pour en savoir plus sur nos
+                  différentes offres :{" "}
+                  <Link href="/pricing">Découvrir les abonnements</Link>
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -107,14 +112,15 @@ function FAQ() {
                 aria-controls="faq4-content"
                 id="faq4-header"
               >
-                <Typography variant="subtitle1">Pourquoi travailler avec nous ?</Typography>
+                <Typography variant="subtitle1">
+                  Pourquoi travailler avec nous ?
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="subtitle1" color="textSecondary">
-                  Front desk est totalement gratuit, aucune pub ne viendra
-                  gâcher votre travail. La plateforme ne changera pas de modèle
-                  économique, en revanche il n'est pas exclu de proposer des
-                  services premiums dans un futur proche.
+                  Nos outils sont pensés pour les hôteliers, nous proposons une
+                  organisation digitale dématerialisée qui vous permettra de
+                  gagner du temps et de vous adapter à toute situation.
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -124,14 +130,29 @@ function FAQ() {
                 aria-controls="faq4-content"
                 id="faq4-header"
               >
-                <Typography variant="subtitle1">Quel type d'outils sont disponibles ?</Typography>
+                <Typography variant="subtitle1">
+                  Quelles fonctionnalités sont disponibles ?
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="subtitle1" color="textSecondary">
-                  Front desk est totalement gratuit, aucune pub ne viendra
-                  gâcher votre travail. La plateforme ne changera pas de modèle
-                  économique, en revanche il n'est pas exclu de proposer des
-                  services premiums dans un futur proche.
+                  A ce jour nous proposons les services suivants :
+                  <ul>
+                    <li>Cahier de consignes</li>
+                    <li>Système de recherche et de filtrage des consignes</li>
+                    <li>Regitre de maintenance</li>
+                    <li>Système de notification en temps réel</li>
+                    <li>Messages privés entre collaborateurs</li>
+                    <li>Hébergement des documents (planning, checklist...)</li>
+                    <li>Espace manager pour gérer son établissement</li>
+                    <li>
+                      Tableau de bord avec prise de notes et information du jour
+                    </li>
+                  </ul>
+                  <strong>
+                    De nombreux outils sont en cours de réalisation pour l'année
+                    2021{" "}
+                  </strong>
                 </Typography>
               </AccordionDetails>
             </Accordion>
@@ -141,14 +162,13 @@ function FAQ() {
                 aria-controls="faq4-content"
                 id="faq4-header"
               >
-                <Typography variant="subtitle1">J'ai encore des questions</Typography>
+                <Typography variant="subtitle1">
+                  J'ai encore des questions
+                </Typography>
               </AccordionSummary>
               <AccordionDetails>
                 <Typography variant="subtitle1" color="textSecondary">
-                  Front desk est totalement gratuit, aucune pub ne viendra
-                  gâcher votre travail. La plateforme ne changera pas de modèle
-                  économique, en revanche il n'est pas exclu de proposer des
-                  services premiums dans un futur proche.
+                  Si vous souhaitez en savoir plus sur notre plateforme, n'hésitez pas à <Link href="mailto:hello@gaetangr.me">nous contacter</Link>
                 </Typography>
               </AccordionDetails>
             </Accordion>

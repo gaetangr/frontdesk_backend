@@ -54,6 +54,7 @@ const GettingStarted = async(() => import("../pages/docs/GettingStarted"));
 const AccountManager = async(() =>
   import("../pages/docs/AccountManager")
 );
+const DashboardManager = async(() => import("../pages/docs/DashboardManager"));
 const Support = async(() => import("../pages/docs/Support"));
 const WorkspaceDoc = async(() => import("../pages/docs/Workspace"));
 const Changelog = async(() => import("../pages/docs/Changelog"));
@@ -155,7 +156,7 @@ const authRoutes = {
     },
     {
       path: "/auth/sign-up",
-      name: "S'enregistrer",
+      name: "S'inscrire",
       component: SignUp,
     },
     {
@@ -183,21 +184,26 @@ const documentationRoutes = {
   path: "/documentation",
   icon: <BookOpen />,
   children: [
- /*    {
+       {
       path: "/documentation/getting-started",
       name: "Démarrer sur Front Desk",
       component: GettingStarted,
-    }, */
+    },
     {
       path: "/documentation/account-manager",
       name: "Compte propriétaire",
       component: AccountManager,
     },
-    /* {
-      path: "/documentation/workspace",
-      name: "Espace de travail",
+    {
+      path: "/documentation/dashboard-manager",
+      name: "Espace manager",
+      component: DashboardManager,
+    },
+    {
+      path: "/documentation/markdown",
+      name: "Formater son texte",
       component: WorkspaceDoc,
-    }, */
+    },
     {
       path: "/documentation/support",
       name: "Support et assistance",

@@ -1,3 +1,12 @@
+"""
+Admin interface for administrators 
+-------------------------------------
+This module will return the data reads 
+from the model and display in a nice interface.
+
+Front Desk use two instance of the admin interface
+one is for the client, one for the administrators.
+"""
 from allauth.socialaccount.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 from allauth.socialaccount.models import SocialApp

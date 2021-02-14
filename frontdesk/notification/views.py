@@ -1,4 +1,16 @@
-""" Api views and logic for the notification app """
+"""
+This module is responsible to handle the logic of the `notification` app.
+Each view is a class based view with custom method that return data with 
+specific permissions.
+
+- The endpoint are defined in the `notification.urls.py` module
+
+- The behiavors of the data are defined in the `notification.models.py` module
+
+- The signals are defined in the `notification.signals.py` module
+
+- The serializers are defined in the `notification.serializers.py` module 
+"""
 from rest_framework import generics
 
 from frontdesk.notification.models import Notification
@@ -12,7 +24,13 @@ from .serializers import NotificationSerializer
 
 
 class NotificationList(generics.ListAPIView):
-    """Api view that list notifications for a user"""
+    """
+    Api endpoint related to `notification.Notification`
+
+    get:
+    Return a `notification.Notification` for the request user.
+
+    """
 
     serializer_class = NotificationSerializer
 
@@ -34,7 +52,13 @@ notification_list_view = NotificationList.as_view()
 
 
 class PrivateNotificationList(generics.ListAPIView):
-    """Api view that list notifications for a user"""
+    """
+    Api endpoint related to `notification.Notification`
+
+    get:
+    Return a `notification.Notification` for the request user.
+
+    """
 
     serializer_class = NotificationSerializer
 
@@ -55,7 +79,14 @@ private_notification_list_view = PrivateNotificationList.as_view()
 
 
 class NotificationDelete(generics.DestroyAPIView):
-    """Api view that list notifications for a user"""
+    """
+    Api endpoint related to `notfication.Notification`
+
+    delete:
+    Delete a `notfication.Notification` instance.
+
+
+    """
 
     serializer_class = NotificationSerializer
 
@@ -72,7 +103,14 @@ notification_delete_view = NotificationDelete.as_view()
 
 
 class NotificationCreate(generics.CreateAPIView):
-    """Api view that allow user to create a notification"""
+    """
+    Api endpoint related to `notfication.Notification`
+
+    create:
+    Create a `notfication.Notification` instance.
+
+
+    """
 
     serializer_class = NotificationCreateSerializer
     queryset = Notification.objects.all()

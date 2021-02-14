@@ -1,4 +1,17 @@
-""" Serializer for the users application"""
+"""
+This module is responsible to return serializers for the users app. 
+A serializer allow complex data such as querysets and 
+model instances to be converted to native Python 
+datatypes that can then be easily rendered into JSON.
+
+- The endpoint are defined in the `users.urls.py` module
+
+- The logic are defined in the `users.views.py` module
+
+- The signals are defined in the `users.signals.py` module
+
+- The behiavors of the data are defined in the `users.models.py` module
+"""
 
 from rest_framework import serializers
 
@@ -7,7 +20,10 @@ from frontdesk.users.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """ UserSerialize that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`auth.User` into a JSON format
+    """
 
     workspace = serializers.SerializerMethodField("workspace_field")
     # Custom serializers
@@ -41,7 +57,10 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CollaboratorSerializer(serializers.ModelSerializer):
-    """ UserSerialize that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`auth.User` into a JSON format
+    """
 
     class Meta:
         model = User
@@ -55,7 +74,10 @@ class CollaboratorSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    """ UserSerialize that return JSON content  """
+    """
+    Return a list of fields from the
+    :model:`auth.User` into a JSON format
+    """
 
     class Meta:
         model = User

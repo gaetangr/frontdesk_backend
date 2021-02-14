@@ -130,6 +130,19 @@ http: return (
         {"   "} Envoyer un message
       </Button>
     </SmallButton>
+    <SmallButton size="small" mr={2}>
+      <Button
+        size="small"
+        href="http://127.0.0.1:8000/admin-manager/users/user/add/"
+        variant="outlined"
+        color="secondary"
+        mt={3}
+      >
+        <PersonAdd style={{ marginRight: 3 }} />
+        {"   "}
+        {"   "} Ajouter un utilisateur
+      </Button>
+    </SmallButton>
   </React.Fragment>
 );
 }

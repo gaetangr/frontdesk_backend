@@ -159,6 +159,8 @@ function Pricing() {
                     <br />
                     Accès aux futurs outils
                     <br />
+                    Support priviligié
+                    <br />
                   </Typography>
                 </CardContent>
                 <CardActions>
@@ -207,7 +209,9 @@ function Pricing() {
                     <br />
                     Soutenez une jeune entreprise
                     <br />
-                    Contact priviligié
+                    Accès à l'application mobile*
+                    <br />
+                    Support priviligié
                     <br />
                   </Typography>
                 </CardContent>
@@ -223,7 +227,10 @@ function Pricing() {
             </Grid>
           </Grid>
           <br />
-
+          <Typography variant="caption" gutterBottom align="center">
+            * L'application mobile sortira en mai 2021 sur IOS/Android
+          </Typography>
+          <br/>
           <Typography variant="caption" gutterBottom align="center">
             Si vous n'êtes pas satisfait à 100% nous vous remboursons votre
             abonnement, aucune justification requise, un simple email au support

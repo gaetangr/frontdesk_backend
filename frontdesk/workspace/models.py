@@ -1,3 +1,15 @@
+"""
+This module is responsible to handle the source of information about the data. 
+It contains the essential fields and behaviors of the data for the
+workspace app
+
+- The endpoint are defined in the `workspace.urls.py` module
+
+- The logic are defined in the `workspace.views.py` module
+
+- The serializer are defined in the `workspace.serializer.py` module
+
+"""
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
@@ -11,8 +23,12 @@ User = settings.AUTH_USER_MODEL
 
 class Workspace(TimeStampedModel):
     """
-    Stores a workspace, a workspace is where members can exchange each other
-    messages and many uselful information relating to their shift.
+    Stores a :model:`workspace.Workspace`
+
+    A `workspace` represents the model where users can share informations
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
     """
 
     property = models.OneToOneField(
@@ -34,8 +50,13 @@ class Workspace(TimeStampedModel):
 
 class Notebook(TimeStampedModel):
     """
-    Stores a note for the workspace, related to :model:`workspace.Workspace` and
+    Stores a notebook for the workspace, related to :model:`workspace.Workspace` and
     :model:`auth.User`
+
+    A `notebook` is a way for users to post message within a workspace instance
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
     """
 
     workspace = models.ForeignKey(
@@ -99,6 +120,11 @@ class Comment(TimeStampedModel):
     """
     Stores a comment for the notebook, related to :model:`workspace.Workspace` and
     :model:`workspace.Notebook`
+
+    A `comment` is a way for users to post more information on a notebook instance
+
+    This model is using an `TimeStampedModel` that provides self-updating
+    created and modified fields.
     """
 
     notebook = models.ForeignKey(
