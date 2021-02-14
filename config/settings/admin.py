@@ -171,7 +171,8 @@ class UserAdmin(admin.ModelAdmin):
 
     def response_add(self, request, obj, post_url_continue=None):
         user = request.user
-
+        obj.set_password(obj.password)
+        obj.save()
         properties = Property.objects.all().filter(collaborator=user.pk).first()
         properties.collaborator.add(obj.id)
         self.message_user(
