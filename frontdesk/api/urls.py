@@ -31,7 +31,7 @@ urlpatterns = [
     # ------------------------------------------------------------------------------
     # USERS ROUTES
     # ------------------------------------------------------------------------------
-    path("users/", view=user_list_create_view),
+    path("users/", view=user_list_create_view, name="users-list"),
     path("users/<int:pk>/", view=user_detail_view, name="users-detail"),
     # WORKSPACE ROUTES
     # ------------------------------------------------------------------------------

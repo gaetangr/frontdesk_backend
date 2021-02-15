@@ -39,6 +39,8 @@ def test_user_detail_request_is_successfull(api_client):
         "property-list-create",
         "notebook-create",
         "comment-create",
+        "document-list",
+        "notification-list",
     ],
 )
 def test_anonymous_user_is_forbidden_is_not_authenticated(api_client, path_to_test):
@@ -78,6 +80,45 @@ def test_if_token_is_generated_after_registration(api_client):
         },
     )
     assert response.data["key"]
+
+
+@pytest.mark.django_db
+def test_if_users_list_endpoint_return_200(api_client):
+    """ If users list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_if_users_list_endpoint_return_content_for_request_user(api_client):
+    """ If users list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.data["username"] == user.username
+    assert response.data["id"] == user.pk
+
+
+@pytest.mark.django_db
+def test_if_users_create_is_not_staff_or_super_user(api_client):
+    """ If users list endpoint is access by request user, should return false for staff and admin """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.data["is_staff"] == False
+    assert response.data["is_admin"] == False
+
 
 
 # Extra tests to assert some pages return 200 response and that admin page are

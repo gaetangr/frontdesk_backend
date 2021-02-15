@@ -118,4 +118,4 @@ class Document(TimeStampedModel):
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.name if self.name else "Aucune description"
+        return self.name
