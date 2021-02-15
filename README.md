@@ -1,13 +1,10 @@
 
-![Front Desk Build](https://github.com/gaetangr/frontdesk/workflows/Front%20Desk%20Build/badge.svg?branch=release%2Fv2&event=push)
+![Front Desk Build](https://github.com/gaetangr/frontdesk_V2/workflows/Front%20Desk%20Build/badge.svg)
 
 ![enter image description here](https://camo.githubusercontent.com/d91ed7ac7abbd5a6102cbe988dd8e9ac21bde0a73d97be7603b891ad08ce3479/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f64652532307374796c652d626c61636b2d3030303030302e737667)
 
-
-
-![enter image description here](https://img.shields.io/twitter/url?label=Follow%20us&style=social&url=http%3A%2F%2Ftwitter.com%2FFrontDe87237671)
-
-![enter image description here](https://img.shields.io/badge/Linkedin-Follow-blue)
+[![Foo](https://img.shields.io/twitter/url?label=Follow%20us&style=social&url=http%3A%2F%2Ftwitter.com%2FFrontDe87237671)](https://twitter.com/frontdesk_app)
+[![Foo](https://img.shields.io/badge/Linkedin-Follow-blue)](https://www.linkedin.com/company/71615448/admin/)
 
 # ✨ Front Desk - V2.0 ✨
 
@@ -25,26 +22,17 @@ L'outil est utilisé par les hôtels de grands groupes comme Accorhotels (majori
 
 - [Ressources internes](#ressources-internes-📚)
 
-
 - [Se lancer dans le projet](#se-lancer-dans-le-projet-🚀)
-
-
 
 - [Prérequis](#prérequis)
 
-
 - [Installation - backend](#installation-back-end)
+
 - [Installation - frontend](#installation-front-end)
-
-
 
 - [Pull request & contributions](#pull-request-et-contributions-📥)
 
-
-
 - [Outils](#outils-🛠)
-
-
 
 - [Contributeurs](#contributeurs-💻)
 
@@ -64,16 +52,10 @@ Les liens suivants sont des ressources internes qui vous informe sur le projet (
 ## Se lancer dans le projet 🚀
 
 
-
-
 Les instructions suivantes vous permettront de vous lancer dans le projet et de le faire tourner sur votre machine avec les bons outils, merci d'en prendre connaissance avant toute pull request.
 
 
-
 ### Prérequis
-
-
-
 
 
 - Vérifier la version de Python et Django
@@ -85,21 +67,12 @@ python 3.8.0 ou supérieur
 ```
 
 
-
-
-
 ```
 Django==3.1.2 > supérieur
 ```
 
 
-
-
-
 - Vérifier que vous utilisez bien la moteur de BDD Postgresql
-
-
-
 
 
 ### Installation back-end
@@ -107,13 +80,7 @@ Django==3.1.2 > supérieur
 Voici étape par étape comment installer front-desk sur votre machine, à noter que nous utilisons par défaut le gestionnaire de package **pipenv**, c'est l'outil recommandé pour le projet.
 
 
-
-
-
 - Cloner mon repo **ne pas faire de push sur la branche principale**
-
-
-
 
 
 ```
@@ -121,13 +88,7 @@ git clone https://github.com/gaetangr/frontdesk_V2/tree/main
 ```
 
 
-
-
-
 - Créer un environnement virtuel
-
-
-
 
 
 ```
@@ -144,11 +105,7 @@ python -m venv venv
 pipenv shell
 ```
 
-
-
 - Installer les dépendances
-
-
 
 
 
@@ -171,20 +128,12 @@ pipenv install -r requirements/local.txt
 - Créer une base de données sur postgres
 
 
-
-
-
 ```
 create database frontdesk;
 ```
 
 
-
-
 - Créer les fichiers de migrations
-
-
-
 
 
 ```
@@ -192,13 +141,7 @@ python manage.py migrate
 ```
 
 
-
-
-
 - Créer un superuser
-
-
-
 
 
 ```
@@ -206,13 +149,7 @@ python manage.py createsuperuser
 ```
 
 
-
-
-
 - Lancer le serveur
-
-
-
 
 
 ```
@@ -248,9 +185,7 @@ yarn start
 Une fois les différents outils installés, vous pouvez utiliser les commandes suivantes:
 
 
-
 - Lancer la série de tests
-
 
 
 ```
@@ -264,13 +199,11 @@ coverage html
 ```
 
 
-
 - Formatte du code avec Black
 
 ```
 black .
 ```
-
 
 
 - Trier les imports
@@ -296,13 +229,7 @@ flake8 frontdesk
 ## Pull request et contributions 📥
 
 
-
-
-
 Front-desk est ouvert à la contribution pour son refactoring, voici quelques règles d'usage pour contribuer au projet:
-
-
-
 
 
 - Les fonctions, commentaires, classes etc doivent être écrient en anglais
@@ -329,12 +256,7 @@ Front-desk est ouvert à la contribution pour son refactoring, voici quelques r�
 ## Outils 🛠
 
 
-
-
-
 Ces outils sont utilisés pour le listing et le formatage du code, ces derniers sont inclus dans le contrôle d'intégration continue, si votre code ne respecte pas la PEP8 et le linting, le build échouera
-
-
 
 
 
@@ -351,8 +273,6 @@ Ces outils sont utilisés pour le listing et le formatage du code, ces derniers 
 
 
 - [Travis CI](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjvgLaMn4ftAhVNxYUKHUqNBeIQFjAAegQIARAC&url=https://travis-ci.org/&usg=AOvVaw0DdLw907oMtHr1RJVmOZcl) & Github action pour le CI
-
-
 
 
 
