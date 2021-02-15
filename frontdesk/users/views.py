@@ -57,8 +57,6 @@ class UserListCreate(generics.ListCreateAPIView):
         user = self.request.user
         return get_user_model().objects.filter(pk=user.pk)
 
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
         """
