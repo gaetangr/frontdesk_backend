@@ -54,31 +54,3 @@ class UserSerializer(serializers.ModelSerializer):
             "is_staff",
             "workspace",
         )
-
-
-class CollaboratorSerializer(serializers.ModelSerializer):
-    """
-    Return a list of fields from the
-    :model:`auth.User` into a JSON format
-    """
-
-    class Meta:
-        model = User
-        fields = (
-            "first_name",
-            "email",
-            "title",
-            "last_login",
-            "id",
-        )
-
-
-class ProfileSerializer(serializers.ModelSerializer):
-    """
-    Return a list of fields from the
-    :model:`auth.User` into a JSON format
-    """
-
-    class Meta:
-        model = User
-        fields = "__all__"

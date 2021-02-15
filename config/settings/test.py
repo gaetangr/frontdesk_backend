@@ -1,9 +1,9 @@
 """ Settings so github workflow run with no trouble """
+from .base import *
 import os
 
-
 ALLOWED_HOSTS = ["*"]
-SECRET_KEY = "something"
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = False
 DATABASES = {
     "default": {
