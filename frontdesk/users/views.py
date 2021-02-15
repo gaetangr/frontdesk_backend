@@ -22,8 +22,6 @@ from rest_framework.response import Response
 from frontdesk.users.models import User
 
 from .permissions import IsRequestUser
-from .serializers import CollaboratorSerializer
-from .serializers import ProfileSerializer
 from .serializers import UserSerializer
 
 
@@ -111,32 +109,3 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 user_detail_view = UserDetail.as_view()
-
-
-class ProfileDetail(generics.RetrieveUpdateDestroyAPIView):
-    """
-    Api endpoint related to `users.Users`
-
-    get:
-    Return a `users.Users` for the request user.
-
-    delete:
-    Delete a `users.Users` instance.
-
-    patch:
-    Update a `users.Users` instance.
-
-    """
-
-    serializer_class = ProfileSerializer
-
-    def get_queryset(self):
-        """
-        This view should return the user detail only
-        for the currently authenticated user.
-        """
-        user = self.request.user
-        return User.objects.filter(pk=user.pk)
-
-
-profile_detail_view = ProfileDetail.as_view()

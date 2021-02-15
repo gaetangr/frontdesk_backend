@@ -11,26 +11,3 @@ class IsMember(permissions.BasePermission):
             return True
         else:
             return False
-
-
-class IsMemberAndAdmin(permissions.BasePermission):
-    """ If user is member of the property and admin allow CRUD, else return 403 """
-
-    def has_object_permission(self, request, view, obj):
-        user = request.user
-
-        if user in obj.collaborator.all():
-            return True
-        else:
-            return False
-
-
-class IsMemberAndStaff(permissions.BasePermission):
-    """ If user is member of the property and staff allow CRUD, else return 403 """
-
-    def has_object_permission(self, request, view, obj):
-        user = request.user
-        if user in obj.collaborator.all():
-            return True
-        else:
-            return False

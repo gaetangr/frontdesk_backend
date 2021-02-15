@@ -15,7 +15,6 @@ from frontdesk.notification.views import private_notification_list_view
 from frontdesk.properties.views import document_list_view
 from frontdesk.properties.views import property_detail_view
 from frontdesk.properties.views import property_list_create_view
-from frontdesk.users.views import profile_detail_view
 from frontdesk.users.views import user_detail_view
 from frontdesk.users.views import user_list_create_view
 from frontdesk.workspace.views import comment_detail_view

@@ -2,6 +2,13 @@
 Creating a new instance of the admin site to enable property owner to manager
 their team and property without causing security issues and conflicts with the base
 admin site.
+
+Creating a new ModelAdmin : To create a new `ModelAdmin` class it is important 
+to register it with the correct site ex: `@admin.register(Model, site=admin_manager)` 
+else it will not be shown for property owner.
+
+Each classes override a set of methods and attributes, they are fully documented 
+in top of each class.
 """
 from django.contrib import admin
 from django.contrib import messages
@@ -18,6 +25,11 @@ from frontdesk.workspace.models import Notebook
 
 
 class MyAdminSite(AdminSite):
+    """
+    This AdminSite object encapsulates an instance of the Django admin application
+    to be used by users with limited access and permissions
+    """
+
     site_header = "Espace manager"
     site_title = "Front Desk - Web plateform"
     index_title = "Gestion de votre établissement "
@@ -29,7 +41,9 @@ admin_manager = MyAdminSite(name="manager-admin")
 
 # Custom field for property model
 def nbr_message(obj):
-    """ custom function to count members of given property """
+    """
+    custom function to count members of given property
+    """
     return obj.collaborator.all().count()
 
 
@@ -37,7 +51,9 @@ nbr_message.short_description = "Nombre de membres"
 
 
 def nbr_files(obj):
-    """ custom function to count members of given property """
+    """
+    custom function to count members of given property
+    """
     total_file = obj.documents.all().count()
     return total_file
 
@@ -47,7 +63,22 @@ nbr_files.short_description = "Nombre total de fichiers"
 
 @admin.register(Property, site=admin_manager)
 class PropertyAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+    """
+    `PropertyAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - list_display: What fields are display on the object page.
+
+    - fieldsets: For more complex layout needs, allows
+    css classes, description from each field etc...
+
+    - has_object_permission: Similar to the permissions set
+    in `app.permissions.py`, it should return true if viewing,
+    deleting, modifying or creating is authorized.
+
+    """
 
     text_fields = {"collaborator": admin.VERTICAL}
     list_display = ["name", "created", nbr_message, nbr_files]
@@ -68,29 +99,65 @@ class PropertyAdmin(admin.ModelAdmin):
         ),
     )
 
+    # The description of each permissions are described below
+    # They are similar to each other in each classes
+
     def has_module_permission(self, request):
+        """
+        Authorized users should access the :model:`properties.Property`
+        instance in the administration panel
+
+        Note that `has_module_permission` requires `has_view_permission`
+        to activate the view module in the admin panel, else will not show
+        """
         return True
 
     def has_view_permission(self, request, obj=None):
+        """
+        Authorized users should access the :model:`properties.Property`
+        instance in the administration panel
+
+        Note that `has_view_permission` requires `has_module_permission`
+        to activate the view module in the admin panel, else will not show
+        """
         return True
 
     def has_delete_permission(self, request, obj=None):
+        """
+        Authorized users should be able to create
+        new instance of :model:`properties.Property`
+        instance in the administration panel
+        """
         if request.user.is_staff:
             return True
 
     def has_change_permission(self, request, obj=None):
+        """
+        Authorized users should be able to update
+        new instance of :model:`properties.Property`
+        instance in the administration panel
+        """
         if request.user.is_staff:
             return True
 
     def get_queryset(self, request):
+        """
+        Queryset that return specific set of data
+        if the user is collaborator of the
+        :model:`properties.Property`
+        instance
+        """
         qs = super().get_queryset(request)
         if request.user.pk == 33:
             return qs
         return qs.filter(collaborator=request.user)
 
     def formfield_for_manytomany(self, db_field, request, **kwargs):
+        """
+        By extendings the formfield for ManyToMany field, only the
+        users from within a given property can be selected or removed
+        """
         user = request.user
-
         properties = Property.objects.all().filter(collaborator=user.pk).first()
         if db_field.name == "collaborator":
             kwargs["queryset"] = User.objects.all().filter(property=properties)
@@ -100,17 +167,39 @@ class PropertyAdmin(admin.ModelAdmin):
 
 
 @admin.register(Document, site=admin_manager)
-class PropertyFilesAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+class DocumentFilesAdmin(admin.ModelAdmin):
+    """
+    `DocumentAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - list_display: What fields are display on the object page.
+
+    - exclude: If given, should be a list of field
+    names to exclude from the form.
+
+    - prepopulated_fields: When set, the given fields will use a bit of
+    JavaScript to populate from the fields assigned
+
+    - has_object_permission: Similar to the permissions set
+    in `app.permissions.py`, it should return true if viewing,
+    deleting, modifying or creating is authorized.
+
+    """
 
     list_display = ["name", "created", "category"]
     exclude = ("properties",)
+    # The name will be prepopulated by the file name
     prepopulated_fields = {"name": ("file",)}
 
+    # See comment from property class to understand
+    # what those permissions are all about
     def has_module_permission(self, request):
         return True
 
     def has_view_permission(self, request, obj=None):
+
         return True
 
     def has_delete_permission(self, request, obj=None):
@@ -142,7 +231,24 @@ class PropertyFilesAdmin(admin.ModelAdmin):
 
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+    """
+    `UserAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - list_display: What fields are display on the object page.
+
+    - prepopulated_fields: When set, the given fields will use a bit of
+    JavaScript to populate from the fields assigned
+
+    - has_object_permission: Similar to the permissions set
+    in `app.permissions.py`, it should return true if viewing,
+    deleting, modifying or creating is authorized.
+
+    - fieldsets: For more complex layout needs, allows
+    css classes, description from each field etc...
+    """
 
     list_display = ["username", "first_name", "is_staff", "date_joined", "last_login"]
     prepopulated_fields = {
@@ -172,6 +278,16 @@ class UserAdmin(admin.ModelAdmin):
     )
 
     def response_add(self, request, obj, post_url_continue=None):
+        """
+        Reponse add is similar to signals in the sense that
+        it is called after the admin form is submitted and just
+        after the object and all the related instances have
+        been created and saved
+
+        By overriding this method I can set the current user to
+        the selected property and hash the password with the
+        `set_password` method.
+        """
         user = request.user
         obj.set_password(obj.password)
         obj.save()
@@ -188,6 +304,12 @@ class UserAdmin(admin.ModelAdmin):
         )
 
     def get_queryset(self, request):
+        """
+        Queryset that return specific set of data
+        if the user is collaborator of the
+        :model:`properties.Property`
+        instance
+        """
         user = request.user
         properties = Property.objects.all().filter(collaborator=user.pk).first()
         qs = super().get_queryset(request)
@@ -212,10 +334,20 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Comment, Notebook, site=admin_manager)
 class WorkspaceAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+    """
+    `WorkspaceAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - exclude: If given, should be a list of field
+    names to exclude from the form.
+    """
 
     exclude = ("workspace", "tag_user", "author")
 
+    # See comment from property class to understand
+    # what those permissions are all about
     def has_module_permission(self, request):
         if request.user.is_staff:
             return True
@@ -231,7 +363,24 @@ class WorkspaceAdmin(admin.ModelAdmin):
 
 @admin.register(Notification, site=admin_manager)
 class NotificationAdmin(admin.ModelAdmin):
-    """ Custom property admin to display custom fields and methods """
+    """
+    `NotificationAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - list_display: What fields are display on the object page.
+
+    - has_object_permission: Similar to the permissions set
+    in `app.permissions.py`, it should return true if viewing,
+    deleting, modifying or creating is authorized.
+
+    - fieldsets: For more complex layout needs, allows
+    css classes, description from each field etc...
+
+    - exclude: If given, should be a list of field
+    names to exclude from the form
+    """
 
     list_display = ["title", "receiver", "created"]
     fieldsets = (
@@ -248,6 +397,8 @@ class NotificationAdmin(admin.ModelAdmin):
 
     exclude = ("is_system", "is_read", "author", "sender", "category")
 
+    # See comment from property class to understand
+    # what those permissions are all about
     def has_module_permission(self, request):
         if request.user.is_staff:
             return True

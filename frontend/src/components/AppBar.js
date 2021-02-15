@@ -1,5 +1,7 @@
 /**
- * Will be shown on the top the app, used for notifications, messages ...
+ * Appbar component will appears on the top of the application
+ * It will display notifications, messages and data that need to 
+ * be always visible
  */
 
 import React from "react";

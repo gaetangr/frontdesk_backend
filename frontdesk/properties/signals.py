@@ -32,7 +32,7 @@ def create_welcome_datas(sender, instance, created, **kwargs):
     if created:
         try:
             user = User.objects.get(pk=1)
-        except ObjectDoesNotExist:
+        except ObjectDoesNotExist as error:
             user = User.objects.filter(is_superuser=True).first()
         # Creating workspace and workspace.name matching property.name
         workspace = Workspace.objects.create(property=instance)

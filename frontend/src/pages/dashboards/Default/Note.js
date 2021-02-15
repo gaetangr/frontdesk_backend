@@ -106,7 +106,7 @@ function Note(props) {
   const onSubmit = (data) => {
     axios({
       method: "patch",
-      url: `${FRONTDESK_API}/profile/${items.id}/`,
+      url: `${FRONTDESK_API}/users/${items.id}/`,
       data: {
         note: data.note,
       },
