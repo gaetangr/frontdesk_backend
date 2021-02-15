@@ -3,6 +3,7 @@ This module takes all of the path from each app and return an
 endpoint.
 """
 from django.contrib import admin
+from django.conf import settings
 from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.urls import path
@@ -51,7 +52,7 @@ urlpatterns = [
         name="password_reset_complete",
     ),
     path("admin-manager/", admin_manager.urls),
-    path("admin/", admin.site.urls, name="admin_panel"),
+    path(settings.ADMIN_URL, admin.site.urls, name="admin_panel"),
     # path("admin/doc/", include("django.contrib.admindocs.urls")),
     # Local apps
     # ----------------------------------
