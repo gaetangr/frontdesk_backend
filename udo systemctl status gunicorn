@@ -1,0 +1,14 @@
+[0;1;31m●[0m gunicorn.service - gunicorn daemon
+     Loaded: loaded (/etc/systemd/system/gunicorn.service; disabled; vendor preset: enabled)
+     Active: [0;1;31mfailed[0m (Result: exit-code) since Mon 2021-02-15 13:30:05 UTC; 2h 18min ago
+TriggeredBy: [0;1;32m●[0m gunicorn.socket
+   Main PID: 364609 (code=exited, status=200/CHDIR)
+
+Feb 15 13:30:05 gaetangr systemd[1]: Started gunicorn daemon.
+Feb 15 13:30:05 gaetangr systemd[364609]: [0;1;31m[0;1;39m[0;1;31mgunicorn.service: Changing to the requested working directory failed: No such file or directory[0m
+Feb 15 13:30:05 gaetangr systemd[364609]: [0;1;31m[0;1;39m[0;1;31mgunicorn.service: Failed at step CHDIR spawning /home/gaetangr/purbeurre/myprojectenv/bin/gunicorn: No such file or directory[0m
+Feb 15 13:30:05 gaetangr systemd[1]: [0;1;39m[0;1;31m[0;1;39mgunicorn.service: Main process exited, code=exited, status=200/CHDIR[0m
+Feb 15 13:30:05 gaetangr systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mgunicorn.service: Failed with result 'exit-code'.[0m
+Feb 15 13:30:05 gaetangr systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mgunicorn.service: Start request repeated too quickly.[0m
+Feb 15 13:30:05 gaetangr systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mgunicorn.service: Failed with result 'exit-code'.[0m
+Feb 15 13:30:05 gaetangr systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start gunicorn daemon.[0m
