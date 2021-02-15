@@ -39,6 +39,8 @@ def test_user_detail_request_is_successfull(api_client):
         "property-list-create",
         "notebook-create",
         "comment-create",
+        "document-list",
+        "notification-list",
     ],
 )
 def test_anonymous_user_is_forbidden_is_not_authenticated(api_client, path_to_test):
@@ -80,12 +82,80 @@ def test_if_token_is_generated_after_registration(api_client):
     assert response.data["key"]
 
 
+@pytest.mark.django_db
+def test_if_users_list_endpoint_return_200(api_client):
+    """ If users list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_if_users_list_endpoint_return_content_for_request_user(api_client):
+    """ If users list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.data["username"] == user.username
+    assert response.data["id"] == user.pk
+
+
+@pytest.mark.django_db
+def test_if_users_create_is_not_staff_or_super_user(api_client):
+    """ If users list endpoint is access by request user, should return false for staff and admin """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-detail", args=[user.pk])
+    response = api_client.get(url)
+    assert response.data["is_staff"] == False
+    assert response.data["is_admin"] == False
+
+
+@pytest.mark.django_db
+def test_if_user_create_endpoint_return_success(api_client):
+    """ If property is created reponse should return a 201 created """
+    url = reverse("users-list")
+    response = api_client.post(url, {"username": "gaetan", "password": "some-password"})
+    assert response.status_code == 201
+
+
+@pytest.mark.django_db
+def test_if_user_create_endpoint_return_token_and_id(api_client):
+    """ If property is created reponse should return a 201 created """
+    url = reverse("users-list")
+    response = api_client.post(url, {"username": "gaetan", "password": "some-password"})
+    assert len(response.data) == 2
+
+
+
+@pytest.mark.django_db
+def test_if_users_endpoint_return_content_for_request_user(api_client):
+    """ If users list endpoint is access by request user, should return property content """
+
+    user = User.objects.create_user(username="gaetan")
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("users-list")
+    response = api_client.get(url)
+    assert response.data[0]["username"] == user.username
+    assert response.data[0]["id"] == user.pk
+
+
 # Extra tests to assert some pages return 200 response and that admin page are
 # not available for regular users
 # ------------------------------------------------------------------------------
 
 
-@pytest.mark.skip(reason="Not testable with new instance of admin")
+
 def test_if_a_superuser_can_access_administration_panel(admin_client):
     """Test if a superuser can access the administration panel while being login
     :param admin_client: An instance of a superuser, with username “admin” and password “password” to test admin .
@@ -95,9 +165,26 @@ def test_if_a_superuser_can_access_administration_panel(admin_client):
 
 
 @pytest.mark.django_db
-def test_if_an_user_c_access_administration_panel(client):
+def test_if_an_user_cant_access_administration_panel(client):
     """Test if a none superuser is fordbiden to access to the administration panel while being login
     :param client: An instance of a django.test.Client with no superuser privilegies
     """
     response = client.get("/admin/")
+    assert response.status_code != 200
+
+
+def test_if_a_superuser_can_access_custom_administration_panel(admin_client):
+    """Test if a superuser can access the administration panel while being login
+    :param admin_client: An instance of a superuser, with username “admin” and password “password” to test admin .
+    """
+    response = admin_client.get("/admin-manager/")
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_if_an_user_cant_access_custom_administration_panel(client):
+    """Test if a none superuser is fordbiden to access to the administration panel while being login
+    :param client: An instance of a django.test.Client with no superuser privilegies
+    """
+    response = client.get("/admin-manager/")
     assert response.status_code != 200

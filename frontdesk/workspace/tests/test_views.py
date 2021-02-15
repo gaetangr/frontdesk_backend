@@ -68,7 +68,7 @@ def test_if_workspace_create_endpoint_return_success(api_client):
     user = User.objects.create_user(username="gaetan")
     property = Property.objects.create(name="Overlook 35")
     property.collaborator.add(user)
-    workspace = Workspace.objects.create(property=property)
+    workspace = Workspace.objects.get(property=property)
     token = Token.objects.create(user=user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
     url = reverse("workspace-list-create")
@@ -81,7 +81,7 @@ def test_if_workspace_create_endpoint_return_success(api_client):
     assert response.status_code == 201
 
 
-@pytest.mark.skip(reason="no way of currently testing this")
+
 @pytest.mark.django_db
 def test_if_notebook_list_endpoint_return_content_for_request_user(api_client):
     """ If notebook list endpoint is access by request user, should return notebook content """
@@ -89,10 +89,26 @@ def test_if_notebook_list_endpoint_return_content_for_request_user(api_client):
     user = User.objects.create_user(username="gaetan")
     property = Property.objects.create(name="Overlook")
     property.collaborator.add(user)
-    workspace = Workspace.objects.create(property=property, name="Overlook")
+    workspace = Workspace.objects.get(property=property)
     notebook = Notebook.objects.create(workspace=workspace, content="Test", author=user)
     token = Token.objects.create(user=user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
     url = reverse("notebook-list")
+    response = api_client.get(url)
+    assert response.data[0]["content"] == notebook.content
+
+
+@pytest.mark.django_db
+def test_if_notebook_list_pinned_endpoint_return_content_for_request_user(api_client):
+    """ If notebook list endpoint is access by request user, should return notebook content """
+
+    user = User.objects.create_user(username="gaetan")
+    property = Property.objects.create(name="Overlook")
+    property.collaborator.add(user)
+    workspace = Workspace.objects.get(property=property)
+    notebook = Notebook.objects.create(workspace=workspace, content="Test", author=user, is_pinned=True)
+    token = Token.objects.create(user=user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    url = reverse("notebook-list-pinned")
     response = api_client.get(url)
     assert response.data[0]["content"] == notebook.content
