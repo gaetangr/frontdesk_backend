@@ -145,6 +145,7 @@ function Note(props) {
           amount={<ReactMarkdown source={itemsProperty.notice} />}
           since="Depuis le mois dernier"
         />
+        <br/>
       </Grid>
       
       <Grid item xs={12} lg={7}>
@@ -224,6 +225,7 @@ function Note(props) {
           </Button>
         </DialogActions>
       </Dialog>
+  
     </Grid>
   );
 }

@@ -136,7 +136,6 @@ def test_if_user_create_endpoint_return_token_and_id(api_client):
     assert len(response.data) == 2
 
 
-
 @pytest.mark.django_db
 def test_if_users_endpoint_return_content_for_request_user(api_client):
     """ If users list endpoint is access by request user, should return property content """
@@ -153,7 +152,6 @@ def test_if_users_endpoint_return_content_for_request_user(api_client):
 # Extra tests to assert some pages return 200 response and that admin page are
 # not available for regular users
 # ------------------------------------------------------------------------------
-
 
 
 def test_if_a_superuser_can_access_administration_panel(admin_client):

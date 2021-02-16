@@ -484,7 +484,7 @@ const Sidebar = ({ classes, staticContext, location, ...rest }) => {
 
           <Grid item>
             <SidebarFooterText variant="body2">
-              {items.first_name} {items.last_name}
+              {items.first_name ? items.first_name : items.username} {items.last_name}
             </SidebarFooterText>
             <SidebarFooterSubText variant="caption">
               {items.length == 0 ? "Hors ligne" : items.title}

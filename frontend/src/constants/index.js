@@ -19,6 +19,7 @@ export const AUTH_RESET_PASSWORD_SUCCESS = "AUTH_RESET_PASSWORD_SUCCESS";
 export const AUTH_RESET_PASSWORD_FAILURE = "AUTH_RESET_PASSWORD_FAILURE";
 
 // API
-export const FRONTDESK_API = "http://46.101.63.26/api/v1";
+export const FRONTDESK_API = "https:front-desk.app/api/v1";
+export const FRONTDESK_URL = "https:front-desk.app"; 
 export const TOKEN = localStorage.getItem("token");
 export const TIMEOUT_VALUE = 3000 // default to 30s

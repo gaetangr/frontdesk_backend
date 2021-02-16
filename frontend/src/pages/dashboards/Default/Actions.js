@@ -1,4 +1,4 @@
-import { FRONTDESK_API, TOKEN } from "../../../constants";
+import { FRONTDESK_API, TOKEN, FRONTDESK_URL } from "../../../constants";
 import React, {useEffect, useState } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -56,17 +56,6 @@ function UserCreate() {
   const [openInfo, setOpenInfo] = React.useState(false);
 
   
- axios({
-   method: "patch",
-   url: `${FRONTDESK_API}/property/52/`,
-   data: {
-     collaborator: [88],
-   },
-   headers: {
-     Authorization: `Token ${TOKEN}`,
-   },
- });
-
    const onSubmit = (data) => {
      axios({
        method: "post",
@@ -107,7 +96,7 @@ http: return (
     <SmallButton size="small" mr={2}>
       <Button
         size="small"
-        href="http://127.0.0.1:8000/admin-manager/"
+        href={`${FRONTDESK_URL}/admin-manager/`}
         variant="contained"
         color="primary"
         mt={3}
@@ -120,7 +109,7 @@ http: return (
     <SmallButton size="small" mr={2}>
       <Button
         size="small"
-        href="http://127.0.0.1:8000/admin-manager/notification/notification/add/"
+        href={`${FRONTDESK_URL}/admin-manager/notification/notification/add/`}
         variant="outlined"
         color="secondary"
         mt={3}
@@ -133,7 +122,7 @@ http: return (
     <SmallButton size="small" mr={2}>
       <Button
         size="small"
-        href="http://127.0.0.1:8000/admin-manager/users/user/add/"
+        href={`${FRONTDESK_URL}/admin-manager/users/user/add/`}
         variant="outlined"
         color="secondary"
         mt={3}

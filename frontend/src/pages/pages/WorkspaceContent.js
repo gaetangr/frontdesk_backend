@@ -176,11 +176,11 @@ function WorkspaceContent(props) {
         <Grid container justify="flex-end">
           <Grid item xl="auto">
             {" "}
-            <Button onClick={props.edit} size="small" color="primary">
+            {/* <Button onClick={props.edit} size="small" color="primary">
               <Link>Editer</Link>
-            </Button>
+            </Button> */}
             <Button onClick={props.linkDelete} size="small" color="secondary">
-              <Link>supprimer</Link>
+              <Link>Supprimer</Link>
             </Button>
           </Grid>
           <CardActions align="left"></CardActions>

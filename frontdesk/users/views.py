@@ -57,7 +57,6 @@ class UserListCreate(generics.ListCreateAPIView):
         user = self.request.user
         return get_user_model().objects.filter(pk=user.pk)
 
-
     def create(self, request, *args, **kwargs):
         """
         By extending the create method we can return a token
