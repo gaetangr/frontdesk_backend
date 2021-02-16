@@ -1,6 +1,8 @@
 """ Settings so github workflow run with no trouble """
 import os
+
 from .base import *
+
 
 ALLOWED_HOSTS = ["*"]
 SECRET_KEY = "something"

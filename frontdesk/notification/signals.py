@@ -33,15 +33,17 @@ def create_pinned_notification(sender, instance, created, **kwargs):
             )
 
 
+# :TODO Not yet implemented, schedule for March 2021  
+""" 
 @receiver(post_save, sender=Notebook)
 def create_tag_notification(sender, instance, created, **kwargs):
-    """ If a notification is pinned collaborators will received a notification """
+    "" If a notification is pinned collaborators will received a notification ""
 
     for user in instance.tag_user.all():
-        print("okok")
         Notification.objects.create(
             receiver=user,
             category="tag",
             title="Vous avez été tagué",
             content=f"Vous avez été tagué sur la consigne « {instance.content}  »",
-        )
+        ) 
+"""

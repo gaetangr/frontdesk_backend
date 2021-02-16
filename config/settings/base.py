@@ -264,6 +264,8 @@ CORS_ORIGIN_ALLOW_ALL = (
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
+    "https://front-desk.app",
+    "https://www.front-desk.app",
 ]  # If this is used, then not need to use `CORS_ORIGIN_ALLOW_ALL = True`
 CORS_ORIGIN_REGEX_WHITELIST = [
     "http://localhost:3000",

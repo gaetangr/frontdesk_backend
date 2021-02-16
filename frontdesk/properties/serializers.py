@@ -28,7 +28,9 @@ class PropertySerializer(serializers.ModelSerializer):
     collaborator_count = serializers.SerializerMethodField("count_members")
 
     def count_members(self, obj):
-        """ Return all collaborator related to the property """
+        """
+        Return all collaborator related to the property
+        """
         return obj.collaborator.all().count()
 
     class Meta:

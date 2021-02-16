@@ -10,6 +10,8 @@ else it will not be shown for property owner.
 Each classes override a set of methods and attributes, they are fully documented 
 in top of each class.
 """
+import logging
+
 from django.contrib import admin
 from django.contrib import messages
 from django.contrib.admin import AdminSite
@@ -31,9 +33,9 @@ class MyAdminSite(AdminSite):
     """
 
     site_header = "Espace manager"
-    site_title = "Front Desk - Web plateform"
+    site_title = "Front Desk - Plateforme web"
     index_title = "Gestion de votre établissement "
-    site_url = "http://localhost:3000/dashboard/default"
+    site_url = "https://front-desk.app/dashboard/default"
 
 
 admin_manager = MyAdminSite(name="manager-admin")
@@ -289,8 +291,6 @@ class UserAdmin(admin.ModelAdmin):
         `set_password` method.
         """
         user = request.user
-        obj.set_password(obj.password)
-        obj.save()
         properties = Property.objects.all().filter(collaborator=user.pk).first()
         properties.collaborator.add(obj.id)
         self.message_user(
@@ -298,6 +298,10 @@ class UserAdmin(admin.ModelAdmin):
             f"{obj.first_name} a été ajouté à votre établissement",
             messages.SUCCESS,
         )
+        # When a new instance of :model:`users.Users` is created from
+        # The administration we want to
+        # be notified so we can track the data from our logging SDK
+        logging.info(f"{obj} has joined Front Desk [from admin panel]! ✨")
         return super().response_add(
             request,
             obj,
