@@ -17,21 +17,84 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Notification',
+            name="Notification",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created', model_utils.fields.AutoCreatedField(default=django.utils.timezone.now, editable=False, verbose_name='created')),
-                ('modified', model_utils.fields.AutoLastModifiedField(default=django.utils.timezone.now, editable=False, verbose_name='modified')),
-                ('title', models.CharField(max_length=50, verbose_name='Titre')),
-                ('content', models.TextField(verbose_name='Contenu')),
-                ('is_system', models.BooleanField(default=False, help_text='If set to true the notification is highlighted in the notification dropdown')),
-                ('is_read', models.BooleanField(default=False)),
-                ('category', models.CharField(choices=[('notification', 'Notification'), ('tag', 'Tag'), ('message', 'message'), ('pinned', 'Pinned'), ('system', 'System')], default='message', help_text='Use for categorize notifications', max_length=20, verbose_name='Category')),
-                ('receiver', models.ForeignKey(help_text="L'utilisateur selectionné recevra une notification instantanément", on_delete=django.db.models.deletion.CASCADE, related_name='receiver', to=settings.AUTH_USER_MODEL, verbose_name='Destinataire')),
-                ('sender', models.ForeignKey(blank=True, help_text='The user who taggued or send the notificiation to the receiver, can be null', null=True, on_delete=django.db.models.deletion.CASCADE, related_name='sender', to=settings.AUTH_USER_MODEL, verbose_name='Envoyé par')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "created",
+                    model_utils.fields.AutoCreatedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="created",
+                    ),
+                ),
+                (
+                    "modified",
+                    model_utils.fields.AutoLastModifiedField(
+                        default=django.utils.timezone.now,
+                        editable=False,
+                        verbose_name="modified",
+                    ),
+                ),
+                ("title", models.CharField(max_length=50, verbose_name="Titre")),
+                ("content", models.TextField(verbose_name="Contenu")),
+                (
+                    "is_system",
+                    models.BooleanField(
+                        default=False,
+                        help_text="If set to true the notification is highlighted in the notification dropdown",
+                    ),
+                ),
+                ("is_read", models.BooleanField(default=False)),
+                (
+                    "category",
+                    models.CharField(
+                        choices=[
+                            ("notification", "Notification"),
+                            ("tag", "Tag"),
+                            ("message", "message"),
+                            ("pinned", "Pinned"),
+                            ("system", "System"),
+                        ],
+                        default="message",
+                        help_text="Use for categorize notifications",
+                        max_length=20,
+                        verbose_name="Category",
+                    ),
+                ),
+                (
+                    "receiver",
+                    models.ForeignKey(
+                        help_text="L'utilisateur selectionné recevra une notification instantanément",
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="receiver",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Destinataire",
+                    ),
+                ),
+                (
+                    "sender",
+                    models.ForeignKey(
+                        blank=True,
+                        help_text="The user who taggued or send the notificiation to the receiver, can be null",
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="sender",
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name="Envoyé par",
+                    ),
+                ),
             ],
             options={
-                'verbose_name_plural': 'Notifications',
+                "verbose_name_plural": "Notifications",
             },
         ),
     ]

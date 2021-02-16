@@ -159,11 +159,7 @@ const authRoutes = {
       name: "S'inscrire",
       component: SignUp,
     },
-    {
-      path: "/auth/reset-password",
-      name: "Mot de passe oublié",
-      component: ResetPassword,
-    },
+    
   ],
   component: null,
 };

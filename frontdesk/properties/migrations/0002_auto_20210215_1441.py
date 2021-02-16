@@ -11,18 +11,26 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('properties', '0001_initial'),
+        ("properties", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='property',
-            name='collaborator',
-            field=models.ManyToManyField(help_text="Les utilisateurs ajoutés auront accès à l'application web", to=settings.AUTH_USER_MODEL, verbose_name='Collaborateurs'),
+            model_name="property",
+            name="collaborator",
+            field=models.ManyToManyField(
+                help_text="Les utilisateurs ajoutés auront accès à l'application web",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Collaborateurs",
+            ),
         ),
         migrations.AddField(
-            model_name='document',
-            name='properties',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='documents', to='properties.Property'),
+            model_name="document",
+            name="properties",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="documents",
+                to="properties.Property",
+            ),
         ),
     ]

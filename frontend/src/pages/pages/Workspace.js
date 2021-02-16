@@ -401,7 +401,7 @@ const onDelete = (id) => {
     )
       return (
         <WorkspaceContent
-          progress={loading}
+          
           name={capitalizeFirstLetter(msg.username)}
           title={msg.username_title}
           key={msg.id}
@@ -504,7 +504,9 @@ const onDelete = (id) => {
   return (
     <React.Fragment>
       <Helmet title="Espace de travail" />
+
       {workspaceForm}
+
       <Typography variant="h3" gutterBottom display="inline">
         <Grid container spacing={6}>
           <Grid item xs={8}>
@@ -579,12 +581,13 @@ const onDelete = (id) => {
             Ajouter la consigne
             {value}
           </Button>
+          {loading}
           <br />
           <br />
           <br />
           {/* Autocomplete form */}
           {AutocompleteField}
-          
+
           <br />
           {valueSearch !== null ? (
             <CardContent>{valueSearch.content}</CardContent>
