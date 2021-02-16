@@ -90,6 +90,8 @@ uritemplate = "==3.0.1"
 drf-yasg = "==1.20.0"
 sentry-sdk = "*"
 PyYAML = "==5.3.1"
+django-sphinx-autodoc = "*"
+sphinx-rtd-theme = "*"
 
 [dev-packages]
 

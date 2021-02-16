@@ -2,13 +2,12 @@
 This module takes all of the path from each app and return an 
 endpoint.
 """
-from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.urls import path
-from django.utils.html import format_html
 from django.utils.translation import gettext as _
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
@@ -16,6 +15,9 @@ from rest_framework import permissions
 
 from config.settings.admin import admin
 from config.settings.admin import admin_manager
+from config.settings.admin_settings import ADMIN_HEADER
+from config.settings.admin_settings import ADMIN_INDEX
+from config.settings.admin_settings import ADMIN_TITLE
 
 
 schema_view = get_schema_view(
@@ -54,13 +56,10 @@ urlpatterns = [
     ),
     path("admin-manager/", admin_manager.urls),
     path(settings.ADMIN_URL, admin.site.urls, name="admin_panel"),
-    # path("admin/doc/", include("django.contrib.admindocs.urls")),
+    path("admin/doc/", include("django.contrib.admindocs.urls")),
     # Local apps
     # ----------------------------------
-    path(
-        "api/v1/", include("frontdesk.api.urls")
-    ),  # ^^^^^^ We are using the path "api/v1"to specify that those endpoints are
-    # related to first version of the API.
+    path("api/v1/", include("frontdesk.api.urls")),
     # Third party apps
     # ----------------------------
     path("api-auth/", include("rest_framework.urls")),
@@ -80,20 +79,11 @@ urlpatterns = [
     ),
 ]
 
-# Custom header and information to keep us updated on the plateform
-admin.site.site_title = _("Front Desk - Web plateform")
-admin.site.site_header = "Front Desk - Web Plateform"
-admin.site.index_title = format_html(
-    "Administration Front Desk | <a href='https://trello.com/b/C4oeeKc3/front-desk-road-map'> Trello </a> - <a href='https://github.com/gaetangr/frontdesk_V2'> Github </a> "
-)
-
 
 if settings.DEBUG:
     import debug_toolbar
 
     urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
+        path("__debug__/", include(debug_toolbar.urls)),
     ] + urlpatterns
-    urlpatterns += static(
-        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-    )
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

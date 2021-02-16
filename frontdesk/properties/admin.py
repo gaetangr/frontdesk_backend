@@ -14,6 +14,28 @@ from django.utils.translation import ngettext
 from .models import Property
 
 
+# Custom field for property model
+def nbr_message(obj):
+    """
+    custom function to count members of given property
+    """
+    return obj.collaborator.all().count()
+
+
+nbr_message.short_description = "Nombre de membres"
+
+
+def nbr_files(obj):
+    """
+    custom function to count members of given property
+    """
+    total_file = obj.documents.all().count()
+    return total_file
+
+
+nbr_files.short_description = "Nombre total de fichiers"
+
+
 def nbr_message(obj):
     """ custom function to count members of given property """
     return obj.collaborator.all().count()
@@ -25,6 +47,8 @@ nbr_message.short_description = "Nombre de membres"
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     """ Custom property admin to display custom fields and methods """
+
+    list_display = ["name", "created", nbr_message, nbr_files]
 
     def make_premium(self, request, queryset):
         """ custom method to activate premium on a given property """

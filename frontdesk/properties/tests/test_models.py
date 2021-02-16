@@ -1,6 +1,7 @@
 import pytest
 
-from frontdesk.properties.models import Property, Document
+from frontdesk.properties.models import Document
+from frontdesk.properties.models import Property
 
 
 @pytest.mark.django_db
