@@ -39,6 +39,3 @@ jobs:
         
     - name: Run tests
       run: pytest
-
-    - name: Run coverage report limit
-      run: coverage report --fail-under=95
