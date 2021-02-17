@@ -54,7 +54,6 @@ const AppBarComponent = () => (
                   color="inherit"
                   component={Link}
                   to="/documentation/getting-started"
-                  target="_blank"
                 >
                   Documentation
                 </Button>
@@ -62,13 +61,13 @@ const AppBarComponent = () => (
                   Support
                 </Button>
               </Hidden>
+
               <Button
+                component={Link}
+                to="/auth/sign-in"
                 ml={2}
                 color="primary"
                 variant="contained"
-                to="/dashboard/default"
-                href="/dashboard/default"
-                target="_blank"
               >
                 Lancer Front Desk
               </Button>

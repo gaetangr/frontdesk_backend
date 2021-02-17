@@ -61,7 +61,7 @@ function UserDropdown() {
         open={Boolean(anchorMenu)}
         onClose={closeMenu}
       >
-        <MenuItem onClick={closeMenu}>Profile</MenuItem>
+       
         <MenuItem onClick={handleSignOut}>
           {" "}
           {localStorage.getItem("token") ? "Se déconnecter" : "Se connecter"}
