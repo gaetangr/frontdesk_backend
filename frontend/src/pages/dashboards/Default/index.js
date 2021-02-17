@@ -69,10 +69,10 @@ function Default({ theme }) {
         </Grid>
       </Grid>
       <Divider my={6} />
-      <Grid container xs={12}  spacing={3}>
+      <Grid container xs={12} lg={12} spacing={3}>
         <Note />
       </Grid>
- 
+
       <Grid container spacing={3}>
         <Grid item xs={12} lg={5}>
           <MyTeam />

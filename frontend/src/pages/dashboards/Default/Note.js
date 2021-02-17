@@ -145,43 +145,36 @@ function Note(props) {
           amount={<ReactMarkdown source={itemsProperty.notice} />}
           since="Depuis le mois dernier"
         />
-        <br/>
+        <br />
       </Grid>
-      
       <Grid item xs={12} lg={7}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={12} md={6}>
-            <Card mb={7}>
-              <CardHeader
-                action={
-                  <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
-                    <IconButton aria-label="settings">
-                      <HelpCircle />
-                    </IconButton>
-                  </Tooltip>
-                }
-                title="Mes notes"
-              />
+        <Card mb={7}>
+          <CardHeader
+            action={
+              <Tooltip title="Vous pouvez ajouter des notes, vous êtes la seule personne à y avoir accès">
+                <IconButton aria-label="settings">
+                  <HelpCircle />
+                </IconButton>
+              </Tooltip>
+            }
+            title="Mes notes"
+          />
 
-              <Grid container justify="flex-end"></Grid>
-
-              <Paper component="blockquote">
-                {" "}
-                <ReactMarkdown source={items.note} />{" "}
-              </Paper>
-              <Button
-                onClick={handleClickOpen}
-                //onClick={handleSubmit(onSubmit)}
-                fullWidth
-                variant="contained"
-                color="secondary"
-              >
-                Ajouter
-              </Button>
-              {loading}
-            </Card>
-          </Grid>
-        </Grid>
+          <Paper component="blockquote">
+            {" "}
+            <ReactMarkdown source={items.note} />{" "}
+          </Paper>
+          <Button
+            onClick={handleClickOpen}
+            //onClick={handleSubmit(onSubmit)}
+            fullWidth
+            variant="contained"
+            color="secondary"
+          >
+            Ajouter
+          </Button>
+          {loading}
+        </Card>
       </Grid>
       <Dialog
         open={open}
@@ -225,7 +218,6 @@ function Note(props) {
           </Button>
         </DialogActions>
       </Dialog>
-  
     </Grid>
   );
 }

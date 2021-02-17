@@ -509,7 +509,7 @@ const onDelete = (id) => {
 
       <Typography variant="h3" gutterBottom display="inline">
         <Grid container spacing={6}>
-          <Grid item xs={8}>
+          <Grid item xs={8} lg={8}>
             {category == "tous"
               ? "Cahier de consignes"
               : category == "maintenance"
@@ -518,16 +518,14 @@ const onDelete = (id) => {
           </Grid>
 
           {/* Action right side */}
-          <Grid item>
-            <Button></Button>
-          </Grid>
+     
         </Grid>
       </Typography>
 
       <Divider my={6} />
 
       <Grid container spacing={6}>
-        <Grid item xs={9}>
+        <Grid item xs={12} lg={10}>
           <form onSubmit={handleSubmit(onSubmit)}>
             {/* Option 1: pass a component to the Controller. */}
             <Controller
@@ -598,9 +596,10 @@ const onDelete = (id) => {
           {/* Autocomplete form */}
           {workspaceCard}
         </Grid>
-
-        {/* Autocomplete form */}
-        {rightSidebar}
+       
+          {/* Autocomplete form */}
+          {rightSidebar}
+     
       </Grid>
     </React.Fragment>
   );

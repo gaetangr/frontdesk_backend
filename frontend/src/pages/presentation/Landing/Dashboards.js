@@ -85,18 +85,17 @@ function Dashboards() {
             img="dashboard-default"
           />
           <Demo
-            to="/dashboard/analytics"
+            to="/pages/workspace"
             title="Tableau de bord"
             img="dashboard-analytics"
             newDemo
           />
           <Demo
-            to="/dashboard/saas"
+            to="/dashboard/default"
             title="Espace manager"
             img="dashboard-saas"
             newDemo
           />
-
         </Grid>
       </Container>
     </Wrapper>

@@ -149,7 +149,7 @@ function Introduction() {
         <Grid container alignItems="center" justify="center" spacing={4}>
           <Grid item xs={12} sm={10} md={9} lg={9}>
             <ImageWrapper>
-              <NavLink to="/dashboard/analytics" target="_blank">
+              <NavLink to="/dashboard/default" target="_blank">
                 <Image
                   alt="Front desk"
                   src={`/static/img/screenshots/dashboard-analytics-large.jpg`}

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components/macro";
 import { spacing } from "@material-ui/system";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import {
   AppBar,
@@ -66,6 +66,7 @@ const AppBarComponent = () => (
                 ml={2}
                 color="primary"
                 variant="contained"
+                to="/dashboard/default"
                 href="/dashboard/default"
                 target="_blank"
               >
