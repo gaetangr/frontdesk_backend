@@ -1,2 +1,0 @@
-(this["webpackJsonpmaterial-app"]=this["webpackJsonpmaterial-app"]||[]).push([[26],{1224:function(t,e,a){"use strict";a.r(e);var n=a(2),r=(a(0),a(78)),c=a(31),i=localStorage.getItem("token");e.default=function(t){var e=t.children;return Object(r.c)((function(t){return t.authReducer})),i?e:Object(n.jsx)(c.a,{to:"/auth/sign-in"})}}}]);
-//# sourceMappingURL=26.3be95b64.chunk.js.map

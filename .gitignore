@@ -271,3 +271,6 @@ frontdesk/media/
 .pytest_cache/
 
 .vscode/
+
+# Local Netlify folder
+.netlify
