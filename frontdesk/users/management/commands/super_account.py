@@ -48,11 +48,7 @@ class Command(BaseCommand):
                     "Would You like to be redirect to the admin panel ? [y]/[n]"
                 )
             )
-            if answer == "y" or "yes":
-                webbrowser.open(admin_url)
-            else:
-                print(crayons.normal("Bye ! 👋"))
-
+            webbrowser.open(admin_url)
         except IntegrityError:
             spinner.fail(
                 crayons.red(

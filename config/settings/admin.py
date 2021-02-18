@@ -56,8 +56,7 @@ def nbr_files(obj):
     """
     custom function to count members of given property
     """
-    total_file = obj.documents.all().count()
-    return total_file
+    return obj.documents.all().count()
 
 
 nbr_files.short_description = "Nombre total de fichiers"
