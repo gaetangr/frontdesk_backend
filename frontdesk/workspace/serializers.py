@@ -46,7 +46,7 @@ class NotebookSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the title of user """
         try:
             user = User.objects.get(pk=obj.author.pk)
-            return user.title if user.title else ""
+            return user.title or ""
         except AttributeError:
             return "visiteur"
 
@@ -54,7 +54,7 @@ class NotebookSerializer(serializers.ModelSerializer):
         """ Add a custom field serializer that return the username of user """
         try:
             user = User.objects.get(pk=obj.author.pk)
-            return user.first_name if user.first_name else ""
+            return user.first_name or ""
         except AttributeError:
             return "Anonyme"
 

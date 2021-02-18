@@ -6,9 +6,10 @@ import sys
 
 def main():
 
-    if os.environ.get("ENV") == "PRODUCTION":
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
-    else:
+    if (
+        os.environ.get("ENV") == "PRODUCTION"
+        or os.environ.get("ENV") != "PRODUCTION"
+    ):
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
     try:
         from django.core.management import execute_from_command_line
