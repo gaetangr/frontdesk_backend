@@ -8,15 +8,28 @@ app they are related.
 """
 from django.urls import path
 
+# CHECKLIST ROUTES
+# --------------------------------------------------------
+from frontdesk.checklist.views import task_list_view
+# NOTIFICATION ROUTES
+# --------------------------------------------------------
 from frontdesk.notification.views import notification_create_view
 from frontdesk.notification.views import notification_delete_view
 from frontdesk.notification.views import notification_list_view
 from frontdesk.notification.views import private_notification_list_view
+# PROPERTIES ROUTES
+# --------------------------------------------------------
 from frontdesk.properties.views import document_list_view
 from frontdesk.properties.views import property_detail_view
 from frontdesk.properties.views import property_list_create_view
+# USERS ROUTES
+# --------------------------------------------------------
 from frontdesk.users.views import user_detail_view
 from frontdesk.users.views import user_list_create_view
+# NOTEBOOK ROUTES
+# --------------------------------------------------------
+# WORKSPACE ROUTES
+# --------------------------------------------------------
 from frontdesk.workspace.views import comment_detail_view
 from frontdesk.workspace.views import notebook_create_view
 from frontdesk.workspace.views import notebook_detail_view
@@ -81,4 +94,7 @@ urlpatterns = [
     path(
         "notification/create", view=notification_create_view, name="notification-create"
     ),
+    # CHECKLIST ROUTES
+    # ------------------------------------------------------------------------------
+    path("task/", view=task_list_view, name="task-list"),
 ]

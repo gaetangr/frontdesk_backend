@@ -92,6 +92,7 @@ LOCAL_APPS = [
     "frontdesk.api.apps.ApiConfig",
     "frontdesk.properties.apps.PropertiesConfig",
     "frontdesk.notification.apps.NotificationConfig",
+    "frontdesk.checklist.apps.ChecklistConfig",
 ]
 
 INSTALLED_APPS = (
@@ -241,7 +242,7 @@ ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 2
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = False
 # Nombre de tentatives de connexion infructueuses
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 7
-# Delai d'attente (en seconde) sur lequel un utilisateur ne peut pas se connecté suite à plusieurs tentatives de connexion infructueuses
+# Delai d'attente (en seconde) sur lequel un utilisateur ne peut pas se connecter suite à plusieurs tentatives de connexion infructueuses
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT = 300
 # les utilisateurs seront automatiquement connectés une fois qu'ils auront réinitialisé leur mot de passe
 ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
