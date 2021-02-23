@@ -43,4 +43,4 @@ class User(AbstractUser):
 
     def __str__(self):
         """ Return instance with a human readable fashion """
-        return self.first_name if self.first_name else self.username
+        return self.first_name or self.username

@@ -7,7 +7,4 @@ class IsMember(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.user in obj.collaborator.all():
-            return True
-        else:
-            return False
+        return request.user in obj.collaborator.all()
