@@ -16,12 +16,15 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from frontdesk.notification.models import Notification
+from frontdesk.properties.models import Document
 from frontdesk.workspace.models import Notebook
 
 
 @receiver(post_save, sender=Notebook)
 def create_pinned_notification(sender, instance, created, **kwargs):
-    """ If a notification is pinned collaborators will received a notification """
+    """
+    If a notification is pinned collaborators will received a notification
+    """
 
     if instance.is_pinned:
         for user in instance.workspace.property.collaborator.all():
@@ -33,7 +36,30 @@ def create_pinned_notification(sender, instance, created, **kwargs):
             )
 
 
-# :TODO Not yet implemented, schedule for March 2021  
+@receiver(post_save, sender=Document)
+def create_document_notification(sender, instance, created, **kwargs):
+    """
+    If a document is created collaborators will received a notification
+    """
+    if instance.category == "planning":
+        for user in instance.properties.collaborator.all():
+            Notification.objects.create(
+                receiver=user,
+                category="default",
+                title="Un planning a été ajouté",
+                content=f"Un nouveau planning est disponible sur votre tableau de bord",
+            )
+    else:
+        for user in instance.properties.collaborator.all():
+            Notification.objects.create(
+                receiver=user,
+                category="default",
+                title="Un document a été ajouté",
+                content=f"Un nouveau document est disponible sur votre tableau de bord",
+            )
+
+
+# :TODO Not yet implemented, schedule for March 2021
 """ 
 @receiver(post_save, sender=Notebook)
 def create_tag_notification(sender, instance, created, **kwargs):

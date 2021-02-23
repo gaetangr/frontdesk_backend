@@ -5,12 +5,13 @@ import pytest
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory
 
+from frontdesk.notification.models import Notification
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
 from frontdesk.workspace.models import Workspace
-from frontdesk.notification.models import Notification
+
 
 @pytest.fixture
 def api_client():
@@ -26,7 +27,12 @@ def test_if_notification_list_endpoint_return_content_for_request_user(api_clien
 
     user = User.objects.create_user(username="gaetan")
     token = Token.objects.create(user=user)
-    notification = Notification.objects.create(title="Hello Gaëtan", content="Some content", category="notification", receiver=user)
+    notification = Notification.objects.create(
+        title="Hello Gaëtan",
+        content="Some content",
+        category="notification",
+        receiver=user,
+    )
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
     url = reverse("notification-list")
     response = api_client.get(url)
@@ -35,12 +41,16 @@ def test_if_notification_list_endpoint_return_content_for_request_user(api_clien
 
 
 @pytest.mark.django_db
-def test_if_private_notification_list_endpoint_return_content_for_request_user(api_client):
+def test_if_private_notification_list_endpoint_return_content_for_request_user(
+    api_client,
+):
     """ If private notification list endpoint is access by request user, should return notification content """
 
     user = User.objects.create_user(username="gaetan")
     token = Token.objects.create(user=user)
-    notification = Notification.objects.create(title="Hello Gaëtan", content="Some content", receiver=user)
+    notification = Notification.objects.create(
+        title="Hello Gaëtan", content="Some content", receiver=user
+    )
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
     url = reverse("private-list")
     response = api_client.get(url)
