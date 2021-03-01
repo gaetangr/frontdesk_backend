@@ -24,5 +24,5 @@ class NotificationConfig(AppConfig):
     verbose_name = "Notifications"
 
     def ready(self):
-        """ Set the app to receive a given signal when a instanc is created """
+        """ Set the app to receive a given signal when an instance is created """
         import frontdesk.notification.signals  # noqa

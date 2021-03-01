@@ -20,6 +20,7 @@ from django.utils.html import format_html
 
 from frontdesk.notification.models import Notification
 from frontdesk.properties.models import Document
+from frontdesk.checklist.models import Task
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 from frontdesk.workspace.models import Comment
@@ -415,5 +416,33 @@ class NotificationAdmin(admin.ModelAdmin):
             return True
 
     def has_add_permission(self, request, obj=None):
+        if request.user.is_staff:
+            return True
+
+
+@admin.register(Task, site=admin_manager)
+class TaskAdmin(admin.ModelAdmin):
+    """
+    `TaskAdmin` extends the ModelAdmin class.
+
+    This class allow us to custom the admin interface
+    and how the data are being display, modified and created.
+
+    - exclude: If given, should be a list of field
+    names to exclude from the form.
+    """
+
+    list_display = ["content", "category", "created"]
+    # See comment from property class to understand
+    # what those permissions are all about
+    def has_module_permission(self, request):
+        if request.user.is_staff:
+            return True
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_staff:
+            return True
+
+    def has_delete_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
