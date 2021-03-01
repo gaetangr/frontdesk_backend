@@ -8,10 +8,7 @@ class IsPropertyMember(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.user in obj.property.collaborator.all():
-            return True
-        else:
-            return False
+        return request.user in obj.property.collaborator.all()
 
 
 class IsAuthor(permissions.BasePermission):
@@ -19,7 +16,4 @@ class IsAuthor(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if obj.author == request.user:
-            return True
-        else:
-            return False
+        return obj.author == request.user
