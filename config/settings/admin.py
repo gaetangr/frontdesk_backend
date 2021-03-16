@@ -336,7 +336,7 @@ class UserAdmin(admin.ModelAdmin):
             return True
 
 
-@admin.register(Comment, Notebook, site=admin_manager)
+@admin.register(Notebook, site=admin_manager)
 class WorkspaceAdmin(admin.ModelAdmin):
     """
     `WorkspaceAdmin` extends the ModelAdmin class.
@@ -363,6 +363,13 @@ class WorkspaceAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
+
+    def get_queryset(self, request):
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        workspace = properties.workspace
+        qs = super().get_queryset(request)
+        return qs.all().filter(workspace=workspace)
 
 
 @admin.register(Notification, site=admin_manager)
@@ -418,6 +425,11 @@ class NotificationAdmin(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
+
+    def get_queryset(self, request):
+        user = request.user
+        qs = super().get_queryset(request)
+        return qs.all().filter(receiver=user)
 
 
 @admin.register(Task, site=admin_manager)
