@@ -29,7 +29,6 @@ class TaskList(generics.ListAPIView):
 
     get:
     Return a `checklist.Task` for the related property instance.
-
     """
 
     serializer_class = TaskSerializer
