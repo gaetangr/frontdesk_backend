@@ -35,7 +35,7 @@ class Task(TimeStampedModel):
         Property,
         on_delete=models.CASCADE,
         related_name="task",
-        help_text="Property related to the current checklist",
+        help_text="Établissement",
         verbose_name="Établissement",
     )
 
@@ -47,12 +47,12 @@ class Task(TimeStampedModel):
     )
 
     class Category(models.TextChoices):
-        """ Define categories for the workspace """
+        """ Define categories for the checklist """
 
-        MORNING = "Matin"
-        AFTERNOON = "Après-midi"
-        EVENING = "Soir"
-        NIGHT = "Nuit"
+        MORNING = "Matin", "Matin"
+        AFTERNOON = "Après-midi", "Après-midi"
+        EVENING = "Soir", "Soir"
+        NIGHT = "Nuit", "Nuit"
 
     category = models.CharField(
         "Catégorie",

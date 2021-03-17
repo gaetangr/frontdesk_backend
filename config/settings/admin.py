@@ -18,12 +18,11 @@ from django.contrib.admin import AdminSite
 from django.contrib.auth.admin import UserAdmin
 from django.utils.html import format_html
 
+from frontdesk.checklist.models import Task
 from frontdesk.notification.models import Notification
 from frontdesk.properties.models import Document
-from frontdesk.checklist.models import Task
 from frontdesk.properties.models import Property
 from frontdesk.users.models import User
-from frontdesk.workspace.models import Comment
 from frontdesk.workspace.models import Notebook
 
 
@@ -36,7 +35,7 @@ class MyAdminSite(AdminSite):
     site_header = "Espace manager"
     site_title = "Front Desk - Plateforme web"
     index_title = "Gestion de votre établissement "
-    site_url = "https://front-desk.app/dashboard/default"
+    site_url = "https://beta.front-desk.app/dashboard/default"
 
 
 admin_manager = MyAdminSite(name="manager-admin")
@@ -445,6 +444,8 @@ class TaskAdmin(admin.ModelAdmin):
     """
 
     list_display = ["content", "category", "created"]
+    exclude = ("is_done",)
+
     # See comment from property class to understand
     # what those permissions are all about
     def has_module_permission(self, request):
@@ -458,3 +459,14 @@ class TaskAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
+
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        By extendings the formfield for ManyToMany field, only the
+        users from within a given property can be selected or removed
+        """
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        if db_field.name == "property":
+            kwargs["queryset"] = Property.objects.filter(pk=properties.pk).all()
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)

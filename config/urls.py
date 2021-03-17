@@ -8,16 +8,12 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include
 from django.urls import path
-from django.utils.translation import gettext as _
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
 from config.settings.admin import admin
 from config.settings.admin import admin_manager
-from config.settings.admin_settings import ADMIN_HEADER
-from config.settings.admin_settings import ADMIN_INDEX
-from config.settings.admin_settings import ADMIN_TITLE
 
 
 schema_view = get_schema_view(

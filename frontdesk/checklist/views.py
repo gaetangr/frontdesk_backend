@@ -14,6 +14,7 @@ specific permissions.
 from rest_framework import generics
 
 from frontdesk.checklist.models import Task
+from frontdesk.properties.models import Property
 
 from .serializers import TaskSerializer
 
@@ -39,9 +40,8 @@ class TaskList(generics.ListAPIView):
         for the currently authenticated collaborator.
         """
         user = self.request.user
-
-        user = self.request.user
-        return Task.objects.all()
+        properties = Property.objects.filter(collaborator=user).first()
+        return Task.objects.filter(property=properties)
 
 
 task_list_view = TaskList.as_view()

@@ -1,7 +1,7 @@
 """ Settings so github workflow run with no trouble """
 import os
 
-from .base import *
+from .base import *  # noqa
 
 
 ALLOWED_HOSTS = ["*"]

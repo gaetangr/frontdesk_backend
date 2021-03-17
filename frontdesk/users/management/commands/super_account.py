@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 )
             )
 
-            answer = input(
+            input(
                 crayons.yellow(
                     "Would You like to be redirect to the admin panel ? [y]/[n]"
                 )

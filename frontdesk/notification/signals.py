@@ -47,7 +47,7 @@ def create_document_notification(sender, instance, created, **kwargs):
                 receiver=user,
                 category="default",
                 title="Un planning a été ajouté",
-                content=f"Un nouveau planning est disponible sur votre tableau de bord",
+                content="Un nouveau planning est disponible sur votre tableau de bord",
             )
     else:
         for user in instance.properties.collaborator.all():
@@ -55,7 +55,7 @@ def create_document_notification(sender, instance, created, **kwargs):
                 receiver=user,
                 category="default",
                 title="Un document a été ajouté",
-                content=f"Un nouveau document est disponible sur votre tableau de bord",
+                content="Un nouveau document est disponible sur votre tableau de bord",
             )
 
 
