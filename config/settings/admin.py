@@ -34,7 +34,7 @@ class MyAdminSite(AdminSite):
 
     site_header = "Espace manager"
     site_title = "Front Desk - Plateforme web"
-    index_title = "Gestion de votre établissement "
+    index_title = "Gestion de votre établissement - Bêta"
     site_url = "https://beta.front-desk.app/dashboard/default"
 
 
