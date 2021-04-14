@@ -229,6 +229,30 @@ class DocumentFilesAdmin(admin.ModelAdmin):
             return qs
         return qs.all().filter(properties=properties)
 
+    def response_add(self, request, obj, post_url_continue=None):
+        """
+        Reponse add is similar to signals in the sense that
+        it is called after the admin form is submitted and just
+        after the object and all the related instances have
+        been created and saved
+
+        By overriding this method I can set the current user to
+        the selected property and hash the password with the
+        `set_password` method.
+        """
+        if Document.objects.all().count() > 1:
+            self.message_user(
+                request,
+                "Vous avez atteint la limite de fichiers, vous pouvez supprimer des fichiers ou passez à la version premium.",
+                messages.ERROR,
+            )
+            obj.delete()
+
+        return super().response_add(
+            request,
+            obj,
+        )
+
 
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
@@ -430,6 +454,17 @@ class NotificationAdmin(admin.ModelAdmin):
         qs = super().get_queryset(request)
         return qs.all().filter(receiver=user)
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        """
+        By extendings the formfield for ManyToMany field, only the
+        users from within a given property can be selected
+        """
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        if db_field.name == "receiver":
+            kwargs["queryset"] = User.objects.all().filter(property=properties)
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 @admin.register(Task, site=admin_manager)
 class TaskAdmin(admin.ModelAdmin):
@@ -459,6 +494,13 @@ class TaskAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
+
+    def get_queryset(self, request):
+        user = request.user
+        properties = Property.objects.all().filter(collaborator=user.pk).first()
+        workspace = properties.workspace
+        qs = super().get_queryset(request)
+        return qs.all().filter(property=properties)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """

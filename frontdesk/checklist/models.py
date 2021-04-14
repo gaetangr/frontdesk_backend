@@ -52,7 +52,6 @@ class Task(TimeStampedModel):
         MORNING = "Matin", "Matin"
         AFTERNOON = "Après-midi", "Après-midi"
         EVENING = "Soir", "Soir"
-        NIGHT = "Nuit", "Nuit"
 
     category = models.CharField(
         "Catégorie",
