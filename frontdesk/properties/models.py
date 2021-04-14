@@ -56,13 +56,8 @@ class Property(TimeStampedModel):
 
     is_premium = models.BooleanField(
         default=False,
-        help_text="Si coché, vous disposez de fonctionnalités exlusives et de contenu illimité",
-        verbose_name="Offre premium",
-    )
-    is_sponsors = models.BooleanField(
-        default=False,
-        help_text="Si coché, vous disposez de fonctionnalités exlusives et de contenu illimité",
-        verbose_name="Offre sponsors",
+        help_text="Si coché, votre établissement dispose d'un compte premium",
+        verbose_name="Premium",
     )
 
     class Meta:
@@ -113,7 +108,7 @@ class Document(TimeStampedModel):
         max_length=20,
         choices=Category.choices,
         default=Category.DEFAULT,
-        help_text="Catégories utilisées pour filtrer les documents",
+        help_text="Catégories utilisées pour filtrer les fichiers",
     )
 
     def __str__(self):
