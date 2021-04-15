@@ -487,6 +487,10 @@ class TaskAdmin(admin.ModelAdmin):
         if request.user.is_staff:
             return True
 
+    def has_add_permission(self, request, obj=None):
+        if request.user.is_staff:
+            return True
+
     def has_view_permission(self, request, obj=None):
         if request.user.is_staff:
             return True
