@@ -229,30 +229,6 @@ class DocumentFilesAdmin(admin.ModelAdmin):
             return qs
         return qs.all().filter(properties=properties)
 
-    def response_add(self, request, obj, post_url_continue=None):
-        """
-        Reponse add is similar to signals in the sense that
-        it is called after the admin form is submitted and just
-        after the object and all the related instances have
-        been created and saved
-
-        By overriding this method I can set the current user to
-        the selected property and hash the password with the
-        `set_password` method.
-        """
-        if Document.objects.all().count() > 1:
-            self.message_user(
-                request,
-                "Vous avez atteint la limite de fichiers, vous pouvez supprimer des fichiers ou passez à la version premium.",
-                messages.ERROR,
-            )
-            obj.delete()
-
-        return super().response_add(
-            request,
-            obj,
-        )
-
 
 @admin.register(User, site=admin_manager)
 class UserAdmin(admin.ModelAdmin):
