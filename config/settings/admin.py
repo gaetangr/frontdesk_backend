@@ -36,6 +36,7 @@ class MyAdminSite(AdminSite):
     site_title = "Front Desk - Plateforme web"
     index_title = "Gestion de votre établissement - Bêta"
     site_url = "https://beta.front-desk.app/dashboard/default"
+    AdminSite.login_template = "admin/login.html"
 
 
 admin_manager = MyAdminSite(name="manager-admin")
