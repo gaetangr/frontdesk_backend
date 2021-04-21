@@ -478,7 +478,6 @@ class TaskAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         user = request.user
         properties = Property.objects.all().filter(collaborator=user.pk).first()
-        workspace = properties.workspace
         qs = super().get_queryset(request)
         return qs.all().filter(property=properties)
 

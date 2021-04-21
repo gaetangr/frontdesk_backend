@@ -1,6 +1,5 @@
 import pytest
 
-from frontdesk.notification.models import Notification
 from frontdesk.checklist.models import Task
 from frontdesk.properties.models import Property
 
