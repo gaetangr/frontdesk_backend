@@ -199,7 +199,7 @@ EMAIL_HOST_PASSWORD = ""
 # Django Admin URL.
 ADMIN_URL = "admin/"
 # https://docs.djangoproject.com/en/dev/ref/settings/#admins
-ADMINS = [("Gaëtan", "hello@gaetangr.me")]
+ADMINS = [("Gaëtan", "")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#managers
 MANAGERS = ADMINS
 
