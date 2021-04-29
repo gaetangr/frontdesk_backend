@@ -27,7 +27,7 @@ class Command(BaseCommand):
         default_password = "password"
         default_username = "admin"
         try:
-            User.objects.create_user(
+            admin = User.objects.create_user(
                 username=default_username,
                 password=default_password,
                 first_name="Gaëtan",
@@ -36,19 +36,14 @@ class Command(BaseCommand):
                 is_staff=True,
                 email="hello@gaetangr.me",
             )
+            admin.set_password(default_password)
+            admin.save()
             spinner.succeed(crayons.green("Success!"))
             print(
                 crayons.normal(
                     f"ℹ Username: {crayons.yellow(default_username)} - Password: {crayons.yellow(default_password)} - Connect to: {crayons.yellow(admin_url)} \n"
                 )
             )
-
-            input(
-                crayons.yellow(
-                    "Would You like to be redirect to the admin panel ? [y]/[n]"
-                )
-            )
-            webbrowser.open(admin_url)
         except IntegrityError:
             spinner.fail(
                 crayons.red(
