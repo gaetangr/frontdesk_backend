@@ -2,14 +2,15 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from config.settings.base import *
 
 
 def main():
 
-    if os.environ.get("ENV") == "PRODUCTION":
+    if env("ENV_MANAGE") == "PRODUCTION":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
     else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
+        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
