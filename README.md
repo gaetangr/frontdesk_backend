@@ -9,44 +9,20 @@
 # ✨ Front Desk - V2.0 ✨
 
 
-
-Front-Desk.fr est une plateforme d'outils pour hôteliers connectés 100% gratuite : Cahier de consignes, registre de maintenance, gestion de plannings et fichiers et bien plus ...
-
+Front-Desk.fr est une plateforme d'outils pour hôteliers 100% gratuite et open source : Cahier de consignes, registre de maintenance, gestion de plannings, notification et bien plus ...
 
 
 L'outil est utilisé par les hôtels de grands groupes comme Accorhotels (majoritaire), Best Western, IHG, Mariotte International, Hilton Worlwide._
 
-## Sommaire 📋
-
-
-
-- [Ressources internes](#ressources-internes-📚)
-
-- [Se lancer dans le projet](#se-lancer-dans-le-projet-🚀)
-
-- [Prérequis](#prérequis)
-
-- [Installation - backend](#installation-back-end)
-
-- [Installation - frontend](#installation-front-end)
-
-- [Pull request & contributions](#pull-request-et-contributions-📥)
-
-- [Outils](#outils-🛠)
-
-- [Contributeurs](#contributeurs-💻)
-
-
-
 ## Ressources internes 📚
 
-Les liens suivants sont des ressources internes qui vous informe sur le projet (Front Desk V2), son périmètre d'action et la road map.
+Les liens suivants sont des ressources internes qui vous informent sur le projet (Front Desk V2), son périmètre d'action et la road map.
 
 [Trello - RoadMap](https://trello.com/b/C4oeeKc3/front-desk-road-map)
 
-[Cahier des charges](https://github.com/gaetangr/frontdesk_V2/blob/main/docs/internal_docs/Front%20Desk%20-%20Cahier%20Des%20Charges.pdf)
+[Cahier des charges](https://we.tl/t-8xm1js1TIB)
 
-[Dossier de conception fonctionnelle](https://github.com/gaetangr/frontdesk_V2/blob/main/docs/internal_docs/Front%20Desk%20-%20Dossier%20de%20conception%20fonctionnelle.pdf)
+[Dossier de conception fonctionnelle](https://we.tl/t-vgcr1bGq0w)
 
 
 ## Se lancer dans le projet 🚀
@@ -68,19 +44,19 @@ python 3.8.0 ou supérieur
 
 
 ```
-Django==3.1.2 > supérieur
+Django==3.1.2 ou  supérieur
 ```
 
 
-- Vérifier que vous utilisez bien la moteur de BDD Postgresql
+- Vérifier que vous utilisez bien le moteur de BDD Postgresql
 
 
 ### Installation back-end
 
-Voici étape par étape comment installer front-desk sur votre machine, à noter que nous utilisons par défaut le gestionnaire de package **pipenv**, c'est l'outil recommandé pour le projet.
+Voici étape par étape comment installer Front Desk sur votre machine, à noter que nous utilisons par défaut le gestionnaire de package **pipenv**, c'est l'outil recommandé pour le projet.
 
 
-- Cloner mon repo **ne pas faire de push sur la branche principale**
+- Cloner mon repo
 
 
 ```
@@ -145,7 +121,7 @@ python manage.py migrate
 
 
 ```
-python manage.py createsuperuser
+python manage.py super_account
 ```
 
 
@@ -154,30 +130,6 @@ python manage.py createsuperuser
 
 ```
 python manage.py runserver
-```
-
-### Installation front-end
-
-Voici étape par étape comment installer le front end de front desk.
-**Node est nécessaire sur votre machine**
-
-
-- Cloner mon repo **ne pas faire de push sur la branche principale**
-
-
-```
-git clone https://github.com/gaetangr/frontdesk_V2/tree/main
-```
-
-- Se placer dans le bon dossier
-
-```
-cd frontend/src
-```
-- Lancer le serveur
-
-```
-yarn start
 ```
 
 ## Commandes utiles 💻
