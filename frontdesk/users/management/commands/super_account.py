@@ -4,7 +4,6 @@ We can create a super account with one one command by running
 `python manage.py super_account`
 """
 import time
-import webbrowser
 
 import crayons
 from django.core.management.base import BaseCommand
@@ -15,7 +14,9 @@ from frontdesk.users.models import User
 
 
 class Command(BaseCommand):
-    """Creating a superuser for the admin panel with prepopulated datas"""
+    """
+    Creating a superuser for the admin panel with prepopulated datas.
+    """
 
     help = "Creating a superuser for the admin panel with prepopulated datas"
 
