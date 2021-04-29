@@ -5,6 +5,7 @@ on: [push]
 jobs:
   build:
     env:
+      ENV_MANAGE: 'PRODUCTION'
       DJANGO_SETTINGS_MODULE: 'config.settings.test'
       DATABASE_NAME: 'postgres'
       DATABASE_USER: 'postgres'

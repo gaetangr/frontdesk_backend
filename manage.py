@@ -6,7 +6,12 @@ from config.settings.base import *
 
 
 def main():
+    """
+    A .env file is needed at the root of the project.
 
+    The condition will either run the production or
+    the local settings.
+    """
     if env("ENV_MANAGE") == "PRODUCTION":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
     else:
