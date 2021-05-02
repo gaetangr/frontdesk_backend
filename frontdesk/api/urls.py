@@ -26,6 +26,7 @@ from frontdesk.properties.views import property_list_create_view
 # --------------------------------------------------------
 from frontdesk.users.views import user_detail_view
 from frontdesk.users.views import user_list_create_view
+from frontdesk.users.views import users_list_view
 # NOTEBOOK ROUTES
 # --------------------------------------------------------
 from frontdesk.workspace.views import comment_detail_view
@@ -42,6 +43,7 @@ urlpatterns = [
     # ------------------------------------------------------------------------------
     path("users/", view=user_list_create_view, name="users-list"),
     path("users/<int:pk>/", view=user_detail_view, name="users-detail"),
+    path("users/list/", view=users_list_view, name="user-list"),
     # WORKSPACE ROUTES
     # ------------------------------------------------------------------------------
     path("workspace/<int:pk>/", view=workspace_detail_view, name="workspace-detail"),

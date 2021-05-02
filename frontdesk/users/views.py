@@ -19,6 +19,7 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
+from frontdesk.properties.models import Property
 from frontdesk.users.models import User
 
 from .permissions import IsRequestUser
@@ -106,3 +107,29 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 
 
 user_detail_view = UserDetail.as_view()
+
+
+class UsersList(generics.ListCreateAPIView):
+    """
+    Api endpoint related to `users.Users`
+
+    get:
+    Return a list of `users.Users` instance for users on the same property.
+
+    """
+
+    permission_classes = [AllowAny]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_queryset(self):
+        """
+        This view should return the users details only
+        for users on the same property.
+        """
+        user = self.request.user
+        user_property = Property.objects.filter(collaborator=user).first().pk
+        return get_user_model().objects.filter(property=user_property)
+
+
+users_list_view = UsersList.as_view()

@@ -6,12 +6,13 @@ import sys
 import time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from django.core import mail
+from django.test import TestCase
 from django.urls import reverse
 from selenium import webdriver
-from django.test import TestCase
-from django.core import mail
 
 from config.settings.base import BASE_DIR
+
 
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("--headless")
@@ -31,9 +32,8 @@ class TestUserCanLogin(StaticLiveServerTestCase):
         super().setUpClass()
         cls.browser = webdriver.Chrome(
             executable_path=str(BASE_DIR / "webdrivers" / "chromedriver"),
-             options=chrome_options,
+            options=chrome_options,
         )
-
 
     @classmethod
     def tearDownClass(cls):
@@ -48,11 +48,11 @@ class TestUserCanLogin(StaticLiveServerTestCase):
 
         # Accessing front end interface
         self.browser.get("https://beta.front-desk.app/auth/sign-in")
-        
+
         # Accessing css id and class
         self.browser.find_element_by_css_selector("#username").send_keys("demo")
         self.browser.find_element_by_css_selector("#password").send_keys("frontdesk2020")
         self.browser.find_element_by_css_selector(".MuiButton-label").click()
-        
+
         # Uncomment to local testing
-        #time.sleep(10)
+        # time.sleep(10)

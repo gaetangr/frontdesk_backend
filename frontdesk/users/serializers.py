@@ -29,7 +29,9 @@ class UserSerializer(serializers.ModelSerializer):
     # Custom serializers
 
     def workspace_field(self, obj):
-        """ Add a custom field serializer that return the title of user """
+        """
+        Add a custom field serializer that return the title of user
+        """
         try:
             properties = Property.objects.filter(collaborator=obj).first()
             return properties.workspace.pk
